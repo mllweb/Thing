@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="main_tab_gray">#999999</color>
+    <color name="theme_color_green">#05af10</color>
+    <color name="action_bar">#333333</color>
+    <color name="action_bar_split">#252525</color>
+    <color name="gray_background">#FFDDDDDD</color>
+    <color name="font_black">#333333</color>
+    <color name="split_line">#CCCCCC</color>
+</resources>

@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_margin"
+
+        android:background="@color/gray_background"></RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/activity_margin"
+        android:paddingRight="@dimen/activity_margin"
+        android:paddingTop="@dimen/activity_margin">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="5dip"
+            android:text="说有一只企鹅，他的家离北极熊家特别远，要是靠走的话，得走20年才能到。有一天，企鹅在家里呆着特别无聊，准备去找北极熊玩，与是他出门了，可是走到路的一半的时候发现自己家的煤气忘记关了，这就已经走了10年了，可是煤气还是得关啊，于是企鹅又走回家去关煤气。关了煤气以后，企鹅再次出发去找北极熊，等于他花了40年才到了北极熊他们家……然后企鹅就敲门说：“北极熊北极熊，企鹅找你玩来了！”结果北极熊开门以后你猜他说什么……“我不和你玩！”"
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dip"
+            android:layout_marginTop="5dip"
+            android:lineSpacingExtra="5dip"
+            android:text="#夫妻间那点事儿#"
+            android:textColor="@color/theme_color_green"
+            android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dip"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/main_tab_add" />
+
+            <ImageView
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/main_tab_add" />
+
+            <ImageView
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:src="@drawable/main_tab_add" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:layout_marginTop="@dimen/activity_margin"
+            android:orientation="horizontal">
+
+            <com.mllweb.thing.ui.view.CircleImageView
+                android:id="@+id/iv_head_image"
+                android:layout_width="32dip"
+                android:layout_height="32dip"
+                android:layout_centerVertical="true"
+                android:src="@drawable/main_tab_add" />
+
+            <TextView
+                android:id="@+id/tv_nick_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:layout_toRightOf="@id/iv_head_image"
+                android:gravity="center"
+                android:text="一个大坏蛋"
+                android:textColor="#999999"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_share"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/activity_margin"
+                android:layout_toLeftOf="@+id/tv_comment"
+                android:gravity="center"
+                android:text="2016-05-05 10:30:25"
+                android:textColor="#999999"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:text="关注"
+                android:textColor="#999999"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:background="@color/split_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="32dip"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dip"
+                    android:paddingTop="8dip">
+
+                    <ImageView
+                        android:layout_width="16dip"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/main_tab_add" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="8dip"
+                        android:gravity="center"
+                        android:text="2582"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="0.5dip"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dip"
+                android:layout_marginTop="8dip"
+                android:background="@color/split_line" />
+
+            <RelativeLayout
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dip"
+                    android:paddingTop="8dip">
+
+                    <ImageView
+                        android:layout_width="16dip"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/main_tab_add" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="8dip"
+                        android:gravity="center"
+                        android:text="2582"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="0.5dip"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dip"
+                android:layout_marginTop="8dip"
+                android:background="@color/split_line" />
+
+            <RelativeLayout
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dip"
+                    android:paddingTop="8dip">
+
+                    <ImageView
+                        android:layout_width="16dip"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/main_tab_add" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="8dip"
+                        android:gravity="center"
+                        android:text="2582"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:layout_width="0.5dip"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="8dip"
+                android:layout_marginTop="8dip"
+                android:background="@color/split_line" />
+
+            <RelativeLayout
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dip"
+                    android:paddingTop="8dip">
+
+                    <ImageView
+                        android:layout_width="16dip"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/main_tab_add" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="8dip"
+                        android:gravity="center"
+                        android:text="2582"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </RelativeLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_background"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_action_bar_height"
+        android:background="@color/action_bar"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="48dip"
+            android:layout_height="match_parent"
+            android:clickable="true"
+            android:onClick="clickBack">
+
+            <ImageView
+                android:layout_width="20dip"
+                android:layout_height="20dip"
+                android:layout_centerInParent="true"
+                android:src="@drawable/back" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="12dip"
+            android:layout_marginTop="12dip"
+            android:background="@color/action_bar_split" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dip"
+            android:gravity="center_vertical"
+            android:text="@string/about"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="24dip"
+        android:paddingTop="24dip">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="64dip"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dip"
+            android:gravity="center_horizontal"
+            android:text="@string/app_name" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_score"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_action_bar_height"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:gravity="center_vertical"
+            android:text="@string/score"
+            android:textColor="@color/font_black"
+            android:textSize="@dimen/font_size_normal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:background="@color/split_line" />
+
+        <TextView
+            android:id="@+id/tv_feedback"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_action_bar_height"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:gravity="center_vertical"
+            android:text="@string/feedback"
+            android:textColor="@color/font_black"
+            android:textSize="@dimen/font_size_normal" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dip"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:background="@color/split_line" />
+
+        <TextView
+            android:id="@+id/tv_version_update"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_action_bar_height"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:gravity="center_vertical"
+            android:text="@string/version_update"
+            android:textColor="@color/font_black"
+            android:textSize="@dimen/font_size_normal" />
+
+    </LinearLayout>
+</LinearLayout>

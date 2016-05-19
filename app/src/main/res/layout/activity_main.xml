@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.mllweb.thing.ui.view.ScrollViewPager
+        android:id="@+id/vp_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/main_tab" />
+
+    <LinearLayout
+        android:id="@id/main_tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_tab_height"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/main_tab_bg"
+        android:padding="@dimen/main_tab_padding">
+
+        <LinearLayout
+            android:id="@+id/home_layout"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingBottom="2dip"
+            android:paddingTop="2dip">
+
+            <ImageView
+                android:id="@+id/iv_home"
+                android:layout_width="match_parent"
+                android:layout_height="22dip" />
+
+            <TextView
+                android:id="@+id/tv_home"
+                android:layout_width="match_parent"
+                android:layout_height="14dip"
+                android:gravity="center_horizontal|bottom"
+                android:text="@string/main_tab_home"
+                android:textSize="9sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/find_layout"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingBottom="2dip"
+            android:paddingTop="2dip">
+
+            <ImageView
+                android:id="@+id/iv_find"
+                android:layout_width="match_parent"
+                android:layout_height="22dip"/>
+
+            <TextView
+                android:id="@+id/tv_find"
+                android:layout_width="match_parent"
+                android:layout_height="14dip"
+                android:gravity="center_horizontal|bottom"
+                android:text="@string/main_tab_find"
+                android:textSize="9sp" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_add_post"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/main_tab_add"></ImageView>
+
+        <LinearLayout
+            android:id="@+id/message_layout"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingBottom="2dip"
+            android:paddingTop="2dip">
+
+            <ImageView
+                android:id="@+id/iv_message"
+                android:layout_width="match_parent"
+                android:layout_height="22dip" />
+
+            <TextView
+                android:id="@+id/tv_message"
+                android:layout_width="match_parent"
+                android:layout_height="14dip"
+                android:gravity="center_horizontal|bottom"
+                android:text="@string/main_tab_message"
+                android:textSize="9sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mine_layout"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingBottom="2dip"
+            android:paddingTop="2dip">
+
+            <ImageView
+                android:id="@+id/iv_mine"
+                android:layout_width="match_parent"
+                android:layout_height="22dip"/>
+
+            <TextView
+                android:id="@+id/tv_mine"
+                android:layout_width="match_parent"
+                android:layout_height="14dip"
+                android:gravity="center_horizontal|bottom"
+                android:text="@string/main_tab_mine"
+                android:textSize="9sp" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
