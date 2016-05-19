@@ -16,7 +16,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.main.setting.SettingActivity" />
-        <activity android:name=".ui.activity.main.setting.about.AboutActivity"></activity>
+        <activity android:name=".ui.activity.main.setting.about.AboutActivity" />
+        <activity android:name=".ui.activity.main.post.PostActivity"></activity>
     </application>
 
 </manifest>

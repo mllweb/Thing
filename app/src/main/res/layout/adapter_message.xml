@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dip"
+        android:paddingLeft="@dimen/activity_margin"
+        android:paddingRight="@dimen/activity_margin">
+
+        <com.mllweb.thing.ui.view.CircleImageView
+            android:id="@+id/iv_head_image"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_centerVertical="true"
+            android:src="@drawable/main_tab_add" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:layout_toLeftOf="@+id/tv_date"
+            android:layout_toRightOf="@+id/iv_head_image"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="32dip"
+                android:gravity="bottom"
+                android:text="订阅号"
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="4dip"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:text="小搭配消息：的速度吧是的撒旦撒旦撒是撒旦撒撒倒萨撒阿三"
+                android:textColor="#999999"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="8dip"
+            android:text="18:26"
+            android:textColor="#999999"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dip"
+        android:background="@color/split_line" />
+</LinearLayout>

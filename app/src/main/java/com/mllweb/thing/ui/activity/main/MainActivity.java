@@ -1,5 +1,6 @@
 package com.mllweb.thing.ui.activity.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import com.mllweb.thing.R;
 import com.mllweb.thing.ui.activity.BaseActivity;
 import com.mllweb.thing.ui.adapter.main.MainPagerAdapter;
+import com.mllweb.thing.ui.activity.main.post.PostActivity;
 import com.mllweb.thing.ui.fragment.main.find.FindFragment;
 import com.mllweb.thing.ui.fragment.main.home.HomeFragment;
 import com.mllweb.thing.ui.fragment.main.message.MessageFragment;
@@ -63,7 +65,9 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.iv_add_post)
     public void clickAddPost() {
-
+        Intent intent = new Intent(mActivity, PostActivity.class);
+        mActivity.startActivity(intent);
+        overridePendingTransition(R.anim.post_start,R.anim.post_end);
     }
 
     @OnClick(R.id.home_layout)
@@ -71,7 +75,7 @@ public class MainActivity extends BaseActivity {
         resetIcon();
         mHomeIcon.setImageResource(mIconSelecteds[0]);
         mHomeText.setTextColor(mResources.getColor(R.color.theme_color_green));
-        mMainPager.setCurrentItem(0,false);
+        mMainPager.setCurrentItem(0, false);
     }
 
     @OnClick(R.id.find_layout)
@@ -79,7 +83,7 @@ public class MainActivity extends BaseActivity {
         resetIcon();
         mFindIcon.setImageResource(mIconSelecteds[1]);
         mFindText.setTextColor(mResources.getColor(R.color.theme_color_green));
-        mMainPager.setCurrentItem(1,false);
+        mMainPager.setCurrentItem(1, false);
     }
 
     @OnClick(R.id.message_layout)
@@ -87,7 +91,7 @@ public class MainActivity extends BaseActivity {
         resetIcon();
         mMessageIcon.setImageResource(mIconSelecteds[2]);
         mMessageText.setTextColor(mResources.getColor(R.color.theme_color_green));
-        mMainPager.setCurrentItem(2,false);
+        mMainPager.setCurrentItem(2, false);
     }
 
     @OnClick(R.id.mine_layout)
@@ -95,7 +99,7 @@ public class MainActivity extends BaseActivity {
         resetIcon();
         mMineIcon.setImageResource(mIconSelecteds[3]);
         mMineText.setTextColor(mResources.getColor(R.color.theme_color_green));
-        mMainPager.setCurrentItem(3,false);
+        mMainPager.setCurrentItem(3, false);
     }
 
     private void resetIcon() {

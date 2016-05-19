@@ -10,5 +10,6 @@
     <color name="action_bar_split">#252525</color>
     <color name="gray_background">#FFDDDDDD</color>
     <color name="font_black">#333333</color>
-    <color name="split_line">#CCCCCC</color>
+    <color name="split_line">#EEEEEE</color>
+    <color name="link">#4C7EAD</color>
 </resources>
