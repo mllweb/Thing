@@ -21,6 +21,10 @@ public class BaseHolder extends RecyclerView.ViewHolder {
         return (T) getViewByMap(resId);
     }
 
+    public View getItemView() {
+        return itemView;
+    }
+
     private View getViewByMap(int resId) {
         if (mViews.containsKey(resId)) {
             return mViews.get(resId);
@@ -39,5 +43,9 @@ public class BaseHolder extends RecyclerView.ViewHolder {
     public void setText(int resId, int stringId) {
         TextView tv = getView(resId);
         tv.setText(stringId);
+    }
+
+    public interface OnItemClickListener {
+        void itemClick(View rootView, int position);
     }
 }

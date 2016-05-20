@@ -3,6 +3,7 @@ package com.mllweb.thing.ui.adapter;
 import android.app.Activity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
@@ -15,6 +16,11 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseHo
     protected Activity mActivity;
     protected LayoutInflater mInflater;
     protected List<T> mData = new ArrayList<>();
+    private BaseHolder.OnItemClickListener mItemClickListener;
+
+    public void setOnItemClickListener(BaseHolder.OnItemClickListener itemClickListener) {
+        this.mItemClickListener = itemClickListener;
+    }
 
     public BaseRecyclerAdapter(List<T> mData, Activity activity) {
         if (mData != null) {
@@ -27,12 +33,20 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseHo
 
     @Override
     public BaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        BaseHolder holder = new BaseHolder(mInflater.inflate(onCreate(), parent,false));
+        BaseHolder holder = new BaseHolder(mInflater.inflate(onCreate(), parent, false));
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(BaseHolder holder, int position) {
+    public void onBindViewHolder(final BaseHolder holder, final int position) {
+        if (mItemClickListener != null) {
+            holder.getItemView().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mItemClickListener.itemClick(holder.getItemView(), position);
+                }
+            });
+        }
         onBind(holder, mData.get(position));
     }
 
@@ -42,7 +56,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseHo
 
     @Override
     public int getItemCount() {
-        return mData.size();
+      return  mData.size();
     }
 
 
