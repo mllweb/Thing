@@ -43,29 +43,42 @@
                 android:scaleType="centerCrop" />
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tv_dir_name"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="36dip"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:gravity="bottom"
-                android:textColor="#333333"
-                android:textSize="@dimen/action_bar_title_text_size" />
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_dir_count"
-                android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/tv_dir_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dip"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:gravity="bottom"
+                    android:textColor="#333333"
+                    android:textSize="@dimen/action_bar_title_text_size" />
+
+                <TextView
+                    android:id="@+id/tv_dir_count"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin"
+                    android:layout_marginTop="4dip"
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <RadioButton
+                android:id="@+id/check"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:layout_marginTop="4dip"
-                android:textColor="#999999"
-                android:textSize="12sp" />
-        </LinearLayout>
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/activity_margin" />
+        </RelativeLayout>
     </LinearLayout>
 
     <View

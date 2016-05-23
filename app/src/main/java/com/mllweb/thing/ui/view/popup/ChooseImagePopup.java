@@ -48,6 +48,10 @@ public class ChooseImagePopup {
 
     }
 
+    public ChooseImageAdapter getmChooseImageAdapter() {
+        return mChooseImageAdapter;
+    }
+
     public PopupWindow getPopupWindow() {
         return mPopupWindow;
     }

@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.mllweb.model.ImageFloder;
 import com.mllweb.thing.R;
 import com.mllweb.thing.ui.adapter.ChooseFileAdapter;
+import com.mllweb.thing.ui.adapter.popup.ChooseImageAdapter;
 import com.mllweb.thing.ui.view.popup.ChooseImagePopup;
 
 import java.io.File;
@@ -62,15 +63,7 @@ public class ChooseFileActivity extends BaseActivity {
             floder.setCount(mPhotoCount);
             floder.setFirstImagePath(mImageFloders.get(0).getFirstImagePath());
             mImageFloders.add(0, floder);
-
-            Iterator<String> iterator = mGruopMap.keySet().iterator();
-            while (iterator.hasNext()) {
-                List<String> list = mGruopMap.get(iterator.next());
-                mData.addAll(list);
-            }
-            mChooseFileAdapter = new ChooseFileAdapter(mData, mActivity);
-            mFileListView.setLayoutManager(new GridLayoutManager(mActivity, mColumnCount));
-            mFileListView.setAdapter(mChooseFileAdapter);
+            setImageData("");
         }
 
     };
@@ -83,6 +76,7 @@ public class ChooseFileActivity extends BaseActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         mDirPopup = new ChooseImagePopup(mActivity, mImageFloders);
+
         getImages();
 
     }
@@ -95,8 +89,37 @@ public class ChooseFileActivity extends BaseActivity {
                 hideMask();
             }
         });
+        mDirPopup.getmChooseImageAdapter().setOnCheckChangeListener(new ChooseImageAdapter.OnCheckChangeListener() {
+            @Override
+            public void checkChange(String path) {
+                setImageData(path);
+                hideMask();
+                mDirPopup.getPopupWindow().dismiss();
+            }
+        });
     }
 
+    private void setImageData(String path) {
+        mData.clear();
+        if (mGruopMap.containsKey(path)) {
+            List<String> list = mGruopMap.get(path);
+            mData.addAll(list);
+        } else {
+            Iterator<String> iterator = mGruopMap.keySet().iterator();
+            while (iterator.hasNext()) {
+                List<String> list = mGruopMap.get(iterator.next());
+                mData.addAll(list);
+            }
+        }
+        if (mChooseFileAdapter == null) {
+            mChooseFileAdapter = new ChooseFileAdapter(mData, mActivity);
+            mFileListView.setLayoutManager(new GridLayoutManager(mActivity, mColumnCount));
+//            mFileListView.addItemDecoration(new RecycleViewDivider(mActivity));
+            mFileListView.setAdapter(mChooseFileAdapter);
+        } else {
+            mChooseFileAdapter.resetData(mData);
+        }
+    }
 
     /**
      * 利用ContentProvider扫描手机中的图片，此方法在运行在子线程中 完成图片的扫描，最终获得jpg最多的那个文件夹
@@ -120,15 +143,15 @@ public class ChooseFileActivity extends BaseActivity {
                         String dirPath = parentFile.getAbsolutePath();
                         ImageFloder imageFloder = null;
                         // 利用一个HashSet防止多次扫描同一个文件夹（不加这个判断，图片多起来还是相当恐怖的~~）
+                        if (mGruopMap.containsKey(dirPath)) {
+                            List<String> list = mGruopMap.get(dirPath);
+                            list.add(path);
+                        } else {
+                            List<String> list = new ArrayList<String>();
+                            list.add(path);
+                            mGruopMap.put(dirPath, list);
+                        }
                         if (mDirPaths.contains(dirPath)) {
-                            if (mGruopMap.containsKey(dirPath)) {
-                                List<String> list = mGruopMap.get(dirPath);
-                                list.add(path);
-                            } else {
-                                List<String> list = new ArrayList<String>();
-                                list.add(path);
-                                mGruopMap.put(dirPath, list);
-                            }
                             continue;
                         } else {
                             mDirPaths.add(dirPath);

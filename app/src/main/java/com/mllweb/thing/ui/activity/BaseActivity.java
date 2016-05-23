@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.mllweb.network.OkHttpClientManager;
+
 import butterknife.ButterKnife;
 
 /**
@@ -15,7 +17,7 @@ import butterknife.ButterKnife;
 public abstract class BaseActivity extends AppCompatActivity {
     protected Activity mActivity;
     protected Resources mResources;
-
+    protected OkHttpClientManager mHttp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,6 +41,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         mResources = getResources();
         ButterKnife.inject(this);
         mActivity = this;
+        mHttp = OkHttpClientManager.getInstance();
     }
 
     /**
