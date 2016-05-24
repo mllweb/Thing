@@ -5,11 +5,10 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_margin"
-
-        android:background="@color/gray_background"></RelativeLayout>
+        android:background="@color/gray_background" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,6 +19,7 @@
         android:paddingTop="@dimen/activity_margin">
 
         <TextView
+            android:id="@+id/tv_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:lineSpacingExtra="5dip"
@@ -28,6 +28,7 @@
             android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/tv_topic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dip"
@@ -37,34 +38,16 @@
             android:textColor="@color/link"
             android:textSize="16sp" />
 
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/attachment_view"
             android:layout_width="match_parent"
-            android:layout_height="100dip"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/main_tab_add" />
-
-            <ImageView
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/main_tab_add" />
-
-            <ImageView
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/main_tab_add" />
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dip"
+            android:layout_marginTop="8dip" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dip"
-            android:layout_marginTop="@dimen/activity_margin"
             android:orientation="horizontal">
 
             <com.mllweb.thing.ui.view.CircleImageView
@@ -86,18 +69,18 @@
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/tv_share"
+                android:id="@+id/tv_create_date"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/activity_margin"
-                android:layout_toLeftOf="@+id/tv_comment"
+                android:layout_toLeftOf="@+id/tv_follow"
                 android:gravity="center"
                 android:text="2016-05-05 10:30:25"
                 android:textColor="#999999"
                 android:textSize="12sp" />
 
             <TextView
-                android:id="@+id/tv_comment"
+                android:id="@id/tv_follow"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -118,6 +101,7 @@
             android:orientation="horizontal">
 
             <RelativeLayout
+                android:id="@+id/praise_layout"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -131,16 +115,19 @@
                     android:paddingTop="8dip">
 
                     <ImageView
-                        android:layout_width="16dip"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/main_tab_add" />
+                        android:layout_width="14dip"
+                        android:layout_height="14dip"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/praise" />
 
                     <TextView
+                        android:id="@+id/tv_praise"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="8dip"
                         android:gravity="center"
                         android:text="2582"
+                        android:textColor="#999999"
                         android:textSize="12sp" />
                 </LinearLayout>
             </RelativeLayout>
@@ -153,6 +140,7 @@
                 android:background="@color/split_line" />
 
             <RelativeLayout
+                android:id="@+id/dislike_layout"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -166,16 +154,18 @@
                     android:paddingTop="8dip">
 
                     <ImageView
-                        android:layout_width="16dip"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/main_tab_add" />
+                        android:layout_width="14dip"
+                        android:layout_height="14dip"
+                        android:src="@drawable/dislike" />
 
                     <TextView
+                        android:id="@+id/tv_dislike"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="8dip"
                         android:gravity="center"
                         android:text="2582"
+                        android:textColor="#999999"
                         android:textSize="12sp" />
                 </LinearLayout>
             </RelativeLayout>
@@ -188,6 +178,7 @@
                 android:background="@color/split_line" />
 
             <RelativeLayout
+                android:id="@+id/share_layout"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -201,16 +192,18 @@
                     android:paddingTop="8dip">
 
                     <ImageView
-                        android:layout_width="16dip"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/main_tab_add" />
+                        android:layout_width="14dip"
+                        android:layout_height="14dip"
+                        android:src="@drawable/share" />
 
                     <TextView
+                        android:id="@+id/tv_share"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="8dip"
                         android:gravity="center"
                         android:text="2582"
+                        android:textColor="#999999"
                         android:textSize="12sp" />
                 </LinearLayout>
             </RelativeLayout>
@@ -223,6 +216,7 @@
                 android:background="@color/split_line" />
 
             <RelativeLayout
+                android:id="@+id/comment_layout"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
@@ -236,16 +230,18 @@
                     android:paddingTop="8dip">
 
                     <ImageView
-                        android:layout_width="16dip"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/main_tab_add" />
+                        android:layout_width="14dip"
+                        android:layout_height="14dip"
+                        android:src="@drawable/comment" />
 
                     <TextView
+                        android:id="@+id/tv_comment"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="8dip"
                         android:gravity="center"
                         android:text="2582"
+                        android:textColor="#999999"
                         android:textSize="12sp" />
                 </LinearLayout>
             </RelativeLayout>

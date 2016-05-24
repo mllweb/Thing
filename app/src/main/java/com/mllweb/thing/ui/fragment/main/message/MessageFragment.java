@@ -7,7 +7,7 @@ import android.view.View;
 
 import com.mllweb.model.Message;
 import com.mllweb.thing.R;
-import com.mllweb.thing.ui.activity.main.find.ChatActivity;
+import com.mllweb.thing.ui.activity.main.message.ChatActivity;
 import com.mllweb.thing.ui.adapter.BaseHolder;
 import com.mllweb.thing.ui.adapter.main.message.MessageAdapter;
 import com.mllweb.thing.ui.fragment.BaseFragment;

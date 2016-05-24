@@ -61,7 +61,7 @@ public class BannerAdapter extends PagerAdapter {
             });
         }
         view.addView(iv);
-        return mImages.get(position);
+        return iv;
     }
 
     @Override

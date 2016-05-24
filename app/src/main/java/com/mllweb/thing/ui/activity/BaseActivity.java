@@ -7,7 +7,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.mllweb.cache.ACache;
 import com.mllweb.network.OkHttpClientManager;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import butterknife.ButterKnife;
 
@@ -18,6 +20,8 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected Activity mActivity;
     protected Resources mResources;
     protected OkHttpClientManager mHttp;
+    protected ImageLoader mImageLoader;
+    protected ACache mCache;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +46,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         ButterKnife.inject(this);
         mActivity = this;
         mHttp = OkHttpClientManager.getInstance();
+        mImageLoader=ImageLoader.getInstance();
+        mCache=ACache.get(mActivity);
     }
 
     /**

@@ -1,6 +1,5 @@
 package com.mllweb.thing.ui.activity.main;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -9,8 +8,8 @@ import android.widget.TextView;
 
 import com.mllweb.thing.R;
 import com.mllweb.thing.ui.activity.BaseActivity;
-import com.mllweb.thing.ui.adapter.main.MainPagerAdapter;
 import com.mllweb.thing.ui.activity.main.post.PostActivity;
+import com.mllweb.thing.ui.adapter.main.MainPagerAdapter;
 import com.mllweb.thing.ui.fragment.main.find.FindFragment;
 import com.mllweb.thing.ui.fragment.main.home.HomeFragment;
 import com.mllweb.thing.ui.fragment.main.message.MessageFragment;
@@ -41,8 +40,8 @@ public class MainActivity extends BaseActivity {
     TextView mMessageText;
     @InjectView(R.id.tv_mine)
     TextView mMineText;
-    private int[] mIconNormals = new int[]{R.drawable.main_tab_add, R.drawable.main_tab_add, R.drawable.main_tab_add, R.drawable.main_tab_add};
-    private int[] mIconSelecteds = new int[]{R.drawable.main_tab_add, R.drawable.main_tab_add, R.drawable.main_tab_add, R.drawable.main_tab_add};
+    private int[] mIconNormals = new int[]{R.drawable.main_bottom_essence_normal, R.drawable.main_bottom_my_normal, R.drawable.main_bottom_latest_normal, R.drawable.main_bottom_news_normal};
+    private int[] mIconSelecteds = new int[]{R.drawable.main_bottom_essence_press_night, R.drawable.main_bottom_my_press_night, R.drawable.main_bottom_latest_press_night, R.drawable.main_bottom_news_press_night};
     private MainPagerAdapter mMainPagerAdapter;
     private List<Fragment> mFragmentData = new ArrayList<>();
 
@@ -65,9 +64,8 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.iv_add_post)
     public void clickAddPost() {
-        Intent intent = new Intent(mActivity, PostActivity.class);
-        mActivity.startActivity(intent);
-        overridePendingTransition(R.anim.post_start,R.anim.post_end);
+        startActivity(PostActivity.class);
+        overridePendingTransition(R.anim.post_start, R.anim.post_end);
     }
 
     @OnClick(R.id.home_layout)

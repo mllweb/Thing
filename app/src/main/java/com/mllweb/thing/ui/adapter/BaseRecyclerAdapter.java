@@ -1,6 +1,7 @@
 package com.mllweb.thing.ui.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,8 +57,12 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseHo
 
     @Override
     public int getItemCount() {
-      return  mData.size();
+        return mData.size();
     }
 
+    protected void startActivity(Class cls) {
+        Intent intent = new Intent(mActivity, cls);
+        mActivity.startActivity(intent);
+    }
 
 }

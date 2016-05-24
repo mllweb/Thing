@@ -1,4 +1,4 @@
-package com.mllweb.thing.ui.adapter;
+package com.mllweb.thing.ui.adapter.main.post;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -9,6 +9,8 @@ import android.widget.ImageView;
 
 import com.mllweb.loader.ImageLoader;
 import com.mllweb.thing.R;
+import com.mllweb.thing.ui.adapter.BaseHolder;
+import com.mllweb.thing.ui.adapter.BaseRecyclerAdapter;
 
 import java.util.List;
 

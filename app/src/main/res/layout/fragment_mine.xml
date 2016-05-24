@@ -219,7 +219,7 @@
                 android:layout_width="24dip"
                 android:layout_height="24dip"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/main_tab_add" />
+                android:src="@drawable/myinfo_icon_mytopic_nor" />
 
             <TextView
                 android:layout_width="0dip"
@@ -254,7 +254,7 @@
                 android:layout_width="24dip"
                 android:layout_height="24dip"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/main_tab_add" />
+                android:src="@drawable/myinfo_icon_yhfk_nor" />
 
             <TextView
                 android:layout_width="0dip"
@@ -289,7 +289,7 @@
                 android:layout_width="24dip"
                 android:layout_height="24dip"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/main_tab_add" />
+                android:src="@drawable/myinfo_icon_collect_normal" />
 
             <TextView
                 android:layout_width="0dip"
@@ -324,7 +324,7 @@
                 android:layout_width="24dip"
                 android:layout_height="24dip"
                 android:layout_gravity="center_vertical"
-                android:src="@drawable/main_tab_add" />
+                android:src="@drawable/myinfo_icon_st_nor" />
 
             <TextView
                 android:layout_width="0dip"

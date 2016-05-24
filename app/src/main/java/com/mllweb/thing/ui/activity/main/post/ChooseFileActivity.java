@@ -1,4 +1,4 @@
-package com.mllweb.thing.ui.activity;
+package com.mllweb.thing.ui.activity.main.post;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
@@ -17,7 +17,8 @@ import android.widget.TextView;
 
 import com.mllweb.model.ImageFloder;
 import com.mllweb.thing.R;
-import com.mllweb.thing.ui.adapter.ChooseFileAdapter;
+import com.mllweb.thing.ui.activity.BaseActivity;
+import com.mllweb.thing.ui.adapter.main.post.ChooseFileAdapter;
 import com.mllweb.thing.ui.adapter.popup.ChooseImageAdapter;
 import com.mllweb.thing.ui.view.popup.ChooseImagePopup;
 
