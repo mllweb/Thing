@@ -8,8 +8,8 @@
     <color name="theme_color_green">#05af10</color>
     <color name="action_bar">#333333</color>
     <color name="action_bar_split">#252525</color>
-    <color name="gray_background">#FFDFDFDF</color>
+    <color name="gray_background">#EFEFEF</color>
     <color name="font_black">#333333</color>
-    <color name="split_line">#EEEEEE</color>
+    <color name="split_line">#DEDEDE</color>
     <color name="link">#4C7EAD</color>
 </resources>

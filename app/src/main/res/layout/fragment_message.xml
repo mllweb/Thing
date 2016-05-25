@@ -23,5 +23,6 @@
         android:id="@+id/message_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/gray_background"
         android:scrollbars="vertical" />
 </LinearLayout>

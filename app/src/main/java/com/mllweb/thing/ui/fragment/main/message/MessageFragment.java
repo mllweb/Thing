@@ -5,13 +5,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.google.gson.Gson;
 import com.mllweb.model.Message;
+import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
 import com.mllweb.thing.ui.activity.main.message.ChatActivity;
 import com.mllweb.thing.ui.adapter.BaseHolder;
 import com.mllweb.thing.ui.adapter.main.message.MessageAdapter;
 import com.mllweb.thing.ui.fragment.BaseFragment;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,27 +41,28 @@ public class MessageFragment extends BaseFragment {
 
     @Override
     protected void initData(Bundle arguments) {
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
-        mMessageList.add(new Message());
         mMessageAdapter = new MessageAdapter(mMessageList, mActivity);
         mMessageView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mMessageView.setAdapter(mMessageAdapter);
+        mHttp.requestGet("http://192.168.1.191:8080/Thing/SelectMessage", new OkHttpClientManager.RequestCallback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response,String body) {
+                try {
+                    JSONArray jsonArray = new JSONArray(body);
+                    mMessageList.add(new Gson().fromJson(jsonArray.get(0).toString(), Message.class));
+                    mMessageList.add(new Gson().fromJson(jsonArray.get(1).toString(), Message.class));
+                    mMessageList.add(new Gson().fromJson(jsonArray.get(2).toString(), Message.class));
+                    mMessageAdapter.resetData(mMessageList);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override

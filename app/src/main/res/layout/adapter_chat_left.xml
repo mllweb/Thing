@@ -1,8 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-<TextView
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" android:text="左"/>
-</LinearLayout>
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/activity_margin"
+    android:paddingLeft="@dimen/activity_margin"
+    android:paddingRight="@dimen/activity_margin">
+
+    <TextView
+        android:id="@+id/tv_date"
+        android:layout_width="100dip"
+        android:layout_height="24dip"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:background="#CCCCCC"
+        android:gravity="center"
+        android:text="12:30"
+        android:textColor="@color/white" />
+
+    <com.mllweb.thing.ui.view.CircleImageView
+        android:id="@+id/iv_head_image"
+        android:layout_width="48dip"
+        android:layout_height="48dip"
+        android:layout_below="@id/tv_date" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tv_date"
+        android:layout_marginRight="64dip"
+        android:layout_toRightOf="@+id/iv_head_image"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_nick_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:gravity="center_vertical"
+            android:text=""
+            android:textColor="#999999"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dip"
+            android:background="@drawable/chat_left_bg"
+            android:lineSpacingExtra="4dip"
+            android:text=""
+            android:textColor="#333333"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+</RelativeLayout>

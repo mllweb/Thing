@@ -13,15 +13,14 @@
 
         <RelativeLayout
             android:id="@+id/iv_head_image_layout"
-            android:layout_width="40dip"
-            android:layout_height="40dip"
+            android:layout_width="45dip"
+            android:layout_height="45dip"
             android:layout_centerVertical="true">
 
             <com.mllweb.thing.ui.view.CircleImageView
                 android:id="@+id/iv_head_image"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/main_tab_add" />
+                android:layout_height="match_parent" />
         </RelativeLayout>
 
         <LinearLayout
@@ -33,20 +32,22 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_nick_name"
                 android:layout_width="match_parent"
                 android:layout_height="32dip"
                 android:gravity="bottom"
-                android:text="订阅号"
+                android:text=""
                 android:textColor="#333333"
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/tv_content"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="4dip"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="小搭配消息：的速度吧是的撒旦撒旦撒是撒旦撒撒倒萨撒阿三"
+                android:text=""
                 android:textColor="#999999"
                 android:textSize="12sp" />
         </LinearLayout>
@@ -57,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginTop="8dip"
-            android:text="18:26"
+            android:text=""
             android:textColor="#999999"
             android:textSize="12sp" />
     </RelativeLayout>

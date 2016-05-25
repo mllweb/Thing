@@ -15,7 +15,7 @@ public class AboutActivity extends BaseActivity {
 
     @OnClick(R.id.tv_score)
     public void clickScore() {
-        Utils.score(mActivity);
+        Utils.scoreApp(mActivity);
     }
 
     @OnClick(R.id.tv_feedback)

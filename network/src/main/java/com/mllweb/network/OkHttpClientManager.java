@@ -17,7 +17,7 @@ import java.io.IOException;
  * Created by Android on 2016/5/23.
  */
 public class OkHttpClientManager {
-    public static final String DOMAIN="http://192.168.1.191:8080/Thing";
+    public static final String DOMAIN = "http://192.168.1.191:8080/Thing";
     private static final int FAILURE = 1;
     private static final int SUCCESS = 0;
     private static OkHttpClientManager mInstance;
@@ -31,7 +31,7 @@ public class OkHttpClientManager {
                     params.callback.onFailure(params.request, params.exception);
                     break;
                 case SUCCESS:
-                    params.callback.onResponse(params.response);
+                    params.callback.onResponse(params.response, params.body);
                     break;
             }
         }
@@ -59,7 +59,11 @@ public class OkHttpClientManager {
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-                sendFailureCallback(callback, request, e);
+                try {
+                    sendFailureCallback(callback, request, e);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
 
             @Override
@@ -82,7 +86,11 @@ public class OkHttpClientManager {
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
-                sendFailureCallback(callback, request, e);
+                try {
+                    sendFailureCallback(callback, request, e);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
 
             @Override
@@ -118,7 +126,7 @@ public class OkHttpClientManager {
      * @param request
      * @param exception
      */
-    private void sendFailureCallback(RequestCallback callback, Request request, IOException exception) {
+    private void sendFailureCallback(RequestCallback callback, Request request, IOException exception) throws IOException {
         Message msg = mHandler.obtainMessage();
         msg.what = FAILURE;
         msg.obj = new HandlerParams(callback, request, exception);
@@ -131,7 +139,7 @@ public class OkHttpClientManager {
      * @param callback
      * @param response
      */
-    private void sendSuccessCallback(RequestCallback callback, Response response) {
+    private void sendSuccessCallback(RequestCallback callback, Response response) throws IOException {
         Message msg = mHandler.obtainMessage();
         msg.what = SUCCESS;
         msg.obj = new HandlerParams(callback, response);
@@ -158,16 +166,19 @@ public class OkHttpClientManager {
         Response response;
         Request request;
         IOException exception;
+        String body;
 
-        public HandlerParams(RequestCallback callback, Response response) {
+        public HandlerParams(RequestCallback callback, Response response) throws IOException {
             this.callback = callback;
             this.response = response;
+            this.body = response.body().string();
         }
 
-        public HandlerParams(RequestCallback callback, Request request, IOException exception) {
+        public HandlerParams(RequestCallback callback, Request request, IOException exception) throws IOException {
             this.callback = callback;
             this.request = request;
             this.exception = exception;
+            this.body = response.body().string();
         }
     }
 
@@ -177,6 +188,6 @@ public class OkHttpClientManager {
     public interface RequestCallback {
         void onFailure(Request request, IOException e);
 
-        void onResponse(Response response);
+        void onResponse(Response response, String body);
     }
 }
