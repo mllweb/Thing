@@ -6,7 +6,7 @@ package com.mllweb.model;
 public class UserInfo {
     private int userId;
     private String nickName;
-    private String userName="mllweb";
+    private String userName="mllweb1";
     private String headImage="/IMAGE/head_image.jpg";
 
     public int getUserId() {

@@ -35,7 +35,16 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseHolder> {
         this.mActivity = activity;
         mInflater = LayoutInflater.from(mActivity);
     }
+    public void addData(MessageLog log) {
+        int size=mData.size();
+        mData.add(size,log);
+        notifyItemInserted(size);
+    }
 
+    public void removeData(int position) {
+        mData.remove(position);
+        notifyItemRemoved(position);
+    }
     @Override
     public BaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         BaseHolder holder = null;

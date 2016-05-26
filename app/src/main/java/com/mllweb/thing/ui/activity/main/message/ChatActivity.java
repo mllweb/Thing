@@ -1,6 +1,7 @@
 package com.mllweb.thing.ui.activity.main.message;
 
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -12,7 +13,9 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
 import com.mllweb.model.MessageLog;
+import com.mllweb.model.UserInfo;
 import com.mllweb.thing.R;
+import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.activity.BaseActivity;
 import com.mllweb.thing.ui.adapter.main.message.ChatAdapter;
 
@@ -30,6 +33,8 @@ public class ChatActivity extends BaseActivity {
     EditText mEditText;
     @InjectView(R.id.tv_send)
     TextView mSend;
+    private UserInfo mChatUser;
+    private UserInfo mCurrentUser;
     private ChatAdapter mChatAdapter;
     private List<MessageLog> mData = new ArrayList<>();
 
@@ -40,26 +45,31 @@ public class ChatActivity extends BaseActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-
-
+        mCurrentUser = UserInfoManager.getInstance();
+        mChatUser = new UserInfo();
+        mChatUser.setUserName("admin");
         getMessageList();
     }
 
+    /**
+     * 获取聊天信息列表
+     */
     private void getMessageList() {
-
-        EMConversation conversation = EMClient.getInstance().chatManager().getConversation("admin", EMConversation.EMConversationType.Chat);
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(mChatUser.getUserName());
         if (conversation != null) {
             //获取此会话的所有消息
             List<EMMessage> messages = conversation.getAllMessages();
             // List<EMMessage> messages = conversation.loadMoreMsgFromDB(startMsgId, pagesize);
             for (EMMessage m : messages) {
-                mData.add(new MessageLog(m.getFrom(), m.getTo(), "/Image/a.jpg", m.getBody().toString()));
+                mData.add(new MessageLog(m.getFrom(), m.getTo(), mChatUser.getHeadImage(), m.getBody().toString()));
             }
-            Log.d("mllweb-log", messages + "");
         }
         mChatAdapter = new ChatAdapter(mData, mActivity);
         mChatListView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mChatListView.setItemAnimator(new DefaultItemAnimator());
         mChatListView.setAdapter(mChatAdapter);
+        mChatListView.smoothScrollToPosition(mData.size());
+
     }
 
     @Override
@@ -70,24 +80,25 @@ public class ChatActivity extends BaseActivity {
     @OnClick(R.id.tv_send)
     public void clickSend() {
         //创建一条文本消息，content为消息文字内容，toChatUsername为对方用户或者群聊的id，后文皆是如此
-        EMMessage message = EMMessage.createTxtSendMessage(mEditText.getText().toString(), "admin");
+        EMMessage message = EMMessage.createTxtSendMessage(mEditText.getText().toString(), mChatUser.getUserName());
         //如果是群聊，设置chattype，默认是单聊
         message.setChatType(EMMessage.ChatType.Chat);
         message.setMsgTime(new Date().getTime());
         //发送消息
         EMClient.getInstance().chatManager().sendMessage(message);
+        mChatAdapter.addData(new MessageLog(mCurrentUser.getUserName(), mChatUser.getUserName(), mChatUser.getHeadImage(), mEditText.getText().toString()));
+        mChatListView.smoothScrollToPosition(mData.size());
     }
 
     EMMessageListener msgListener = new EMMessageListener() {
 
         @Override
         public void onMessageReceived(List<EMMessage> messages) {
-            //收到消息
-            Log.d("mllweb-log", messages + "收到消息");
+            mChatListView.smoothScrollToPosition(mData.size());
             for (EMMessage m : messages) {
-                mData.add(new MessageLog(m.getFrom(), m.getTo(), "/Image/a.jpg", m.getBody().toString()));
+                mChatAdapter.addData(new MessageLog(m.getFrom(), m.getTo(), mChatUser.getHeadImage(), m.getBody().toString()));
+                mChatListView.smoothScrollToPosition(mData.size());
             }
-
         }
 
         @Override
