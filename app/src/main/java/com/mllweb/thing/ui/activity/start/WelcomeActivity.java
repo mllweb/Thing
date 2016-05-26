@@ -14,6 +14,5 @@ public class WelcomeActivity extends BaseActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        super.initData(savedInstanceState);
     }
 }

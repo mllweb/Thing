@@ -4,41 +4,85 @@ package com.mllweb.model;
  * Created by Android on 2016/5/25.
  */
 public class MessageLog {
-    private String nickName;
-    private String headImage;
-    private long createDate;
+    private String fromUserName;
+    private int fromUserId;
+    private int toUserId;
+    private String toUserName;
+    private String fromNickName;
+    private String toNickName;
+    private long messageDate;
+    private String fromUserHeadImage;
     private String content;
-    private int userId;
 
-    public MessageLog(String nickName, String headImage, String content, int userId) {
-        this.nickName = nickName;
-        this.headImage = headImage;
+    public MessageLog(String fromUserName, String toUserName, String fromUserHeadImage, String content) {
+        this.fromUserName = fromUserName;
+        this.toUserName = toUserName;
+        this.fromUserHeadImage = fromUserHeadImage;
         this.content = content;
-        this.userId = userId;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getFromUserName() {
+        return fromUserName;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setFromUserName(String fromUserName) {
+        this.fromUserName = fromUserName;
     }
 
-    public String getHeadImage() {
-        return headImage;
+    public int getFromUserId() {
+        return fromUserId;
     }
 
-    public void setHeadImage(String headImage) {
-        this.headImage = headImage;
+    public void setFromUserId(int fromUserId) {
+        this.fromUserId = fromUserId;
     }
 
-    public long getCreateDate() {
-        return createDate;
+    public int getToUserId() {
+        return toUserId;
     }
 
-    public void setCreateDate(long createDate) {
-        this.createDate = createDate;
+    public void setToUserId(int toUserId) {
+        this.toUserId = toUserId;
+    }
+
+    public String getToUserName() {
+        return toUserName;
+    }
+
+    public void setToUserName(String toUserName) {
+        this.toUserName = toUserName;
+    }
+
+    public String getFromNickName() {
+        return fromNickName;
+    }
+
+    public void setFromNickName(String fromNickName) {
+        this.fromNickName = fromNickName;
+    }
+
+    public String getToNickName() {
+        return toNickName;
+    }
+
+    public void setToNickName(String toNickName) {
+        this.toNickName = toNickName;
+    }
+
+    public long getMessageDate() {
+        return messageDate;
+    }
+
+    public void setMessageDate(long messageDate) {
+        this.messageDate = messageDate;
+    }
+
+    public String getFromUserHeadImage() {
+        return fromUserHeadImage;
+    }
+
+    public void setFromUserHeadImage(String fromUserHeadImage) {
+        this.fromUserHeadImage = fromUserHeadImage;
     }
 
     public String getContent() {
@@ -47,13 +91,5 @@ public class MessageLog {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
     }
 }

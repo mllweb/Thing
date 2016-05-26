@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.mllweb.model.MessageLog;
 import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
+import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.adapter.BaseHolder;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -21,6 +22,8 @@ import java.util.List;
  * Created by Android on 2016/5/24.
  */
 public class ChatAdapter extends RecyclerView.Adapter<BaseHolder> {
+    private final static int CHAT_FROM_MINE = 0;
+    private final static int CHAT_TO_MINE = 1;
     private List<MessageLog> mData = new ArrayList<>();
     private Activity mActivity;
     private LayoutInflater mInflater;
@@ -37,11 +40,11 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseHolder> {
     public BaseHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         BaseHolder holder = null;
         switch (viewType) {
-            case 0:
-                holder = new BaseHolder(mInflater.inflate(R.layout.adapter_chat_left, parent, false));
-                break;
-            case 1:
+            case CHAT_FROM_MINE:
                 holder = new BaseHolder(mInflater.inflate(R.layout.adapter_chat_right, parent, false));
+                break;
+            case CHAT_TO_MINE:
+                holder = new BaseHolder(mInflater.inflate(R.layout.adapter_chat_left, parent, false));
                 break;
         }
         return holder;
@@ -55,15 +58,15 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseHolder> {
         TextView date = holder.getView(R.id.tv_date);
         TextView content = holder.getView(R.id.tv_content);
         switch (getItemViewType(position)) {
-            case 0:
-                ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + log.getHeadImage(), headImage);
-               // nickName.setVisibility(View.GONE);
-                nickName.setText(log.getNickName());
+            case CHAT_FROM_MINE:
+                ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + UserInfoManager.getInstance().getHeadImage(), headImage);
                 content.setText(log.getContent());
                 break;
-            case 1:
-                ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + log.getHeadImage(), headImage);
+            case CHAT_TO_MINE:
+                ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + log.getFromUserHeadImage(), headImage);
+                nickName.setText(log.getFromUserName());
                 content.setText(log.getContent());
+
                 break;
         }
         if (position % 5 == 0) {
@@ -80,10 +83,10 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (mData.get(position).getUserId() == 0) {
-            return 0;
+        if (mData.get(position).getFromUserName().equals(UserInfoManager.getInstance().getUserName())) {
+            return CHAT_FROM_MINE;
         } else {
-            return 1;
+            return CHAT_TO_MINE;
         }
     }
 }

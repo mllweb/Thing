@@ -6,6 +6,10 @@ import android.support.v4.view.ViewPager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hyphenate.EMConnectionListener;
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.util.NetUtils;
 import com.mllweb.thing.R;
 import com.mllweb.thing.ui.activity.BaseActivity;
 import com.mllweb.thing.ui.activity.main.post.PostActivity;
@@ -52,6 +56,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        //注册一个监听连接状态的listener
+        EMClient.getInstance().addConnectionListener(new MyConnectionListener());
         mFragmentData.add(new HomeFragment());
         mFragmentData.add(new FindFragment());
         mFragmentData.add(new MessageFragment());
@@ -109,5 +115,34 @@ public class MainActivity extends BaseActivity {
         mFindText.setTextColor(mResources.getColor(R.color.main_tab_gray));
         mMessageText.setTextColor(mResources.getColor(R.color.main_tab_gray));
         mMineText.setTextColor(mResources.getColor(R.color.main_tab_gray));
+    }
+
+
+    //实现ConnectionListener接口
+    private class MyConnectionListener implements EMConnectionListener {
+        @Override
+        public void onConnected() {
+        }
+
+        @Override
+        public void onDisconnected(final int error) {
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    if (error == EMError.USER_REMOVED) {
+                        // 显示帐号已经被移除
+                    } else if (error == EMError.USER_LOGIN_ANOTHER_DEVICE) {
+                        // 显示帐号在其他设备登录
+                    } else {
+                        if (NetUtils.hasNetwork(MainActivity.this)) {
+                            //连接不到聊天服务器
+                        } else {
+                            //当前网络不可用，请检查网络设置
+                        }
+                    }
+                }
+            });
+        }
     }
 }

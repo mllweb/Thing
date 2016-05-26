@@ -58,4 +58,20 @@
             android:textColor="@color/font_black"
             android:textSize="@dimen/font_size_normal" />
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_margin"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/tv_logout"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_action_bar_height"
+            android:layout_marginLeft="@dimen/activity_margin"
+            android:gravity="center_vertical"
+            android:text="@string/logout"
+            android:textColor="@color/font_black"
+            android:textSize="@dimen/font_size_normal" />
+    </LinearLayout>
 </LinearLayout>
