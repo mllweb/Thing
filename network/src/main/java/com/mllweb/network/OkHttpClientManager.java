@@ -48,6 +48,10 @@ public class OkHttpClientManager {
         return mInstance;
     }
 
+    public void requestGetDomain(String url, final RequestCallback callback) {
+        requestGet(DOMAIN + url, callback);
+    }
+
     /**
      * get请求
      *
@@ -73,6 +77,11 @@ public class OkHttpClientManager {
         });
 
     }
+
+    public void requestPostDomain(String url, final RequestCallback callback, Params... paramses) {
+        requestPost(DOMAIN + url, callback, paramses);
+    }
+
 
     /**
      * post请求
@@ -110,13 +119,15 @@ public class OkHttpClientManager {
     private Request buildPostRequest(String url, Params[] paramses) {
         FormEncodingBuilder builder = new FormEncodingBuilder();
         if (paramses == null) {
-            paramses = new Params[0];
+            return new Request.Builder().url(url).build();
+        } else {
+            for (Params p : paramses) {
+                builder.add(p.key, p.value);
+            }
+            RequestBody requestBody = builder.build();
+            return new Request.Builder().url(url).post(requestBody).build();
         }
-        for (Params p : paramses) {
-            builder.add(p.key, p.value);
-        }
-        RequestBody requestBody = builder.build();
-        return new Request.Builder().url("").post(requestBody).build();
+
     }
 
     /**
@@ -149,12 +160,16 @@ public class OkHttpClientManager {
     /**
      * 参数类
      */
-    public class Params {
+    public static class Params {
         String key, value;
 
-        public Params(String key, String value) {
+        private Params(String key, String value) {
             this.key = key;
             this.value = value;
+        }
+
+        public static Params get(String key, String value) {
+            return new Params(key, value);
         }
     }
 

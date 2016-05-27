@@ -35,6 +35,9 @@ public class Application extends android.app.Application {
         }
     }
 
+
+
+
     private void initEaseIm() {
         EMOptions options = new EMOptions();
         // 默认添加好友时，是不需要验证的，改成需要验证

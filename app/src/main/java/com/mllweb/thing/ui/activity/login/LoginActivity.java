@@ -1,32 +1,41 @@
 package com.mllweb.thing.ui.activity.login;
 
-import android.util.Log;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.gson.Gson;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.mllweb.model.UserInfo;
+import com.mllweb.network.API;
+import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
 import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.activity.BaseActivity;
 import com.mllweb.thing.ui.activity.main.MainActivity;
 import com.mllweb.thing.ui.activity.register.RegisterActivity;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.mobsandgeeks.saripaar.annotation.Order;
+import com.mobsandgeeks.saripaar.annotation.Password;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
 
 public class LoginActivity extends BaseActivity {
     @InjectView(R.id.et_user_name)
+    @NotEmpty(message = "用户名不能为空")
+    @Order(1)
     EditText mUserName;
     @InjectView(R.id.et_password)
+    @Order(2)
+    @Password(scheme = Password.Scheme.ANY, message = "密码格式不正确")
     EditText mPassword;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
 
     @Override
     protected int initLayout() {
@@ -40,35 +49,63 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.tv_login)
     public void clickLogin() {
+        mValidator.validate();
+    }
 
-        EMClient.getInstance().login("mllweb", "zaq123", new EMCallBack() {//回调
+    /**
+     * 输入框验证成功
+     */
+    @Override
+    public void onValidationSucceeded() {
+        callServerLogin();
+    }
+
+    private void callIMLogin(final UserInfo userInfo) {
+        EMClient.getInstance().login(userInfo.getUserName(), userInfo.getUserName(), new EMCallBack() {
             @Override
             public void onSuccess() {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         EMClient.getInstance().groupManager().loadAllGroups();
                         EMClient.getInstance().chatManager().loadAllConversations();
-                        Toast.makeText(mActivity, "登录聊天服务器成功！", Toast.LENGTH_LONG).show();
-                        UserInfoManager.init(new UserInfo() { });
+                        UserInfoManager.init(userInfo);
                         startActivity(MainActivity.class);
+                        finish();
                     }
                 });
             }
 
             @Override
             public void onProgress(int progress, String status) {
-
             }
 
             @Override
             public void onError(int code, String message) {
-                Log.d("mllweb-log", code + " " + message);
             }
         });
-
     }
 
+    private void callServerLogin() {
+        mHttp.requestPostDomain(API.LOGIN, new OkHttpClientManager.RequestCallback() {
+                    @Override
+                    public void onFailure(Request request, IOException e) {
 
+                    }
+
+                    @Override
+                    public void onResponse(Response response, String body) {
+                        try {
+                            Gson gson = new Gson();
+                            UserInfo userInfo = null;
+                            userInfo = gson.fromJson(new JSONObject(body).getJSONObject("result").toString(), UserInfo.class);
+                            callIMLogin(userInfo);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, OkHttpClientManager.Params.get("userName", mUserName.getText().toString()),
+                OkHttpClientManager.Params.get("password", mPassword.getText().toString()));
+    }
 
 
 }

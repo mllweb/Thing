@@ -3,8 +3,10 @@ package com.mllweb.thing.ui.activity.main;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
@@ -48,7 +50,7 @@ public class MainActivity extends BaseActivity {
     private int[] mIconSelecteds = new int[]{R.drawable.main_bottom_essence_press_night, R.drawable.main_bottom_my_press_night, R.drawable.main_bottom_latest_press_night, R.drawable.main_bottom_news_press_night};
     private MainPagerAdapter mMainPagerAdapter;
     private List<Fragment> mFragmentData = new ArrayList<>();
-
+    private long exitTime = 0;
     @Override
     protected int initLayout() {
         return R.layout.activity_main;
@@ -144,5 +146,18 @@ public class MainActivity extends BaseActivity {
                 }
             });
         }
+    }
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
+            if((System.currentTimeMillis()-exitTime) > 1000){
+                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

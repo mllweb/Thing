@@ -6,8 +6,17 @@ package com.mllweb.model;
 public class UserInfo {
     private int userId;
     private String nickName;
-    private String userName="mllweb1";
-    private String headImage="/IMAGE/head_image.jpg";
+    private String userName = "mllweb1";
+    private String headImage = "/IMAGE/head_image.jpg";
+    private String password;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public int getUserId() {
         return userId;
