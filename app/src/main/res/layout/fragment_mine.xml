@@ -32,29 +32,38 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/un_login_layout"
         android:layout_width="match_parent"
         android:layout_height="96dip"
         android:layout_marginTop="@dimen/activity_margin"
-        android:background="@color/white"></RelativeLayout>
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/tv_login"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="登录" />
+    </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/login_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_margin"
         android:background="@color/white"
-        android:orientation="vertical"
-        android:visibility="gone">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="88dip">
 
             <com.mllweb.thing.ui.view.CircleImageView
+                android:id="@+id/head_image"
                 android:layout_width="64dip"
                 android:layout_height="64dip"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/activity_margin"
-                android:src="@drawable/main_tab_add" />
+                android:layout_marginLeft="@dimen/activity_margin" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -63,19 +72,21 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/tv_nick_name"
                     android:layout_width="match_parent"
                     android:layout_height="40dip"
                     android:gravity="bottom"
-                    android:text="Eveller"
+                    android:text=""
                     android:textColor="#333333"
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tv_user_sign"
                     android:layout_width="match_parent"
                     android:layout_height="40dip"
                     android:layout_marginTop="8dip"
                     android:gravity="top"
-                    android:text="简介：这里空空如也，什么也没有留下"
+                    android:text=""
                     android:textColor="#999999"
                     android:textSize="12sp" />
             </LinearLayout>

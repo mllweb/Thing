@@ -19,8 +19,5 @@ public class SettingActivity extends BaseActivity {
         startActivity(AboutActivity.class);
     }
 
-    @OnClick(R.id.tv_logout)
-    public void clickLogout() {
-        EMClient.getInstance().logout(true);
-    }
+
 }

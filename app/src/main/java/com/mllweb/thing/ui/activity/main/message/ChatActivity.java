@@ -45,7 +45,7 @@ public class ChatActivity extends BaseActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
-        mCurrentUser = UserInfoManager.getInstance();
+        mCurrentUser = UserInfoManager.get(mCache);
         mChatUser = new UserInfo();
         mChatUser.setUserName("admin");
         getMessageList();

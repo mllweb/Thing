@@ -4,7 +4,7 @@ package com.mllweb.model;
  * Created by Android on 2016/5/26.
  */
 public class UserInfo {
-    private int userId;
+    private int id;
     private String nickName;
     private String userName = "mllweb1";
     private String headImage = "/IMAGE/head_image.jpg";
@@ -18,12 +18,12 @@ public class UserInfo {
         this.password = password;
     }
 
-    public int getUserId() {
-        return userId;
+    public int getId() {
+        return id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNickName() {

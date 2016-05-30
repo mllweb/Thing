@@ -1,4 +1,4 @@
-package com.mllweb.thing.ui.activity.register;
+package com.mllweb.thing.ui.activity.main.register;
 
 import android.util.Log;
 import android.widget.EditText;

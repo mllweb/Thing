@@ -1,44 +1,31 @@
 package com.mllweb.model;
 
+import java.util.List;
+
 /**
  * Created by Android on 2016/5/19.
  */
 public class Thing {
-    private String content;
-    private String topicName;
-    private int topicId;
+    private int id;
     private int userId;
-    private int nickName;
+    private String content;
+    private int topicId;
     private long createDate;
-    private int praiseCount;
-    private int dislikeCount;
-    private int shareCount;
     private int commentCount;
+    private int praiseCount;
+    private int shareCount;
+    private int dislikeCount;
+    private String nickName;
     private String headImage;
+    private String topicName;
+    private List<ThingFile> thingFiles;
 
-
-    public String getContent() {
-        return content;
+    public int getId() {
+        return id;
     }
 
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getTopicName() {
-        return topicName;
-    }
-
-    public void setTopicName(String topicName) {
-        this.topicName = topicName;
-    }
-
-    public int getTopicId() {
-        return topicId;
-    }
-
-    public void setTopicId(int topicId) {
-        this.topicId = topicId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getUserId() {
@@ -49,12 +36,20 @@ public class Thing {
         this.userId = userId;
     }
 
-    public int getNickName() {
-        return nickName;
+    public String getContent() {
+        return content;
     }
 
-    public void setNickName(int nickName) {
-        this.nickName = nickName;
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public int getTopicId() {
+        return topicId;
+    }
+
+    public void setTopicId(int topicId) {
+        this.topicId = topicId;
     }
 
     public long getCreateDate() {
@@ -65,20 +60,20 @@ public class Thing {
         this.createDate = createDate;
     }
 
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
+
     public int getPraiseCount() {
         return praiseCount;
     }
 
     public void setPraiseCount(int praiseCount) {
         this.praiseCount = praiseCount;
-    }
-
-    public int getDislikeCount() {
-        return dislikeCount;
-    }
-
-    public void setDislikeCount(int dislikeCount) {
-        this.dislikeCount = dislikeCount;
     }
 
     public int getShareCount() {
@@ -89,12 +84,20 @@ public class Thing {
         this.shareCount = shareCount;
     }
 
-    public int getCommentCount() {
-        return commentCount;
+    public int getDislikeCount() {
+        return dislikeCount;
     }
 
-    public void setCommentCount(int commentCount) {
-        this.commentCount = commentCount;
+    public void setDislikeCount(int dislikeCount) {
+        this.dislikeCount = dislikeCount;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
     }
 
     public String getHeadImage() {
@@ -103,5 +106,21 @@ public class Thing {
 
     public void setHeadImage(String headImage) {
         this.headImage = headImage;
+    }
+
+    public String getTopicName() {
+        return topicName;
+    }
+
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
+    }
+
+    public List<ThingFile> getThingFiles() {
+        return thingFiles;
+    }
+
+    public void setThingFiles(List<ThingFile> thingFiles) {
+        this.thingFiles = thingFiles;
     }
 }

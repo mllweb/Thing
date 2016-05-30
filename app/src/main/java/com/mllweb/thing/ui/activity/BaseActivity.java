@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.mllweb.cache.ACache;
+import com.mllweb.cache.ARealm;
 import com.mllweb.network.OkHttpClientManager;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -30,6 +32,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Validato
     protected ImageLoader mImageLoader;
     protected ACache mCache;
     protected Validator mValidator;
+    protected ARealm mRealm;
+    protected Gson mGson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +63,8 @@ public abstract class BaseActivity extends AppCompatActivity implements Validato
         mCache = ACache.get(mActivity);
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
+        mRealm = ARealm.getInstance(mActivity);
+        mGson = new Gson();
     }
 
     /**

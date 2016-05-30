@@ -1,9 +1,15 @@
 package com.mllweb.thing.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
+import android.widget.Toast;
 
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -45,5 +51,34 @@ public class Utils {
 
     public static String caleDate(Date date) {
         return caleDate(date.getTime());
+    }
+
+    public static void toast(Activity activity, String msg) {
+        Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
+    }
+    public static void log( String msg) {
+        Log.i("mllweb-info",msg);
+    }
+    public static String md5(String value){
+        byte[] hash;
+
+        try {
+            hash = MessageDigest.getInstance("MD5").digest(value.getBytes("UTF-8"));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        StringBuilder hex = new StringBuilder(hash.length * 2);
+        for (byte b : hash) {
+            if ((b & 0xFF) < 0x10)
+                hex.append("0");
+            hex.append(Integer.toHexString(b & 0xFF));
+        }
+
+        return hex.toString();
     }
 }

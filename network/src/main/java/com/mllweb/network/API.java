@@ -5,4 +5,5 @@ package com.mllweb.network;
  */
 public class API {
     public static final String LOGIN = "/Login";
+    public static final String SELECT_THING = "/SelectThing";
 }

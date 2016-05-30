@@ -1,8 +1,7 @@
-package com.mllweb.thing.ui.activity.login;
+package com.mllweb.thing.ui.activity.main.login;
 
 import android.widget.EditText;
 
-import com.google.gson.Gson;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.mllweb.model.UserInfo;
@@ -12,15 +11,13 @@ import com.mllweb.thing.R;
 import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.activity.BaseActivity;
 import com.mllweb.thing.ui.activity.main.MainActivity;
-import com.mllweb.thing.ui.activity.register.RegisterActivity;
+import com.mllweb.thing.ui.activity.main.register.RegisterActivity;
+import com.mllweb.thing.utils.Utils;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Order;
 import com.mobsandgeeks.saripaar.annotation.Password;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 
@@ -61,18 +58,12 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void callIMLogin(final UserInfo userInfo) {
-        EMClient.getInstance().login(userInfo.getUserName(), userInfo.getUserName(), new EMCallBack() {
+        EMClient.getInstance().login(userInfo.getUserName(), userInfo.getPassword(), new EMCallBack() {
             @Override
             public void onSuccess() {
-                runOnUiThread(new Runnable() {
-                    public void run() {
-                        EMClient.getInstance().groupManager().loadAllGroups();
-                        EMClient.getInstance().chatManager().loadAllConversations();
-                        UserInfoManager.init(userInfo);
-                        startActivity(MainActivity.class);
-                        finish();
-                    }
-                });
+                EMClient.getInstance().groupManager().loadAllGroups();
+                EMClient.getInstance().chatManager().loadAllConversations();
+                startActivity(MainActivity.class);
             }
 
             @Override
@@ -89,19 +80,14 @@ public class LoginActivity extends BaseActivity {
         mHttp.requestPostDomain(API.LOGIN, new OkHttpClientManager.RequestCallback() {
                     @Override
                     public void onFailure(Request request, IOException e) {
-
+                        Utils.toast(mActivity, "登录失败");
                     }
 
                     @Override
                     public void onResponse(Response response, String body) {
-                        try {
-                            Gson gson = new Gson();
-                            UserInfo userInfo = null;
-                            userInfo = gson.fromJson(new JSONObject(body).getJSONObject("result").toString(), UserInfo.class);
-                            callIMLogin(userInfo);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        UserInfo userInfo = UserInfoManager.init(body, mCache);
+                        mRealm.login(userInfo.getId());
+                        callIMLogin(userInfo);
                     }
                 }, OkHttpClientManager.Params.get("userName", mUserName.getText().toString()),
                 OkHttpClientManager.Params.get("password", mPassword.getText().toString()));

@@ -2,11 +2,13 @@ package com.mllweb.thing.ui.adapter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,7 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseHo
     protected LayoutInflater mInflater;
     protected List<T> mData = new ArrayList<>();
     private BaseHolder.OnItemClickListener mItemClickListener;
+    protected Bundle mBundle = new Bundle();
 
     public void setOnItemClickListener(BaseHolder.OnItemClickListener itemClickListener) {
         this.mItemClickListener = itemClickListener;
@@ -60,8 +63,15 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseHo
         return mData.size();
     }
 
+    protected void setIntentExtras(String key, int value) {
+        mBundle.putInt(key, value);
+    }
+    protected void setIntentExtras(String key, Serializable value) {
+        mBundle.putSerializable(key, value);
+    }
     protected void startActivity(Class cls) {
         Intent intent = new Intent(mActivity, cls);
+        intent.putExtras(mBundle);
         mActivity.startActivity(intent);
     }
 

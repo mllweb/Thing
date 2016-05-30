@@ -72,22 +72,14 @@
                 android:id="@+id/tv_create_date"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+               android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/activity_margin"
-                android:layout_toLeftOf="@+id/tv_follow"
                 android:gravity="center"
                 android:text="2016-05-05 10:30:25"
                 android:textColor="#999999"
                 android:textSize="12sp" />
 
-            <TextView
-                android:id="@id/tv_follow"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:gravity="center"
-                android:text="关注"
-                android:textColor="#999999"
-                android:textSize="12sp" />
+
         </RelativeLayout>
 
         <View
