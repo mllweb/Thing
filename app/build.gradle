@@ -35,4 +35,5 @@ dependencies {
     compile files('libs/hyphenatechat_3.1.2.jar')
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile 'com.mobsandgeeks:android-saripaar:2.0.3'
+    compile 'com.bartoszlipinski.recyclerviewheader:library:1.2.0'
 }
