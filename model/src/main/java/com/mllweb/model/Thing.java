@@ -18,10 +18,28 @@ public class Thing {
     private String nickName;
     private String headImage;
     private String topicName;
+    private boolean isPraise;
+    private boolean isDislike;
     private List<ThingFile> thingFiles;
 
     public int getId() {
         return id;
+    }
+
+    public boolean isPraise() {
+        return isPraise;
+    }
+
+    public void setPraise(boolean praise) {
+        isPraise = praise;
+    }
+
+    public boolean isDislike() {
+        return isDislike;
+    }
+
+    public void setDislike(boolean dislike) {
+        isDislike = dislike;
     }
 
     public void setId(int id) {

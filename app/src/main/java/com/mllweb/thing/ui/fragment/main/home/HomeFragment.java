@@ -58,7 +58,6 @@ public class HomeFragment extends BaseFragment {
                         Thing thing = mGson.fromJson(o.toString(), Thing.class);
                         mThingList.add(thing);
                     }
-
                     mThingsView.setLayoutManager(new LinearLayoutManager(getActivity()));
                     mThingsView.setAdapter(mThingAdapter);
                 } catch (JSONException e) {

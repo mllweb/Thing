@@ -46,6 +46,7 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/tv_publish"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
@@ -65,16 +66,17 @@
         android:layout_below="@id/action_bar">
 
         <EditText
+            android:id="@+id/et_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="@dimen/activity_margin"
             android:background="@null"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:textSize="14sp"
             android:hint="发表帖子"
             android:inputType="textMultiLine"
-            android:textColorHint="#999999" />
+            android:textColorHint="#999999"
+            android:textSize="14sp" />
     </ScrollView>
 
     <LinearLayout

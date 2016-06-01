@@ -97,6 +97,7 @@
                     android:paddingTop="8dip">
 
                     <ImageView
+                        android:id="@+id/iv_praise"
                         android:layout_width="14dip"
                         android:layout_height="14dip"
                         android:layout_gravity="center_vertical"
@@ -136,6 +137,7 @@
                     android:paddingTop="8dip">
 
                     <ImageView
+                        android:id="@+id/iv_dislike"
                         android:layout_width="14dip"
                         android:layout_height="14dip"
                         android:src="@drawable/dislike" />

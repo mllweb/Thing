@@ -78,7 +78,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".ui.activity.main.center.BaseInfoActivity" />
-        <activity android:name=".ui.activity.main.home.ThingDetailsActivity"></activity>
+        <activity android:name=".ui.activity.main.home.ThingDetailsActivity" />
+        <activity android:name=".ui.activity.main.post.ChooseTopicActivity"></activity>
     </application>
 
 </manifest>

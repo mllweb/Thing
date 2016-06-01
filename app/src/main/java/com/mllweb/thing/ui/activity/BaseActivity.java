@@ -25,7 +25,6 @@ import butterknife.ButterKnife;
  * Created by Android on 2016/5/18.
  */
 public abstract class BaseActivity extends AppCompatActivity implements Validator.ValidationListener {
-    protected final String DOMAIN = OkHttpClientManager.DOMAIN;
     protected Activity mActivity;
     protected Resources mResources;
     protected OkHttpClientManager mHttp;
