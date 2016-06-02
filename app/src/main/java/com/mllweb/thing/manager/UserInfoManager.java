@@ -1,10 +1,10 @@
 package com.mllweb.thing.manager;
 
+import android.app.Activity;
+
 import com.google.gson.Gson;
-import com.mllweb.cache.ACache;
+import com.mllweb.cache.ARealm;
 import com.mllweb.model.UserInfo;
-import com.mllweb.network.API;
-import com.mllweb.thing.utils.Utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -14,16 +14,14 @@ import org.json.JSONObject;
  */
 public class UserInfoManager {
     private static UserInfo mUserInfo = null;
-    private static String key = API.LOGIN;
 
     private UserInfoManager() {
     }
 
 
-    public static UserInfo init(String json, ACache cache) {
+    public static UserInfo init(String json, Activity activity) {
         try {
             mUserInfo = new Gson().fromJson(new JSONObject(json).getJSONObject("result").toString(), UserInfo.class);
-            cache.put(Utils.md5(key), json);
             return mUserInfo;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -31,16 +29,21 @@ public class UserInfoManager {
         return null;
     }
 
-    public static void update(String json, ACache cache) {
-        mUserInfo = init(json, cache);
+    public static void update(String json, Activity activity) {
+        try {
+            mUserInfo = new Gson().fromJson(new JSONObject(json).getJSONObject("result").toString(), UserInfo.class);
+            ARealm.getInstance(activity).updateUserJson(json);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static UserInfo get(ACache cache) {
+    public static UserInfo get(Activity activity) {
         try {
             if (mUserInfo != null) {
                 return mUserInfo;
             } else {
-                String json = cache.getAsString(Utils.md5(key));
+                String json = ARealm.getInstance(activity).getUserJson();
                 mUserInfo = new Gson().fromJson(new JSONObject(json).getJSONObject("result").toString(), UserInfo.class);
                 return mUserInfo;
             }

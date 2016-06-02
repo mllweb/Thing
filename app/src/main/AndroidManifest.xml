@@ -2,6 +2,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mllweb.thing">
 
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.SET_DEBUG_APP" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.MANAGE_ACCOUNTS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -31,6 +39,9 @@
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="mllweb#thing" />
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="574f977767e58ef6590012b9"></meta-data>
 
         <activity android:name=".ui.activity.main.login.LoginActivity" />
         <activity android:name=".ui.activity.main.register.RegisterActivity" />

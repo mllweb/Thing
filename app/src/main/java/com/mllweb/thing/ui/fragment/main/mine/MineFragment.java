@@ -51,7 +51,7 @@ public class MineFragment extends BaseFragment {
     }
 
     private void initUserInfo() {
-        UserInfo userinfo = UserInfoManager.get(mCache);
+        UserInfo userinfo = UserInfoManager.get(mActivity);
         mImageLoader.displayImage(userinfo.getHeadImage(), mHeadImage);
         mNickName.setText(userinfo.getNickName());
         mUserSign.setText("简介：这里空空如也，什么也没有留下");

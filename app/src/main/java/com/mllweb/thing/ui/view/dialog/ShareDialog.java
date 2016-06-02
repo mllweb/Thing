@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import com.mllweb.thing.R;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -17,11 +18,6 @@ import butterknife.OnClick;
  * Created by Android on 2016/6/1.
  */
 public class ShareDialog extends DialogFragment {
-    public static final int QQ = 1;
-    public static final int QZONE = 2;
-    public static final int WXFRIEND = 3;
-    public static final int WXGROUP = 4;
-    public static final int SINA = 5;
     private View mView;
     private OnShareListener listener;
 
@@ -45,39 +41,44 @@ public class ShareDialog extends DialogFragment {
     @OnClick(R.id.qq)
     public void clickQQ() {
         if (listener != null) {
-            listener.share(QQ);
+            listener.share(SHARE_MEDIA.QQ);
         }
+        getDialog().dismiss();
     }
 
     @OnClick(R.id.qzone)
     public void clickQZONE() {
         if (listener != null) {
-            listener.share(QZONE);
+            listener.share(SHARE_MEDIA.QZONE);
         }
+        getDialog().dismiss();
     }
 
     @OnClick(R.id.wxfriend)
     public void clickWXFriend() {
         if (listener != null) {
-            listener.share(WXFRIEND);
+            listener.share(SHARE_MEDIA.WEIXIN);
         }
+        getDialog().dismiss();
     }
 
     @OnClick(R.id.wxgrounp)
     public void clickWXGroup() {
         if (listener != null) {
-            listener.share(WXGROUP);
+            listener.share(SHARE_MEDIA.WEIXIN_CIRCLE);
         }
+        getDialog().dismiss();
     }
 
     @OnClick(R.id.sina)
     public void clickSina() {
         if (listener != null) {
-            listener.share(SINA);
+            listener.share(SHARE_MEDIA.SINA);
         }
+        getDialog().dismiss();
     }
 
     public interface OnShareListener {
-        void share(int platform);
+        void share(SHARE_MEDIA platform);
     }
 }

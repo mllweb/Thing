@@ -5,6 +5,7 @@ package com.mllweb.network;
  */
 public interface API {
     String LOGIN = "/Login";
+    String Register = "/Register";
     String SELECT_THING = "/SelectThing";
     String INSERT_THING = "/InsertThing";
     String INSERT_THING_PRAISE = "/InsertThingPraise";

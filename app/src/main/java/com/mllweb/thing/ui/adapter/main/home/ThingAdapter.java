@@ -19,13 +19,17 @@ import com.mllweb.thing.ui.adapter.BaseRecyclerAdapter;
 import com.mllweb.thing.ui.view.dialog.ShareDialog;
 import com.mllweb.thing.utils.Utils;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
 
 import java.util.List;
 
 /**
  * Created by Android on 2016/5/18.
  */
-public class ThingAdapter extends BaseRecyclerAdapter<Thing> {
+public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareListener {
 
     public ThingAdapter(List<Thing> mData, Activity activity) {
         super(mData, activity);
@@ -159,19 +163,35 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> {
         }
 
         @Override
-        public void share(int platform) {
-            switch (platform){
-                case ShareDialog.QQ:
-                    break;
-                case ShareDialog.QZONE:
-                    break;
-                case ShareDialog.WXFRIEND:
-                    break;
-                case ShareDialog.WXGROUP:
-                    break;
-                case ShareDialog.SINA:
-                    break;
-            }
+        public void share(SHARE_MEDIA platform) {
+            sharePlatform(platform);
         }
+
+
+    }
+
+    private void sharePlatform(SHARE_MEDIA platform) {
+        new ShareAction(mActivity)
+                .setPlatform(platform)
+                .setCallback(this)
+                .withText("那点事儿")
+                .withTargetUrl("http://www.baidu.com")
+                .withMedia(new UMImage(mActivity, R.mipmap.ic_launcher))
+                .share();
+    }
+
+    @Override
+    public void onResult(SHARE_MEDIA share_media) {
+        Utils.toast(mActivity, "分享成功了");
+    }
+
+    @Override
+    public void onError(SHARE_MEDIA share_media, Throwable throwable) {
+        Utils.toast(mActivity, "分享失败了");
+    }
+
+    @Override
+    public void onCancel(SHARE_MEDIA share_media) {
+        Utils.toast(mActivity, "分享取消了");
     }
 }

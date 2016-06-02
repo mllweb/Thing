@@ -8,6 +8,7 @@ import io.realm.RealmObject;
 public class Login extends RealmObject {
     private int userId;
     private boolean isLogged;
+    private String userJson;
 
 
     public int getUserId() {
@@ -25,4 +26,13 @@ public class Login extends RealmObject {
     public void setLogged(boolean logged) {
         isLogged = logged;
     }
+
+    public String getUserJson() {
+        return userJson;
+    }
+
+    public void setUserJson(String userJson) {
+        this.userJson = userJson;
+    }
 }
+

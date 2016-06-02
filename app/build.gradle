@@ -1,6 +1,10 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'me.tatarka.retrolambda'
 android {
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
 
@@ -18,7 +22,22 @@ android {
         }
     }
 }
+buildscript {
+    repositories {
+        mavenCentral()
+    }
 
+    dependencies {
+        classpath 'me.tatarka:gradle-retrolambda:2.5.0'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
@@ -36,4 +55,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile 'com.mobsandgeeks:android-saripaar:2.0.3'
     compile 'com.bartoszlipinski.recyclerviewheader:library:1.2.0'
+    compile files('libs/umeng_social_sdk.jar')
 }

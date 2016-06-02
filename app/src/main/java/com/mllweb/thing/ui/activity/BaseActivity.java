@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.mllweb.cache.ACache;
 import com.mllweb.cache.ARealm;
 import com.mllweb.network.OkHttpClientManager;
+import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -105,11 +106,15 @@ public abstract class BaseActivity extends AppCompatActivity implements Validato
     public void onValidationFailed(List<ValidationError> errors) {
         for (ValidationError error : errors) {
             View view = error.getView();
-            String message = error.getCollatedErrorMessage(this);
+            String message = "";
+            List<Rule> list = error.getFailedRules();
+            if (list != null && list.size() > 0) {
+                message = list.get(0).getMessage(mActivity);
+            }
             if (view instanceof EditText) {
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
             }
             break;
         }

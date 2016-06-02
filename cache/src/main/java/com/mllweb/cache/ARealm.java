@@ -36,7 +36,7 @@ public class ARealm {
      *
      * @param userId
      */
-    public void login(int userId) {
+    public void login(int userId, String json) {
         Realm realm = Realm.getInstance(mConfiguration);
         realm.beginTransaction();
         //修改登录状态和登录用户
@@ -44,6 +44,7 @@ public class ARealm {
         if (login == null) {
             login = realm.createObject(Login.class);
         }
+        login.setUserJson(json);
         login.setUserId(userId);
         login.setLogged(true);
         //增加登录记录
@@ -76,6 +77,30 @@ public class ARealm {
         realm.beginTransaction();
         Login login = realm.where(Login.class).findFirst();
         login.setLogged(false);
+        realm.commitTransaction();
+    }
+
+    /**
+     * 获取用户信息
+     *
+     * @return
+     */
+    public String getUserJson() {
+        Realm realm = Realm.getInstance(mConfiguration);
+        Login login = realm.where(Login.class).findFirst();
+        return login.getUserJson();
+    }
+
+    /**
+     * 修改用户信息
+     *
+     * @param json
+     */
+    public void updateUserJson(String json) {
+        Realm realm = Realm.getInstance(mConfiguration);
+        Login login = realm.where(Login.class).findFirst();
+        realm.beginTransaction();
+        login.setUserJson(json);
         realm.commitTransaction();
     }
 }

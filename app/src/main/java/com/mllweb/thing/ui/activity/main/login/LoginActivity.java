@@ -31,6 +31,7 @@ public class LoginActivity extends BaseActivity {
     EditText mUserName;
     @InjectView(R.id.et_password)
     @Order(2)
+    @NotEmpty(message = "请输入密码")
     @Password(scheme = Password.Scheme.ANY, message = "密码格式不正确")
     EditText mPassword;
 
@@ -58,7 +59,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void callIMLogin(final UserInfo userInfo) {
-        EMClient.getInstance().login(userInfo.getUserName(), userInfo.getPassword(), new EMCallBack() {
+        EMClient.getInstance().login(userInfo.getMobile(), Utils.md5(userInfo.getMobile() + userInfo.getPassword()), new EMCallBack() {
             @Override
             public void onSuccess() {
                 EMClient.getInstance().groupManager().loadAllGroups();
@@ -85,12 +86,12 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void onResponse(Response response, String body) {
-                        UserInfo userInfo = UserInfoManager.init(body, mCache);
-                        mRealm.login(userInfo.getId());
+                        UserInfo userInfo = UserInfoManager.init(body, mActivity);
+                        mRealm.login(userInfo.getId(), body);
                         callIMLogin(userInfo);
                     }
                 }, OkHttpClientManager.Params.get("userName", mUserName.getText().toString()),
-                OkHttpClientManager.Params.get("password", mPassword.getText().toString()));
+                OkHttpClientManager.Params.get("password", Utils.md5(mPassword.getText().toString())));
     }
 
 

@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mllweb.cache.ACache;
 import com.mllweb.model.MessageLog;
 import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
@@ -71,7 +70,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseHolder> {
         TextView content = holder.getView(R.id.tv_content);
         switch (getItemViewType(position)) {
             case CHAT_FROM_MINE:
-                ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + UserInfoManager.get(ACache.get(mActivity)).getHeadImage(), headImage);
+                ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + UserInfoManager.get(mActivity).getHeadImage(), headImage);
                 content.setText(log.getContent());
                 break;
             case CHAT_TO_MINE:
@@ -95,7 +94,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (mData.get(position).getFromUserName().equals(UserInfoManager.get(ACache.get(mActivity)).getUserName())) {
+        if (mData.get(position).getFromUserName().equals(UserInfoManager.get(mActivity).getUserName())) {
             return CHAT_FROM_MINE;
         } else {
             return CHAT_TO_MINE;

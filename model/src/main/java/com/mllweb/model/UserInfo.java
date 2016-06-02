@@ -8,7 +8,16 @@ public class UserInfo {
     private String nickName;
     private String userName = "mllweb1";
     private String headImage = "/IMAGE/head_image.jpg";
+    private String mobile;
     private String password;
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
 
     public String getPassword() {
         return password;
