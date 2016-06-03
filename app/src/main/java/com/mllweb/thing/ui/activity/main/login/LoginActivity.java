@@ -91,7 +91,7 @@ public class LoginActivity extends BaseActivity {
                         callIMLogin(userInfo);
                     }
                 }, OkHttpClientManager.Params.get("userName", mUserName.getText().toString()),
-                OkHttpClientManager.Params.get("password", Utils.md5(mPassword.getText().toString())));
+                OkHttpClientManager.Params.get("password", mPassword.getText().toString()));
     }
 
 

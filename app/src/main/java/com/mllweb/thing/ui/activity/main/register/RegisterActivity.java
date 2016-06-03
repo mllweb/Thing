@@ -4,9 +4,11 @@ import android.widget.EditText;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
+import com.mllweb.model.UserInfo;
 import com.mllweb.network.API;
 import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
+import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.activity.BaseActivity;
 import com.mllweb.thing.utils.Utils;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
@@ -48,7 +50,7 @@ public class RegisterActivity extends BaseActivity {
 
     private void registerServer() {
         String mobile = mMobile.getText().toString();
-        String password = Utils.md5(mPassword.getText().toString());
+        String password = mPassword.getText().toString();
         mHttp.requestPostDomain(API.Register, new OkHttpClientManager.RequestCallback() {
                     @Override
                     public void onFailure(Request request, IOException e) {
@@ -57,16 +59,18 @@ public class RegisterActivity extends BaseActivity {
 
                     @Override
                     public void onResponse(Response response, String body) {
-                        registerIM(mobile, password);
+                        UserInfo userInfo = UserInfoManager.init(body, mActivity);
+                        mRealm.login(userInfo.getId(), body);
+                        registerIM(userInfo);
                     }
                 }, OkHttpClientManager.Params.get("mobile", mobile),
                 OkHttpClientManager.Params.get("password", password));
     }
 
-    private void registerIM(String mobile, String password) {
+    private void registerIM(UserInfo userInfo) {
         new Thread(() -> {
             try {
-                EMClient.getInstance().createAccount(mobile, Utils.md5(mMobile + password));
+                EMClient.getInstance().createAccount(userInfo.getMobile(), Utils.md5(userInfo.getMobile() + userInfo.getPassword()));
             } catch (HyphenateException e) {
                 e.printStackTrace();
             }

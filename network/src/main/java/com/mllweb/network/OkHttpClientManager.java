@@ -3,6 +3,7 @@ package com.mllweb.network;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.Log;
 
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
@@ -31,6 +32,7 @@ public class OkHttpClientManager {
                     params.callback.onFailure(params.request, params.exception);
                     break;
                 case SUCCESS:
+                    Log.i("mllweb-http", params.body);
                     params.callback.onResponse(params.response, params.body);
                     break;
             }
