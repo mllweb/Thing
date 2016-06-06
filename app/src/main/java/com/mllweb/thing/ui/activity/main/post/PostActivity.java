@@ -1,6 +1,7 @@
 package com.mllweb.thing.ui.activity.main.post;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 
@@ -21,6 +22,7 @@ public class PostActivity extends BaseActivity {
     protected int initLayout() {
         return R.layout.activity_post;
     }
+
     @OnClick(R.id.tv_publish)
     public void clickPublish() {
         mValidator.validate();
@@ -42,5 +44,14 @@ public class PostActivity extends BaseActivity {
     @Override
     public void onValidationSucceeded() {
         startActivity(ChooseTopicActivity.class);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+            clickBack(null);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

@@ -20,6 +20,7 @@ import com.mllweb.thing.ui.fragment.main.find.FindFragment;
 import com.mllweb.thing.ui.fragment.main.home.HomeFragment;
 import com.mllweb.thing.ui.fragment.main.message.MessageFragment;
 import com.mllweb.thing.ui.fragment.main.mine.MineFragment;
+import com.mllweb.thing.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,8 +73,12 @@ public class MainActivity extends BaseActivity {
 
     @OnClick(R.id.iv_add_post)
     public void clickAddPost() {
-        startActivity(PostActivity.class);
-        overridePendingTransition(R.anim.post_start, R.anim.post_end);
+        if (mRealm.isLogged()) {
+            startActivity(PostActivity.class);
+            overridePendingTransition(R.anim.post_start, R.anim.post_end);
+        } else {
+            Utils.toast(mActivity, "请先登录");
+        }
     }
 
     @OnClick(R.id.home_layout)

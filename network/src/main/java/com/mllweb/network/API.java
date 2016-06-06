@@ -4,6 +4,8 @@ package com.mllweb.network;
  * Created by Android on 2016/5/27.
  */
 public interface API {
+    String SUCC = "SUCC";
+    String FAIL = "FAIL";
     String LOGIN = "/Login";
     String Register = "/Register";
     String SELECT_THING = "/SelectThing";
@@ -12,4 +14,5 @@ public interface API {
     String INSERT_THING_DISLIKE = "/InsertThingDislike";
     String INSERT_THING_SHARE = "/InsertThingShare";
     String INSERT_THING_COMMENT = "/InsertThingComment";
+
 }

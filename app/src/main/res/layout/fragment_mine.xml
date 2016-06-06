@@ -166,70 +166,11 @@
         android:layout_marginTop="@dimen/activity_margin"
         android:background="@color/white"
         android:orientation="vertical"
-        android:padding="@dimen/activity_margin"
-        android:visibility="gone">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dip"
-            android:text="绑定账号"
-            android:textColor="#999999" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="24dip"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="24dip"
-                android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:src="@drawable/main_tab_add" />
-
-            <ImageView
-                android:layout_width="24dip"
-                android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:src="@drawable/main_tab_add" />
-
-            <ImageView
-                android:layout_width="24dip"
-                android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:src="@drawable/main_tab_add" />
-
-            <ImageView
-                android:layout_width="24dip"
-                android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:src="@drawable/main_tab_add" />
-
-
-            <ImageView
-                android:layout_width="24dip"
-                android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:src="@drawable/main_tab_add" />
-
-            <ImageView
-                android:layout_width="24dip"
-                android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:src="@drawable/main_tab_add" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_margin"
-        android:background="@color/white"
-        android:orientation="vertical"
         android:paddingLeft="@dimen/activity_margin"
         android:paddingRight="@dimen/activity_margin">
 
         <LinearLayout
+            android:id="@+id/my_post"
             android:layout_width="match_parent"
             android:layout_height="48dip"
             android:orientation="horizontal">
@@ -265,6 +206,7 @@
             android:background="@color/split_line" />
 
         <LinearLayout
+            android:id="@+id/my_comment"
             android:layout_width="match_parent"
             android:layout_height="48dip"
             android:orientation="horizontal">
@@ -300,6 +242,7 @@
             android:background="@color/split_line" />
 
         <LinearLayout
+            android:id="@+id/my_collection"
             android:layout_width="match_parent"
             android:layout_height="48dip"
             android:orientation="horizontal">
@@ -335,6 +278,7 @@
             android:background="@color/split_line" />
 
         <LinearLayout
+            android:id="@+id/my_praise"
             android:layout_width="match_parent"
             android:layout_height="48dip"
             android:orientation="horizontal">

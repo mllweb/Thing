@@ -19,6 +19,9 @@ import com.mobsandgeeks.saripaar.annotation.Password;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import butterknife.InjectView;
@@ -86,12 +89,23 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void onResponse(Response response, String body) {
-                        UserInfo userInfo = UserInfoManager.init(body, mActivity);
-                        mRealm.login(userInfo.getId(), body);
-                        callIMLogin(userInfo);
+                        try {
+                            JSONObject object = new JSONObject(body);
+                            JSONObject responseObject = object.optJSONObject("response");
+                            if (responseObject.optString("state").equals(API.SUCC)) {
+                                JSONObject data = responseObject.optJSONObject("data");
+                                UserInfo userInfo = UserInfoManager.put(data.toString(), mActivity);
+                                mRealm.login(userInfo.getId(), data.toString());
+                                callIMLogin(userInfo);
+                            } else {
+                                Utils.toast(mActivity, responseObject.optString("message"));
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }, OkHttpClientManager.Params.get("userName", mUserName.getText().toString()),
-                OkHttpClientManager.Params.get("password", mPassword.getText().toString()));
+                }, OkHttpClientManager.Params.get("loginId", mUserName.getText().toString()),
+                OkHttpClientManager.Params.get("loginPwd", mPassword.getText().toString()));
     }
 
 

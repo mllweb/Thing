@@ -6,7 +6,6 @@ import com.google.gson.Gson;
 import com.mllweb.cache.ARealm;
 import com.mllweb.model.UserInfo;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -19,37 +18,24 @@ public class UserInfoManager {
     }
 
 
-    public static UserInfo init(String json, Activity activity) {
-        try {
-            mUserInfo = new Gson().fromJson(new JSONObject(json).getJSONObject("result").toString(), UserInfo.class);
-            return mUserInfo;
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static UserInfo put(String json, Activity activity) {
+        mUserInfo = new Gson().fromJson(json, UserInfo.class);
+        ARealm.getInstance(activity).updateUserJson(json);
+        return mUserInfo;
     }
 
-    public static void update(String json, Activity activity) {
-        try {
-            mUserInfo = new Gson().fromJson(new JSONObject(json).getJSONObject("result").toString(), UserInfo.class);
-            ARealm.getInstance(activity).updateUserJson(json);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public static UserInfo put(UserInfo userInfo, Activity activity) {
+        JSONObject jsonObject = new JSONObject();
+        return put(new Gson().toJson(userInfo), activity);
     }
 
     public static UserInfo get(Activity activity) {
-        try {
-            if (mUserInfo != null) {
-                return mUserInfo;
-            } else {
-                String json = ARealm.getInstance(activity).getUserJson();
-                mUserInfo = new Gson().fromJson(new JSONObject(json).getJSONObject("result").toString(), UserInfo.class);
-                return mUserInfo;
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (mUserInfo != null) {
+            return mUserInfo;
+        } else {
+            String json = ARealm.getInstance(activity).getUserJson();
+            mUserInfo = new Gson().fromJson(json, UserInfo.class);
+            return mUserInfo;
         }
-        return null;
     }
 }

@@ -41,7 +41,7 @@
             android:value="mllweb#thing" />
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="574f977767e58ef6590012b9"></meta-data>
+            android:value="574f977767e58ef6590012b9" />
 
         <activity android:name=".ui.activity.main.login.LoginActivity" />
         <activity android:name=".ui.activity.main.register.RegisterActivity" />
@@ -90,7 +90,8 @@
 
         <activity android:name=".ui.activity.main.center.BaseInfoActivity" />
         <activity android:name=".ui.activity.main.home.ThingDetailsActivity" />
-        <activity android:name=".ui.activity.main.post.ChooseTopicActivity"></activity>
+        <activity android:name=".ui.activity.main.post.ChooseTopicActivity" />
+        <activity android:name=".ui.activity.main.post.CreateTopicActivity"></activity>
     </application>
 
 </manifest>

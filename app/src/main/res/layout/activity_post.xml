@@ -63,18 +63,21 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/add_option_layout"
-        android:layout_below="@id/action_bar">
+        android:layout_below="@id/action_bar"
+        android:layout_margin="@dimen/activity_margin">
 
         <EditText
             android:id="@+id/et_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="@dimen/activity_margin"
+
             android:background="@null"
             android:focusable="true"
             android:focusableInTouchMode="true"
+            android:gravity="left|top"
             android:hint="发表帖子"
             android:inputType="textMultiLine"
+            android:minHeight="400dip"
             android:textColorHint="#999999"
             android:textSize="14sp" />
     </ScrollView>
