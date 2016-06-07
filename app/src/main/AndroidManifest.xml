@@ -91,7 +91,8 @@
         <activity android:name=".ui.activity.main.center.BaseInfoActivity" />
         <activity android:name=".ui.activity.main.home.ThingDetailsActivity" />
         <activity android:name=".ui.activity.main.post.ChooseTopicActivity" />
-        <activity android:name=".ui.activity.main.post.CreateTopicActivity"></activity>
+        <activity android:name=".ui.activity.main.post.CreateTopicActivity" />
+        <activity android:name=".ui.activity.main.center.EditInfoActivity"></activity>
     </application>
 
 </manifest>

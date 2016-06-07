@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_background"
     android:orientation="vertical">
 
     <LinearLayout
@@ -33,30 +32,58 @@
             android:background="@color/action_bar_split" />
 
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="8dip"
             android:gravity="center_vertical"
-            android:text="@string/setting"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="17sp" />
-    </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_margin">
+        <View
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
 
         <TextView
-            android:id="@+id/tv_about"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/activity_action_bar_height"
-            android:background="@drawable/xml_click_bg"
-            android:clickable="true"
-            android:gravity="center_vertical"
-            android:paddingLeft="@dimen/activity_margin"
-            android:text="@string/about"
-            android:textColor="@color/font_black"
-            android:textSize="@dimen/font_size_normal" />
+            android:id="@+id/tv_save"
+            android:layout_width="48dip"
+            android:layout_height="28dip"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:background="#6605af10"
+            android:enabled="false"
+            android:gravity="center"
+            android:text="保存"
+            android:textColor="#66FFFFFF"
+            android:textSize="14sp" />
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_margin">
+
+        <EditText
+            android:id="@+id/et_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|top"
+            android:inputType="textMultiLine"
+            android:paddingRight="32dip"
+            android:text=""
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_length"
+            android:layout_width="32dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:gravity="center_horizontal|bottom"
+            android:text="20"
+            android:textColor="#999999"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
 </LinearLayout>

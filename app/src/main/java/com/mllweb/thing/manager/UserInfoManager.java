@@ -6,8 +6,6 @@ import com.google.gson.Gson;
 import com.mllweb.cache.ARealm;
 import com.mllweb.model.UserInfo;
 
-import org.json.JSONObject;
-
 /**
  * Created by Android on 2016/5/26.
  */
@@ -25,7 +23,6 @@ public class UserInfoManager {
     }
 
     public static UserInfo put(UserInfo userInfo, Activity activity) {
-        JSONObject jsonObject = new JSONObject();
         return put(new Gson().toJson(userInfo), activity);
     }
 

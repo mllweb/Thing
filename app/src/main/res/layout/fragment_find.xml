@@ -38,7 +38,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dip"
                 android:layout_marginTop="@dimen/activity_margin"
-                android:background="@color/white"
+                android:background="@drawable/xml_click_bg"
+                android:clickable="true"
                 android:orientation="horizontal"
                 android:paddingLeft="@dimen/activity_margin"
                 android:paddingRight="@dimen/activity_margin">
@@ -66,14 +67,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:background="@color/white"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/activity_margin"
-                android:paddingRight="@dimen/activity_margin">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dip"
-                    android:orientation="horizontal">
+                    android:background="@drawable/xml_click_bg"
+                    android:clickable="true"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/activity_margin"
+                    android:paddingRight="@dimen/activity_margin">
 
                     <ImageView
                         android:layout_width="24dip"
@@ -101,7 +104,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dip"
-                    android:orientation="horizontal">
+                    android:background="@drawable/xml_click_bg"
+                    android:clickable="true"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/activity_margin"
+                    android:paddingRight="@dimen/activity_margin">
 
                     <ImageView
                         android:layout_width="24dip"
@@ -129,7 +136,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dip"
-                    android:orientation="horizontal">
+                    android:background="@drawable/xml_click_bg"
+                    android:clickable="true"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/activity_margin"
+                    android:paddingRight="@dimen/activity_margin">
 
                     <ImageView
                         android:layout_width="24dip"
@@ -156,15 +167,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/activity_margin"
                 android:background="@color/white"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/activity_margin"
-                android:paddingRight="@dimen/activity_margin">
+                android:orientation="vertical">
 
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dip"
-                    android:orientation="horizontal">
+                    android:background="@drawable/xml_click_bg"
+                    android:clickable="true"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/activity_margin"
+                    android:paddingRight="@dimen/activity_margin">
 
                     <ImageView
                         android:layout_width="24dip"
@@ -192,7 +205,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="48dip"
-                    android:orientation="horizontal">
+                    android:background="@drawable/xml_click_bg"
+                    android:clickable="true"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/activity_margin"
+                    android:paddingRight="@dimen/activity_margin">
 
                     <ImageView
                         android:layout_width="24dip"

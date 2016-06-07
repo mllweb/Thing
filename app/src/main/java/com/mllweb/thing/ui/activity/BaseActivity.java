@@ -91,6 +91,11 @@ public abstract class BaseActivity extends AppCompatActivity implements Validato
         mActivity.startActivity(intent);
     }
 
+    protected void startActivityForResult(Class cls, int requestCode) {
+        Intent intent = new Intent(mActivity, cls);
+        mActivity.startActivityForResult(intent, requestCode);
+    }
+
     /**
      * 输入框验证成功
      */

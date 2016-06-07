@@ -7,11 +7,15 @@ import android.util.Log;
 
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.FormEncodingBuilder;
+import com.squareup.okhttp.Headers;
+import com.squareup.okhttp.MediaType;
+import com.squareup.okhttp.MultipartBuilder;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -84,6 +88,10 @@ public class OkHttpClientManager {
         requestPost(DOMAIN + url, callback, paramses);
     }
 
+    public void requestPostDomain(String url, final RequestCallback callback, File file, String fileName) {
+        requestPost(DOMAIN + url, callback, file, fileName);
+    }
+
 
     /**
      * post请求
@@ -94,6 +102,31 @@ public class OkHttpClientManager {
      */
     public void requestPost(String url, final RequestCallback callback, Params... paramses) {
         Request request = buildPostRequest(url, paramses);
+        mOkHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                try {
+                    sendFailureCallback(callback, request, e);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onResponse(Response response) throws IOException {
+                sendSuccessCallback(callback, response);
+            }
+        });
+    }
+
+    /**
+     * post请求
+     *
+     * @param url
+     * @param callback
+     */
+    public void requestPost(String url, final RequestCallback callback, File file, String fileName) {
+        Request request = buildPostRequest(url, file, fileName);
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Request request, IOException e) {
@@ -130,6 +163,20 @@ public class OkHttpClientManager {
             return new Request.Builder().url(url).post(requestBody).build();
         }
 
+    }
+
+    /**
+     * 构建Post请求体
+     *
+     * @param url
+     * @return
+     */
+    private Request buildPostRequest(String url, File file, String fileName) {
+        RequestBody requestBody = new MultipartBuilder()
+                .type(MultipartBuilder.FORM)
+                .addPart(Headers.of("Content-Disposition", "form-data; filename=\"" + fileName + "\""), RequestBody.create(MediaType.parse("application/octet-stream"), file))
+                .build();
+        return new Request.Builder().url(url).post(requestBody).build();
     }
 
     /**

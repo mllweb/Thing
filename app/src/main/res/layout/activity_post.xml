@@ -111,7 +111,7 @@
                     android:layout_height="24dip"
                     android:layout_marginBottom="4dip"
                     android:layout_marginTop="8dip"
-                    android:src="@drawable/main_tab_add" />
+                    android:src="@drawable/rc_ic_picture_selected" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -132,55 +132,13 @@
                     android:layout_height="24dip"
                     android:layout_marginBottom="4dip"
                     android:layout_marginTop="8dip"
-                    android:src="@drawable/main_tab_add" />
+                    android:src="@drawable/rc_ic_def_rich_content" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center_horizontal"
-                    android:text="照片"
-                    android:textColor="#999999"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="64dip"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="24dip"
-                    android:layout_marginBottom="4dip"
-                    android:layout_marginTop="8dip"
-                    android:src="@drawable/main_tab_add" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
-                    android:text="照片"
-                    android:textColor="#999999"
-                    android:textSize="12sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="64dip"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="24dip"
-                    android:layout_marginBottom="4dip"
-                    android:layout_marginTop="8dip"
-                    android:src="@drawable/main_tab_add" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center_horizontal"
-                    android:text="照片"
+                    android:text="链接"
                     android:textColor="#999999"
                     android:textSize="12sp" />
             </LinearLayout>

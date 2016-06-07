@@ -11,5 +11,6 @@
     <color name="gray_background">#EFEFEF</color>
     <color name="font_black">#333333</color>
     <color name="split_line">#DEDEDE</color>
+    <color name="click_bg">#D6D6D6</color>
     <color name="link">#4C7EAD</color>
 </resources>
