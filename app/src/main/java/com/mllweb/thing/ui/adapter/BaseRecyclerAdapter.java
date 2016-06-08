@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.mllweb.model.Topic;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -74,5 +76,6 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseHo
         intent.putExtras(mBundle);
         mActivity.startActivity(intent);
     }
+
 
 }

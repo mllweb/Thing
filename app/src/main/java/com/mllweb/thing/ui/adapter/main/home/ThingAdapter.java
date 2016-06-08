@@ -40,6 +40,12 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
         return R.layout.adapter_thing;
     }
 
+    public void resetData(List<Thing> list) {
+        if (list != null) {
+            mData = list;
+            notifyDataSetChanged();
+        }
+    }
 
     @Override
     protected void onBind(BaseHolder holder, Thing thing) {

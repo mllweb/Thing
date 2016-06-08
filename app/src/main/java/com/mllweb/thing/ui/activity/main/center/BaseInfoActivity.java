@@ -5,10 +5,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
+import com.mllweb.loader.ImageLoader;
 import com.mllweb.model.UserInfo;
+import com.mllweb.network.API;
+import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
 import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.activity.BaseActivity;
+import com.mllweb.thing.ui.activity.main.post.ChooseFileActivity;
+import com.mllweb.thing.utils.Utils;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
+
+import java.io.File;
+import java.io.IOException;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -38,6 +48,7 @@ public class BaseInfoActivity extends BaseActivity {
         mUserName.setText("".equals(mUser.getUserName()) ? "未填写" : mUser.getUserName());
         mNickName.setText("".equals(mUser.getNickName()) ? "未填写" : mUser.getNickName());
         mUserSign.setText("".equals(mUser.getUserSign()) ? "未填写" : mUser.getUserSign());
+        mImageLoader.displayImage(OkHttpClientManager.DOMAIN + mUser.getHeadImage(), mHeadImage);
         switch (mUser.getGender()) {
             case 0:
                 mGender.setText(R.string.female);
@@ -80,10 +91,60 @@ public class BaseInfoActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (data != null) {
+            File file = (File) data.getSerializableExtra("file");
+            uploadImage(file);
+        }
+    }
+
+    private void uploadImage(File file) {
+        showLoading("正在上传图片...");
+        String fileName = Utils.getFileName();
+        mHttp.requestPostDomain(API.FILE_UPLOAD, new OkHttpClientManager.RequestCallback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                hideLoading();
+            }
+
+            @Override
+            public void onResponse(Response response, String body) {
+                updateHeadImage(fileName, file);
+            }
+        }, file, fileName);
+    }
+
+    private void updateHeadImage(String fileName, File f) {
+        mHttp.requestPostDomain(API.UPDATE_USER_INFO, new OkHttpClientManager.RequestCallback() {
+                    @Override
+                    public void onFailure(Request request, IOException e) {
+                        hideLoading();
+                    }
+
+                    @Override
+                    public void onResponse(Response response, String body) {
+                        hideLoading();
+                        ImageLoader.getInstance().loadImage(f.getAbsolutePath(), mHeadImage);
+                        mUser.setHeadImage("/IMAGE/" + fileName);
+                        UserInfoManager.put(mUser, mActivity);
+                    }
+                }, OkHttpClientManager.Params.get("id", mUser.getId() + "")
+                , OkHttpClientManager.Params.get("headImage", fileName));
+    }
+
     @OnClick(R.id.layout_nick_name)
     public void clickNickName() {
         Intent intent = new Intent(mActivity, EditInfoActivity.class);
         intent.putExtra("type", EditInfoActivity.NICK_NAME);
         startActivity(intent);
     }
+
+    @OnClick(R.id.head_image)
+    public void clickHeadImage() {
+        Intent intent = new Intent(mActivity, ChooseFileActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
 }

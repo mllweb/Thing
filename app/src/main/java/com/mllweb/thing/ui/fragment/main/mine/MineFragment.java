@@ -7,6 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mllweb.model.UserInfo;
+import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
 import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.activity.main.center.BaseInfoActivity;
@@ -53,7 +54,7 @@ public class MineFragment extends BaseFragment {
 
     private void initUserInfo() {
         UserInfo userinfo = UserInfoManager.get(mActivity);
-        mImageLoader.displayImage(userinfo.getHeadImage(), mHeadImage);
+        mImageLoader.displayImage(OkHttpClientManager.DOMAIN + userinfo.getHeadImage(), mHeadImage);
         mNickName.setText(userinfo.getNickName());
         mUserSign.setText("简介：" + userinfo.getUserSign());
     }

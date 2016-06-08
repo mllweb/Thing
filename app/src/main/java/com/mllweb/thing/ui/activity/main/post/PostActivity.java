@@ -1,10 +1,12 @@
 package com.mllweb.thing.ui.activity.main.post;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 
+import com.mllweb.model.Thing;
 import com.mllweb.thing.R;
 import com.mllweb.thing.ui.activity.BaseActivity;
 import com.mllweb.thing.utils.Utils;
@@ -43,7 +45,11 @@ public class PostActivity extends BaseActivity {
 
     @Override
     public void onValidationSucceeded() {
-        startActivity(ChooseTopicActivity.class);
+        Thing thing = new Thing();
+        thing.setContent(mContent.getText().toString());
+        Intent intent = new Intent(mActivity, ChooseTopicActivity.class);
+        intent.putExtra("thing", thing);
+        startActivity(intent);
     }
 
     @Override

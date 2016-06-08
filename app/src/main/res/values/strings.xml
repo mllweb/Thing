@@ -17,4 +17,5 @@
     <string name="female">女</string>
     <string name="male">男</string>
     <string name="no_filled">未填写</string>
+    <string name="create_topic">创建话题</string>
 </resources>

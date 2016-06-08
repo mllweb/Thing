@@ -45,6 +45,7 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/tv_confirm"
                 android:layout_width="56dip"
                 android:layout_height="32dip"
                 android:layout_alignParentRight="true"

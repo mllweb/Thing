@@ -13,6 +13,7 @@ import com.google.gson.Gson;
 import com.mllweb.cache.ACache;
 import com.mllweb.cache.ARealm;
 import com.mllweb.network.OkHttpClientManager;
+import com.mllweb.thing.ui.view.dialog.LoadingDialog;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
@@ -34,6 +35,7 @@ public abstract class BaseActivity extends AppCompatActivity implements Validato
     protected Validator mValidator;
     protected ARealm mRealm;
     protected Gson mGson;
+    public LoadingDialog mLoadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +67,16 @@ public abstract class BaseActivity extends AppCompatActivity implements Validato
         mValidator.setValidationListener(this);
         mRealm = ARealm.getInstance(mActivity);
         mGson = new Gson();
+        mLoadingDialog = new LoadingDialog();
+    }
+
+    protected void showLoading(String text) {
+        mLoadingDialog.setText(text);
+        mLoadingDialog.show(getSupportFragmentManager(), "loading");
+    }
+
+    protected void hideLoading() {
+        mLoadingDialog.dismiss();
     }
 
     /**
@@ -124,4 +136,5 @@ public abstract class BaseActivity extends AppCompatActivity implements Validato
             break;
         }
     }
+
 }

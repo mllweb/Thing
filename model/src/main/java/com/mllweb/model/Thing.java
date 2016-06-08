@@ -1,11 +1,12 @@
 package com.mllweb.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Android on 2016/5/19.
  */
-public class Thing {
+public class Thing implements Serializable{
     private int id;
     private int userId;
     private String content;

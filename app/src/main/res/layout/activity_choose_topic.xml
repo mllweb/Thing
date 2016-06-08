@@ -36,10 +36,53 @@
             android:id="@+id/et_topic"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/activity_margin"
             android:hint="选择话题"
+            android:singleLine="true"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/create_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:layout_margin="@dimen/activity_margin" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dip"
+            android:layout_marginBottom="@dimen/activity_margin"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_marginTop="@dimen/activity_margin"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="60dip"
+                android:gravity="center_vertical"
+                android:text="创建话题："
+                android:textColor="#333333"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/tv_topic_name"
+                android:layout_width="wrap_content"
+                android:layout_height="60dip"
+                android:gravity="center_vertical"
+                android:text="创建话题："
+                android:textColor="@color/link"
+                android:textSize="16sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

@@ -1,6 +1,7 @@
 package com.mllweb.thing.ui.activity.main.post;
 
 import android.content.ContentResolver;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -77,9 +78,7 @@ public class ChooseFileActivity extends BaseActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         mDirPopup = new ChooseImagePopup(mActivity, mImageFloders);
-
         getImages();
-
     }
 
     @Override
@@ -100,6 +99,24 @@ public class ChooseFileActivity extends BaseActivity {
         });
     }
 
+    @OnClick(R.id.tv_confirm)
+    public void clickConfirm() {
+        int position = 1;
+        Iterator<Integer> keys = mChooseFileAdapter.checkMap.keySet().iterator();
+        while (keys.hasNext()) {
+            int key = keys.next();
+            boolean value = mChooseFileAdapter.checkMap.get(key);
+            if (value) {
+                position = key;
+                break;
+            }
+        }
+        Intent intent = getIntent();
+        intent.putExtra("file", new File(mData.get(position)));
+        setResult(0, intent);
+        finish();
+    }
+
     private void setImageData(String path) {
         mData.clear();
         if (mGruopMap.containsKey(path)) {
@@ -115,7 +132,6 @@ public class ChooseFileActivity extends BaseActivity {
         if (mChooseFileAdapter == null) {
             mChooseFileAdapter = new ChooseFileAdapter(mData, mActivity);
             mFileListView.setLayoutManager(new GridLayoutManager(mActivity, mColumnCount));
-//            mFileListView.addItemDecoration(new RecycleViewDivider(mActivity));
             mFileListView.setAdapter(mChooseFileAdapter);
         } else {
             mChooseFileAdapter.resetData(mData);

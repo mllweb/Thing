@@ -72,11 +72,12 @@ public class EditInfoActivity extends BaseActivity {
     }
 
     private void updateUserSign() {
+        showLoading("正在修改个性签名...");
         String userSign = mEdit.getText().toString();
         mHttp.requestPostDomain(API.UPDATE_USER_INFO, new OkHttpClientManager.RequestCallback() {
                     @Override
                     public void onFailure(Request request, IOException e) {
-
+                        hideLoading();
                     }
 
                     @Override
@@ -90,11 +91,12 @@ public class EditInfoActivity extends BaseActivity {
     }
 
     private void updateNickName() {
+        showLoading("正在修改昵称...");
         String nickname = mEdit.getText().toString();
         mHttp.requestPostDomain(API.UPDATE_USER_INFO, new OkHttpClientManager.RequestCallback() {
                     @Override
                     public void onFailure(Request request, IOException e) {
-
+                        hideLoading();
                     }
 
                     @Override
@@ -108,11 +110,12 @@ public class EditInfoActivity extends BaseActivity {
     }
 
     private void updateUserName() {
+        showLoading("正在添加账户名...");
         String username = mEdit.getText().toString();
         mHttp.requestPostDomain(API.UPDATE_USER_INFO, new OkHttpClientManager.RequestCallback() {
                     @Override
                     public void onFailure(Request request, IOException e) {
-
+                        hideLoading();
                     }
 
                     @Override

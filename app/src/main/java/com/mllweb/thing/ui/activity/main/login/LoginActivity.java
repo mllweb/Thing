@@ -2,6 +2,7 @@ package com.mllweb.thing.ui.activity.main.login;
 
 import android.widget.EditText;
 
+import com.google.gson.Gson;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.mllweb.model.UserInfo;
@@ -72,19 +73,23 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onProgress(int progress, String status) {
+                hideLoading();
             }
 
             @Override
             public void onError(int code, String message) {
+                hideLoading();
             }
         });
     }
 
     private void callServerLogin() {
+        showLoading("正在登陆...");
         mHttp.requestPostDomain(API.LOGIN, new OkHttpClientManager.RequestCallback() {
                     @Override
                     public void onFailure(Request request, IOException e) {
                         Utils.toast(mActivity, "登录失败");
+                        hideLoading();
                     }
 
                     @Override
@@ -94,19 +99,20 @@ public class LoginActivity extends BaseActivity {
                             JSONObject responseObject = object.optJSONObject("response");
                             if (responseObject.optString("state").equals(API.SUCC)) {
                                 JSONObject data = responseObject.optJSONObject("data");
-                                UserInfo userInfo = UserInfoManager.put(data.toString(), mActivity);
+                                UserInfo userInfo = new Gson().fromJson(data.toString(), UserInfo.class);
                                 mRealm.login(userInfo.getId(), data.toString());
+                                UserInfoManager.put(data.toString(), mActivity);
                                 callIMLogin(userInfo);
                             } else {
+                                hideLoading();
                                 Utils.toast(mActivity, responseObject.optString("message"));
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            hideLoading();
                         }
                     }
                 }, OkHttpClientManager.Params.get("loginId", mUserName.getText().toString()),
                 OkHttpClientManager.Params.get("loginPwd", mPassword.getText().toString()));
     }
-
-
 }

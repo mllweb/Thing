@@ -56,10 +56,16 @@ public class Utils {
     public static void toast(Activity activity, String msg) {
         Toast.makeText(activity, msg, Toast.LENGTH_SHORT).show();
     }
-    public static void log( String msg) {
-        Log.i("mllweb-info",msg);
+
+    public static void log(String msg) {
+        Log.i("mllweb-info", msg);
     }
-    public static String md5(String value){
+
+    public static String getFileName() {
+        return System.nanoTime() + "" + (Math.random() + "").substring(2, 8);
+    }
+
+    public static String md5(String value) {
         byte[] hash;
 
         try {

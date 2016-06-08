@@ -13,6 +13,7 @@ import com.mllweb.thing.ui.activity.main.home.ThingDetailsActivity;
 import com.mllweb.thing.ui.adapter.BaseHolder;
 import com.mllweb.thing.ui.adapter.main.home.ThingAdapter;
 import com.mllweb.thing.ui.fragment.BaseFragment;
+import com.mllweb.thing.utils.Utils;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
@@ -42,7 +43,9 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initData(Bundle arguments) {
+        mThingsView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mThingAdapter = new ThingAdapter(mThingList, mActivity);
+        mThingsView.setAdapter(mThingAdapter);
         mHttp.requestGetDomain(API.SELECT_THING, new OkHttpClientManager.RequestCallback() {
             @Override
             public void onFailure(Request request, IOException e) {
@@ -52,14 +55,20 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onResponse(Response response, String body) {
                 try {
-                    JSONArray jsonArray = new JSONArray(body);
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject o = jsonArray.getJSONObject(i);
-                        Thing thing = mGson.fromJson(o.toString(), Thing.class);
-                        mThingList.add(thing);
+                    JSONObject object = new JSONObject(body);
+                    JSONObject responseObject = object.optJSONObject("response");
+                    if (responseObject.optString("state").equals(API.SUCC)) {
+                        JSONArray data = responseObject.optJSONArray("data");
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject o = data.getJSONObject(i);
+                            Thing thing = mGson.fromJson(o.toString(), Thing.class);
+                            mThingList.add(thing);
+                        }
+                     mThingAdapter.resetData(mThingList);
+                    } else {
+                        Utils.toast(mActivity, responseObject.optString("message"));
                     }
-                    mThingsView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                    mThingsView.setAdapter(mThingAdapter);
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -75,5 +84,9 @@ public class HomeFragment extends BaseFragment {
                 startActivity(ThingDetailsActivity.class);
             }
         });
+    }
+
+    public void loadMore(){
+        Utils.toast(mActivity,"空啊早给你更多");
     }
 }

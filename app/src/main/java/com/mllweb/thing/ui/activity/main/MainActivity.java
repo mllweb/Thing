@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +53,7 @@ public class MainActivity extends BaseActivity {
     private MainPagerAdapter mMainPagerAdapter;
     private List<Fragment> mFragmentData = new ArrayList<>();
     private long exitTime = 0;
+
     @Override
     protected int initLayout() {
         return R.layout.activity_main;
@@ -68,7 +70,7 @@ public class MainActivity extends BaseActivity {
         mMainPagerAdapter = new MainPagerAdapter(getSupportFragmentManager(), mFragmentData);
         mMainPager.setAdapter(mMainPagerAdapter);
         mMainPager.setOffscreenPageLimit(mFragmentData.size());
-        clickHome();
+        clickHome(null);
     }
 
     @OnClick(R.id.iv_add_post)
@@ -82,11 +84,16 @@ public class MainActivity extends BaseActivity {
     }
 
     @OnClick(R.id.home_layout)
-    public void clickHome() {
-        resetIcon();
-        mHomeIcon.setImageResource(mIconSelecteds[0]);
-        mHomeText.setTextColor(mResources.getColor(R.color.theme_color_green));
-        mMainPager.setCurrentItem(0, false);
+    public void clickHome(View v) {
+        if (mMainPager.getCurrentItem() == 0 && v != null) {
+            HomeFragment home = (HomeFragment) mFragmentData.get(0);
+            home.loadMore();
+        } else {
+            resetIcon();
+            mHomeIcon.setImageResource(mIconSelecteds[0]);
+            mHomeText.setTextColor(mResources.getColor(R.color.theme_color_green));
+            mMainPager.setCurrentItem(0, false);
+        }
     }
 
     @OnClick(R.id.find_layout)
@@ -152,10 +159,11 @@ public class MainActivity extends BaseActivity {
             });
         }
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN){
-            if((System.currentTimeMillis()-exitTime) > 1000){
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getKeyCode()==0) {
+            if ((System.currentTimeMillis() - exitTime) > 1000) {
                 Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
             } else {

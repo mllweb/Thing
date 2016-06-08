@@ -157,6 +157,7 @@ public class OkHttpClientManager {
             return new Request.Builder().url(url).build();
         } else {
             for (Params p : paramses) {
+                if (p.value == null) p.value = "";
                 builder.add(p.key, p.value);
             }
             RequestBody requestBody = builder.build();

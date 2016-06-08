@@ -2,6 +2,7 @@ package com.mllweb.thing.ui.activity.main.register;
 
 import android.widget.EditText;
 
+import com.google.gson.Gson;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
 import com.mllweb.model.UserInfo;
@@ -55,12 +56,13 @@ public class RegisterActivity extends BaseActivity {
     }
 
     private void registerServer() {
+        showLoading("正在注册...");
         String mobile = mMobile.getText().toString();
         String password = mPassword.getText().toString();
         mHttp.requestPostDomain(API.Register, new OkHttpClientManager.RequestCallback() {
                     @Override
                     public void onFailure(Request request, IOException e) {
-
+                        hideLoading();
                     }
 
                     @Override
@@ -70,13 +72,16 @@ public class RegisterActivity extends BaseActivity {
                             JSONObject responseObject = object.optJSONObject("response");
                             if (responseObject.optString("state").equals(API.SUCC)) {
                                 JSONObject data = responseObject.optJSONObject("data");
-                                UserInfo userInfo = UserInfoManager.put(data.toString(), mActivity);
+                                UserInfo userInfo = new Gson().fromJson(data.toString(), UserInfo.class);
                                 mRealm.login(userInfo.getId(), data.toString());
+                                UserInfoManager.put(data.toString(), mActivity);
                                 registerIM(userInfo);
                             } else {
+                                hideLoading();
                                 Utils.toast(mActivity, responseObject.optString("message"));
                             }
                         } catch (JSONException e) {
+                            hideLoading();
                             e.printStackTrace();
                         }
                     }
@@ -91,6 +96,7 @@ public class RegisterActivity extends BaseActivity {
                 startActivity(MainActivity.class);
             } catch (HyphenateException e) {
                 e.printStackTrace();
+                hideLoading();
             }
         }).start();
     }

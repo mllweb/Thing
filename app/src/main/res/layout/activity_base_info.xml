@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_background"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <LinearLayout
@@ -50,6 +52,7 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/head_image"
             android:layout_width="match_parent"
             android:layout_height="88dip"
             android:background="@drawable/xml_click_bg"
@@ -71,8 +74,7 @@
                 android:layout_height="64dip"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:src="@drawable/qzone_list_item_forward_normal" />
+                android:layout_marginRight="@dimen/activity_margin" />
         </RelativeLayout>
 
         <View
@@ -211,10 +213,9 @@
                 android:id="@+id/tv_user_sign"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/activity_margin"
                 android:layout_marginRight="@dimen/activity_margin"
                 android:gravity="right|center_vertical"
-                android:inputType="textMultiLine"
+                android:paddingLeft="@dimen/activity_margin"
                 android:text="未填写"
                 android:textColor="#999999"
                 android:textSize="13sp" />

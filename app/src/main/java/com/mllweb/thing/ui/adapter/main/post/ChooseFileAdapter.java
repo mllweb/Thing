@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import com.mllweb.loader.ImageLoader;
@@ -12,16 +13,21 @@ import com.mllweb.thing.R;
 import com.mllweb.thing.ui.adapter.BaseHolder;
 import com.mllweb.thing.ui.adapter.BaseRecyclerAdapter;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Android on 2016/5/20.
  */
 public class ChooseFileAdapter extends BaseRecyclerAdapter<String> {
+    public Map<Integer, Boolean> checkMap = new HashMap<>();
+
     public ChooseFileAdapter(List<String> mData, Activity activity) {
         super(mData, activity);
         mData.add(0, "");
     }
+
 
     public void resetData(List<String> data) {
         if (data != null) {
@@ -43,17 +49,25 @@ public class ChooseFileAdapter extends BaseRecyclerAdapter<String> {
         if (holder.getPosition() == 0) {
             check.setVisibility(View.GONE);
             iv.setImageResource(R.drawable.take_photo);
-            iv.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    takePhoto();
-                }
+            iv.setOnClickListener(v -> {
+                takePhoto();
             });
         } else {
             check.setVisibility(View.VISIBLE);
             iv.setOnClickListener(null);
             ImageLoader.getInstance().loadImage(filePath, iv);
         }
+        check.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                checkMap.put(holder.getPosition(), isChecked);
+            }
+        });
+        int position = holder.getPosition();
+        if (!checkMap.containsKey(position)) {
+            checkMap.put(position, false);
+        }
+        check.setChecked(checkMap.get(position));
     }
 
     private void takePhoto() {

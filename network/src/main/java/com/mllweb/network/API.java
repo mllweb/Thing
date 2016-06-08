@@ -12,6 +12,7 @@ public interface API {
     String SELECT_TOPIC = "/SelectTopic";
     String SELECT_THING = "/SelectThing";
     String INSERT_THING = "/InsertThing";
+    String INSERT_TOPIC = "/InsertTopic";
     String INSERT_THING_PRAISE = "/InsertThingPraise";
     String INSERT_THING_DISLIKE = "/InsertThingDislike";
     String INSERT_THING_SHARE = "/InsertThingShare";
