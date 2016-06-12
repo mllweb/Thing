@@ -48,7 +48,7 @@ public class BaseInfoActivity extends BaseActivity {
         mUserName.setText("".equals(mUser.getUserName()) ? "未填写" : mUser.getUserName());
         mNickName.setText("".equals(mUser.getNickName()) ? "未填写" : mUser.getNickName());
         mUserSign.setText("".equals(mUser.getUserSign()) ? "未填写" : mUser.getUserSign());
-        mImageLoader.displayImage(OkHttpClientManager.DOMAIN + mUser.getHeadImage(), mHeadImage);
+        mImageLoader.displayImage(OkHttpClientManager.DOMAIN + mUser.getHeadImage(), mHeadImage, Utils.getListOptions());
         switch (mUser.getGender()) {
             case 0:
                 mGender.setText(R.string.female);
@@ -95,8 +95,8 @@ public class BaseInfoActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (data != null) {
-            File file = (File) data.getSerializableExtra("file");
-            uploadImage(file);
+            File[] file = (File[]) data.getSerializableExtra("files");
+            uploadImage(file[0]);
         }
     }
 
@@ -127,7 +127,7 @@ public class BaseInfoActivity extends BaseActivity {
                     public void onResponse(Response response, String body) {
                         hideLoading();
                         ImageLoader.getInstance().loadImage(f.getAbsolutePath(), mHeadImage);
-                        mUser.setHeadImage("/IMAGE/" + fileName);
+                        mUser.setHeadImage(API.IMAGE + fileName);
                         UserInfoManager.put(mUser, mActivity);
                     }
                 }, OkHttpClientManager.Params.get("id", mUser.getId() + "")

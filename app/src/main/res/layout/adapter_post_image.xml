@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dip"
+    android:background="@color/gray_background">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="72dip"
+        android:layout_centerInParent="true"
+        android:scaleType="centerCrop"/>
+
+    <ImageView
+        android:id="@+id/remove"
+        android:layout_width="24dip"
+        android:layout_height="24dip"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_close_suspend_layer" />
+</RelativeLayout>

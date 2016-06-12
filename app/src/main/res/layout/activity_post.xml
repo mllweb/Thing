@@ -59,27 +59,84 @@
     </LinearLayout>
 
     <ScrollView
-        android:id="@+id/post_layout"
+
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/add_option_layout"
         android:layout_below="@id/action_bar"
-        android:layout_margin="@dimen/activity_margin">
+        android:layout_margin="@dimen/activity_margin"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
-        <EditText
-            android:id="@+id/et_content"
+        <LinearLayout
+            android:id="@+id/post_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            android:background="@null"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="left|top"
-            android:hint="发表帖子"
-            android:inputType="textMultiLine"
-            android:minHeight="400dip"
-            android:textColorHint="#999999"
-            android:textSize="16sp" />
+            <EditText
+                android:id="@+id/et_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="left|top"
+                android:hint="发表帖子"
+                android:inputType="textMultiLine"
+                android:textColorHint="#999999"
+                android:textSize="16sp" />
+
+            <RelativeLayout
+                android:id="@+id/link_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="48dip"
+                    android:layout_marginTop="@dimen/activity_margin"
+                    android:background="@color/gray_background"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="32dip"
+                        android:layout_height="32dip"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/rc_ic_def_rich_content"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:id="@+id/tv_link"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dip"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:paddingLeft="@dimen/activity_margin"
+                        android:paddingRight="@dimen/activity_margin"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="#333333"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+
+                <ImageView
+                    android:id="@+id/iv_close_link"
+                    android:layout_width="24dip"
+                    android:layout_height="24dip"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_close_suspend_layer" />
+            </RelativeLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/image_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_margin" />
+
+        </LinearLayout>
     </ScrollView>
 
     <LinearLayout
@@ -102,6 +159,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:id="@+id/choose_image"
                 android:layout_width="64dip"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
@@ -123,6 +181,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/choose_link"
                 android:layout_width="64dip"
                 android:layout_height="match_parent"
                 android:orientation="vertical">

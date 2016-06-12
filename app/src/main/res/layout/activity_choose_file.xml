@@ -46,15 +46,17 @@
 
             <TextView
                 android:id="@+id/tv_confirm"
-                android:layout_width="56dip"
+                android:layout_width="wrap_content"
                 android:layout_height="32dip"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/activity_margin"
-                android:background="@color/theme_color_green"
+                android:background="#6605af10"
                 android:gravity="center"
+                android:paddingLeft="@dimen/activity_margin"
+                android:paddingRight="@dimen/activity_margin"
                 android:text="完成"
-                android:textColor="@color/white"
+                android:textColor="#66FFFFFF"
                 android:textSize="@dimen/action_bar_title_text_size" />
         </RelativeLayout>
     </LinearLayout>
@@ -110,6 +112,7 @@
             android:layout_marginRight="@dimen/activity_margin"
             android:gravity="center"
             android:text="预览"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:visibility="gone" />
     </RelativeLayout>
 </RelativeLayout>

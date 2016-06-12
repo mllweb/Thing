@@ -66,7 +66,8 @@
                 android:layout_width="64dip"
                 android:layout_height="64dip"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/activity_margin" />
+                android:layout_marginLeft="@dimen/activity_margin"
+                android:src="@drawable/rc_ic_def_coversation_portrait" />
 
             <LinearLayout
                 android:layout_width="match_parent"

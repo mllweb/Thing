@@ -39,11 +39,14 @@ public class ChooseFileActivity extends BaseActivity {
     RecyclerView mFileListView;
     @InjectView(R.id.tv_image_dir)
     TextView mImageDir;
+    @InjectView(R.id.tv_confirm)
+    TextView mConfirm;
     @InjectView(R.id.mask)
     View mMask;
     private ChooseFileAdapter mChooseFileAdapter;
     private final int mColumnCount = 3;
     private ChooseImagePopup mDirPopup;
+    private int chooseCount;
     /**
      * 临时的辅助类，用于防止同一个文件夹的多次扫描
      */
@@ -77,6 +80,7 @@ public class ChooseFileActivity extends BaseActivity {
 
     @Override
     protected void initData(Bundle savedInstanceState) {
+        chooseCount = getIntent().getIntExtra("count", 1);
         mDirPopup = new ChooseImagePopup(mActivity, mImageFloders);
         getImages();
     }
@@ -101,18 +105,20 @@ public class ChooseFileActivity extends BaseActivity {
 
     @OnClick(R.id.tv_confirm)
     public void clickConfirm() {
-        int position = 1;
+        File[] files = new File[chooseCount];
+        int i = 0;
         Iterator<Integer> keys = mChooseFileAdapter.checkMap.keySet().iterator();
         while (keys.hasNext()) {
+
             int key = keys.next();
             boolean value = mChooseFileAdapter.checkMap.get(key);
             if (value) {
-                position = key;
-                break;
+                files[i] = new File(mData.get(key));
+                i++;
             }
         }
         Intent intent = getIntent();
-        intent.putExtra("file", new File(mData.get(position)));
+        intent.putExtra("files", files);
         setResult(0, intent);
         finish();
     }
@@ -130,7 +136,20 @@ public class ChooseFileActivity extends BaseActivity {
             }
         }
         if (mChooseFileAdapter == null) {
-            mChooseFileAdapter = new ChooseFileAdapter(mData, mActivity);
+            mChooseFileAdapter = new ChooseFileAdapter(mData, mActivity, chooseCount);
+            mChooseFileAdapter.setOnCheckListener(count -> {
+                if (count > 0) {
+                    mConfirm.setText(String.format("完成(%d/%d)", count, chooseCount));
+                    mConfirm.setEnabled(true);
+                    mConfirm.setBackgroundColor(0xFF05af10);
+                    mConfirm.setTextColor(0xFFFFFFFF);
+                } else {
+                    mConfirm.setText("完成");
+                    mConfirm.setEnabled(false);
+                    mConfirm.setBackgroundColor(0x6605af10);
+                    mConfirm.setTextColor(0x66FFFFFF);
+                }
+            });
             mFileListView.setLayoutManager(new GridLayoutManager(mActivity, mColumnCount));
             mFileListView.setAdapter(mChooseFileAdapter);
         } else {

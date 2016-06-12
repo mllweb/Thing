@@ -4,6 +4,7 @@ package com.mllweb.network;
  * Created by Android on 2016/5/27.
  */
 public interface API {
+    String IMAGE="/IMAGE/";
     String SUCC = "SUCC";
     String FAIL = "FAIL";
     String FILE_UPLOAD = "/FileUpload";

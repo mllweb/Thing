@@ -1,12 +1,14 @@
 package com.mllweb.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Android on 2016/5/19.
  */
-public class Thing implements Serializable{
+public class Thing implements Serializable {
     private int id;
     private int userId;
     private String content;
@@ -19,9 +21,20 @@ public class Thing implements Serializable{
     private String nickName;
     private String headImage;
     private String topicName;
+    @SerializedName("praise")
     private boolean isPraise;
+    @SerializedName("disLike")
     private boolean isDislike;
     private List<ThingFile> thingFiles;
+    private String link;
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
+    }
 
     public int getId() {
         return id;

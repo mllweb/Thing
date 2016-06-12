@@ -12,8 +12,10 @@ import com.mllweb.loader.ImageLoader;
 import com.mllweb.thing.R;
 import com.mllweb.thing.ui.adapter.BaseHolder;
 import com.mllweb.thing.ui.adapter.BaseRecyclerAdapter;
+import com.mllweb.thing.utils.Utils;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -22,9 +24,16 @@ import java.util.Map;
  */
 public class ChooseFileAdapter extends BaseRecyclerAdapter<String> {
     public Map<Integer, Boolean> checkMap = new HashMap<>();
+    private int count;
+    private OnCheckListener mListener;
 
-    public ChooseFileAdapter(List<String> mData, Activity activity) {
+    public void setOnCheckListener(OnCheckListener listener) {
+        mListener = listener;
+    }
+
+    public ChooseFileAdapter(List<String> mData, Activity activity, int count) {
         super(mData, activity);
+        this.count = count;
         mData.add(0, "");
     }
 
@@ -61,6 +70,16 @@ public class ChooseFileAdapter extends BaseRecyclerAdapter<String> {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 checkMap.put(holder.getPosition(), isChecked);
+                int getCount = getCount();
+                if (getCount > count) {
+                    Utils.toast(mActivity, String.format("最多选择%d张", count));
+                    buttonView.setChecked(false);
+                    checkMap.put(holder.getPosition(), false);
+                    getCount--;
+                }
+                if (mListener != null) {
+                    mListener.check(getCount);
+                }
             }
         });
         int position = holder.getPosition();
@@ -73,5 +92,22 @@ public class ChooseFileAdapter extends BaseRecyclerAdapter<String> {
     private void takePhoto() {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         mActivity.startActivityForResult(intent, 1);
+    }
+
+    private int getCount() {
+        int count = 0;
+        Iterator<Integer> keys = checkMap.keySet().iterator();
+        while (keys.hasNext()) {
+            int key = keys.next();
+            boolean value = checkMap.get(key);
+            if (value) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public interface OnCheckListener {
+        void check(int count);
     }
 }

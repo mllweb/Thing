@@ -10,8 +10,10 @@ import android.widget.TextView;
 
 import com.mllweb.cache.ARealm;
 import com.mllweb.model.Thing;
+import com.mllweb.network.API;
 import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
+import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.activity.BaseActivity;
 import com.mllweb.thing.ui.activity.main.home.ThingDetailsActivity;
 import com.mllweb.thing.ui.adapter.BaseHolder;
@@ -19,11 +21,14 @@ import com.mllweb.thing.ui.adapter.BaseRecyclerAdapter;
 import com.mllweb.thing.ui.view.dialog.ShareDialog;
 import com.mllweb.thing.utils.Utils;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -34,6 +39,9 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
     public ThingAdapter(List<Thing> mData, Activity activity) {
         super(mData, activity);
     }
+
+    public Thing shareThing;
+    public TextView shareTextCount;
 
     @Override
     protected int onCreate() {
@@ -57,6 +65,7 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
         TextView dislikeCount = holder.getView(R.id.tv_dislike);
         TextView commentCount = holder.getView(R.id.tv_comment);
         TextView shareCount = holder.getView(R.id.tv_share);
+        TextView link = holder.getView(R.id.tv_link);
         ImageView praiseIcon = holder.getView(R.id.iv_praise);
         ImageView dislikeIcon = holder.getView(R.id.iv_dislike);
         RelativeLayout praiseLayout = holder.getView(R.id.praise_layout);
@@ -66,6 +75,12 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
 
         content.setText(thing.getContent());
         topic.setText("#" + thing.getTopicName() + "#");
+        if (thing.getLink() != null && (!thing.getLink().equals(""))) {
+            link.setText(thing.getLink());
+            link.setVisibility(View.VISIBLE);
+        } else {
+            link.setVisibility(View.GONE);
+        }
         nickName.setText(thing.getNickName());
         ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + thing.getHeadImage(), headImage);
         praiseCount.setText(thing.getPraiseCount() + "");
@@ -82,7 +97,7 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
             dislikeLayout.setOnClickListener(new OnDislikeClick(thing, dislikeIcon, dislikeCount, praiseLayout, dislikeLayout));
         }
         commentLayout.setOnClickListener(new onCommentClick());
-        shareLayout.setOnClickListener(new onShareClick());
+        shareLayout.setOnClickListener(new OnShareClick(thing, shareCount));
         RecyclerView attachmentListView = holder.getView(R.id.attachment_view);
         ThingFileAdapter adapter = new ThingFileAdapter(thing.getThingFiles(), mActivity);
         attachmentListView.setLayoutManager(new GridLayoutManager(mActivity, 3));
@@ -110,12 +125,24 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
         @Override
         public void onClick(View v) {
             if (ARealm.getInstance(mActivity).isLogged()) {
-                thing.setPraise(true);
-                thing.setPraiseCount(thing.getPraiseCount() + 1);
-                count.setText(thing.getPraiseCount() + "");
-                icon.setImageResource(R.drawable.praise_);
                 praiseLayout.setOnClickListener(null);
                 dislikeLayout.setOnClickListener(null);
+                OkHttpClientManager.getInstance().requestPostDomain(API.INSERT_THING_PRAISE, new OkHttpClientManager.RequestCallback() {
+                            @Override
+                            public void onFailure(Request request, IOException e) {
+                                praiseLayout.setOnClickListener(OnPraiseClick.this);
+                                dislikeLayout.setOnClickListener(OnPraiseClick.this);
+                            }
+
+                            @Override
+                            public void onResponse(Response response, String body) {
+                                thing.setPraise(true);
+                                thing.setPraiseCount(thing.getPraiseCount() + 1);
+                                count.setText(thing.getPraiseCount() + "");
+                                icon.setImageResource(R.drawable.praise_);
+                            }
+                        }, OkHttpClientManager.Params.get("userId", UserInfoManager.get(mActivity).getId() + "")
+                        , OkHttpClientManager.Params.get("thingId", thing.getId() + ""));
             } else {
                 Utils.toast(mActivity, "请先登录");
             }
@@ -140,12 +167,24 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
         @Override
         public void onClick(View v) {
             if (ARealm.getInstance(mActivity).isLogged()) {
-                thing.setDislike(true);
-                thing.setDislikeCount(thing.getDislikeCount() + 1);
-                count.setText(thing.getDislikeCount() + "");
-                icon.setImageResource(R.drawable.dislike_);
                 praiseLayout.setOnClickListener(null);
                 dislikeLayout.setOnClickListener(null);
+                OkHttpClientManager.getInstance().requestPostDomain(API.INSERT_THING_DISLIKE, new OkHttpClientManager.RequestCallback() {
+                            @Override
+                            public void onFailure(Request request, IOException e) {
+                                praiseLayout.setOnClickListener(OnDislikeClick.this);
+                                dislikeLayout.setOnClickListener(OnDislikeClick.this);
+                            }
+
+                            @Override
+                            public void onResponse(Response response, String body) {
+                                thing.setDislike(true);
+                                thing.setDislikeCount(thing.getDislikeCount() + 1);
+                                count.setText(thing.getDislikeCount() + "");
+                                icon.setImageResource(R.drawable.dislike_);
+                            }
+                        }, OkHttpClientManager.Params.get("userId", UserInfoManager.get(mActivity).getId() + "")
+                        , OkHttpClientManager.Params.get("thingId", thing.getId() + ""));
             } else {
                 Utils.toast(mActivity, "请先登录");
             }
@@ -160,7 +199,14 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
         }
     }
 
-    private class onShareClick implements View.OnClickListener, ShareDialog.OnShareListener {
+    public class OnShareClick implements View.OnClickListener, ShareDialog.OnShareListener {
+
+
+        public OnShareClick(Thing thing, TextView textCount) {
+            shareThing = thing;
+            shareTextCount = textCount;
+        }
+
         @Override
         public void onClick(View v) {
             ShareDialog shareDialog = new ShareDialog();
@@ -180,6 +226,7 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
         new ShareAction(mActivity)
                 .setPlatform(platform)
                 .setCallback(this)
+                .withTitle("标题")
                 .withText("那点事儿")
                 .withTargetUrl("http://www.baidu.com")
                 .withMedia(new UMImage(mActivity, R.mipmap.ic_launcher))
@@ -189,6 +236,19 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
     @Override
     public void onResult(SHARE_MEDIA share_media) {
         Utils.toast(mActivity, "分享成功了");
+        OkHttpClientManager.getInstance().requestPostDomain(API.INSERT_THING_SHARE, new OkHttpClientManager.RequestCallback() {
+                    @Override
+                    public void onFailure(Request request, IOException e) {
+                    }
+
+                    @Override
+                    public void onResponse(Response response, String body) {
+                        shareThing.setDislikeCount(shareThing.getDislikeCount() + 1);
+                        shareTextCount.setText(shareThing.getDislikeCount() + "");
+                    }
+                }, OkHttpClientManager.Params.get("userId", UserInfoManager.get(mActivity).getId() + "")
+                , OkHttpClientManager.Params.get("thingId", shareThing.getId() + "")
+                , OkHttpClientManager.Params.get("platform", share_media.name()));
     }
 
     @Override

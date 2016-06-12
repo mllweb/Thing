@@ -243,7 +243,11 @@ public class OkHttpClientManager {
             this.callback = callback;
             this.request = request;
             this.exception = exception;
-            this.body = response.body().string();
+            if (response != null) {
+                this.body = response.body().string();
+            } else {
+                this.body = "";
+            }
         }
     }
 

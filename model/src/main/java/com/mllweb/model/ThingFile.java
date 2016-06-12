@@ -3,10 +3,19 @@ package com.mllweb.model;
 import java.io.Serializable;
 
 public class ThingFile implements Serializable {
+
     private int id;
     private int thingId;
     private String filePath;
     private int fileType;
+
+    public ThingFile() {
+    }
+
+    public ThingFile(int fileType, String filePath) {
+        this.fileType = fileType;
+        this.filePath = filePath;
+    }
 
     public int getId() {
         return id;

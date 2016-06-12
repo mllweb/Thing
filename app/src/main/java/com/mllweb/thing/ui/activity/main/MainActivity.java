@@ -1,5 +1,6 @@
 package com.mllweb.thing.ui.activity.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -22,6 +23,7 @@ import com.mllweb.thing.ui.fragment.main.home.HomeFragment;
 import com.mllweb.thing.ui.fragment.main.message.MessageFragment;
 import com.mllweb.thing.ui.fragment.main.mine.MineFragment;
 import com.mllweb.thing.utils.Utils;
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -162,7 +164,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getKeyCode()==0) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getKeyCode() == 0) {
             if ((System.currentTimeMillis() - exitTime) > 1000) {
                 Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
                 exitTime = System.currentTimeMillis();
@@ -172,5 +174,11 @@ public class MainActivity extends BaseActivity {
             return true;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
 }

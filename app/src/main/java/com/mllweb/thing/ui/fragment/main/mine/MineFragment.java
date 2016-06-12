@@ -54,10 +54,14 @@ public class MineFragment extends BaseFragment {
 
     private void initUserInfo() {
         UserInfo userinfo = UserInfoManager.get(mActivity);
-        mImageLoader.displayImage(OkHttpClientManager.DOMAIN + userinfo.getHeadImage(), mHeadImage);
+        mImageLoader.displayImage(OkHttpClientManager.DOMAIN + userinfo.getHeadImage(), mHeadImage, Utils.getListOptions());
         mNickName.setText(userinfo.getNickName());
-        mUserSign.setText("简介：" + userinfo.getUserSign());
-    }
+        if (userinfo.getUserSign() == null || userinfo.getUserSign().equals("")) {
+            mUserSign.setText("这家伙很懒，什么都没有留下");
+        } else {
+            mUserSign.setText("简介：" + userinfo.getUserSign());
+        }
+}
 
     @OnClick(R.id.tv_setting)
     public void clickSetting() {

@@ -9,6 +9,7 @@ import com.mllweb.model.Thing;
 import com.mllweb.network.API;
 import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
+import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.activity.main.home.ThingDetailsActivity;
 import com.mllweb.thing.ui.adapter.BaseHolder;
 import com.mllweb.thing.ui.adapter.main.home.ThingAdapter;
@@ -46,7 +47,11 @@ public class HomeFragment extends BaseFragment {
         mThingsView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mThingAdapter = new ThingAdapter(mThingList, mActivity);
         mThingsView.setAdapter(mThingAdapter);
-        mHttp.requestGetDomain(API.SELECT_THING, new OkHttpClientManager.RequestCallback() {
+        int userId = 0;
+        if (mRealm.isLogged()) {
+            userId = UserInfoManager.get(mActivity).getId();
+        }
+        mHttp.requestPostDomain(API.SELECT_THING, new OkHttpClientManager.RequestCallback() {
             @Override
             public void onFailure(Request request, IOException e) {
 
@@ -64,7 +69,7 @@ public class HomeFragment extends BaseFragment {
                             Thing thing = mGson.fromJson(o.toString(), Thing.class);
                             mThingList.add(thing);
                         }
-                     mThingAdapter.resetData(mThingList);
+                        mThingAdapter.resetData(mThingList);
                     } else {
                         Utils.toast(mActivity, responseObject.optString("message"));
                     }
@@ -73,7 +78,7 @@ public class HomeFragment extends BaseFragment {
                     e.printStackTrace();
                 }
             }
-        });
+        }, OkHttpClientManager.Params.get("userId", userId + ""));
     }
 
     @Override
@@ -86,7 +91,7 @@ public class HomeFragment extends BaseFragment {
         });
     }
 
-    public void loadMore(){
-        Utils.toast(mActivity,"空啊早给你更多");
+    public void loadMore() {
+        Utils.toast(mActivity, "空啊早给你更多");
     }
 }

@@ -2,18 +2,16 @@ package com.mllweb.thing;
 
 import android.app.ActivityManager;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.utils.L;
+import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 
 import java.util.Iterator;
@@ -28,23 +26,24 @@ public class Application extends android.app.Application {
         super.onCreate();
         int pid = android.os.Process.myPid();
         String processAppName = getAppName(pid);
-        if (processAppName == null ||!processAppName.equalsIgnoreCase(getPackageName())) {
+        if (processAppName == null || !processAppName.equalsIgnoreCase(getPackageName())) {
             // 则此application::onCreate 是被service 调用的，直接返回
-        }else {
+        } else {
             initImageLoader();
             initEaseIm();
             initShare();
         }
     }
-private void initShare(){
-    //微信 appid appsecret
-    PlatformConfig.setWeixin("wx967daebe835fbeac", "5bb696d9ccd75a38c8a0bfe0675559b3");
-    //新浪微博 appkey appsecret
-    PlatformConfig.setSinaWeibo("3921700954","04b48b094faeb16683c32669824ebdad");
-    // QQ和Qzone appid appkey
-    PlatformConfig.setQQZone("1105370635", "LRy2r96UVlc6vf6A");
-}
 
+    private void initShare() {
+        Config.isloadUrl = true;
+        //微信 appid appsecret
+        PlatformConfig.setWeixin("wx12eecd86470e90cf", "d4624c36b6795d1d99dcf0547af5443d");
+        //新浪微博 appkey appsecret
+        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad");
+        // QQ和Qzone appid appkey
+        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+    }
 
 
     private void initEaseIm() {
@@ -77,40 +76,10 @@ private void initShare(){
 //              .writeDebugLogs() // Remove for release app
                 .build();
         ImageLoader.getInstance().init(config);// 全局初始化此配置
+        L.writeDebugLogs(false);
+        L.writeLogs(false);
     }
 
-    private DisplayImageOptions getListOptions() {
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                // 设置图片在下载期间显示的图片
-//                .showImageOnLoading(R.drawable.ic_stub)
-                // 设置图片Uri为空或是错误的时候显示的图片
-//                .showImageForEmptyUri(R.drawable.ic_stub)
-                // 设置图片加载/解码过程中错误时候显示的图片
-//                .showImageOnFail(R.drawable.ic_error)
-                // 设置下载的图片是否缓存在内存中
-                .cacheInMemory(false)
-                // 设置下载的图片是否缓存在SD卡中
-                .cacheOnDisc(true)
-                // 保留Exif信息
-                .considerExifParams(true)
-                // 设置图片以如何的编码方式显示
-                .imageScaleType(ImageScaleType.EXACTLY_STRETCHED)
-                // 设置图片的解码类型
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                // .decodingOptions(android.graphics.BitmapFactory.Options
-                // decodingOptions)//设置图片的解码配置
-                .considerExifParams(true)
-                // 设置图片下载前的延迟
-                .delayBeforeLoading(100)// int
-                // delayInMillis为你设置的延迟时间
-                // 设置图片加入缓存前，对bitmap进行设置
-                // .preProcessor(BitmapProcessor preProcessor)
-                .resetViewBeforeLoading(true)// 设置图片在下载前是否重置，复位
-                // .displayer(new RoundedBitmapDisplayer(20))//是否设置为圆角，弧度为多少
-                .displayer(new FadeInBitmapDisplayer(100))// 淡入
-                .build();
-        return options;
-    }
     private String getAppName(int pID) {
         String processName = null;
         ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
