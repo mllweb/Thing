@@ -23,7 +23,7 @@ public class Thing implements Serializable {
     private String topicName;
     @SerializedName("praise")
     private boolean isPraise;
-    @SerializedName("disLike")
+    @SerializedName("dislike")
     private boolean isDislike;
     private List<ThingFile> thingFiles;
     private String link;

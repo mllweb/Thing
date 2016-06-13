@@ -1,6 +1,7 @@
 package com.mllweb.thing.ui.adapter.main.home;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -10,11 +11,13 @@ import android.widget.TextView;
 
 import com.mllweb.cache.ARealm;
 import com.mllweb.model.Thing;
+import com.mllweb.model.ThingFile;
 import com.mllweb.network.API;
 import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
 import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.activity.BaseActivity;
+import com.mllweb.thing.ui.activity.WebActivity;
 import com.mllweb.thing.ui.activity.main.home.ThingDetailsActivity;
 import com.mllweb.thing.ui.adapter.BaseHolder;
 import com.mllweb.thing.ui.adapter.BaseRecyclerAdapter;
@@ -40,8 +43,8 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
         super(mData, activity);
     }
 
-    public Thing shareThing;
-    public TextView shareTextCount;
+    public Thing mShareThing;
+    public TextView mShareTextCount;
 
     @Override
     protected int onCreate() {
@@ -78,11 +81,12 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
         if (thing.getLink() != null && (!thing.getLink().equals(""))) {
             link.setText(thing.getLink());
             link.setVisibility(View.VISIBLE);
+            link.setOnClickListener(new OnLinkClick(thing.getLink()));
         } else {
             link.setVisibility(View.GONE);
         }
         nickName.setText(thing.getNickName());
-        ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + thing.getHeadImage(), headImage);
+        ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + thing.getHeadImage(), headImage,Utils.getListOptions());
         praiseCount.setText(thing.getPraiseCount() + "");
         dislikeCount.setText(thing.getDislikeCount() + "");
         commentCount.setText(thing.getCommentCount() + "");
@@ -96,16 +100,40 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
             praiseLayout.setOnClickListener(new OnPraiseClick(thing, praiseIcon, praiseCount, praiseLayout, dislikeLayout));
             dislikeLayout.setOnClickListener(new OnDislikeClick(thing, dislikeIcon, dislikeCount, praiseLayout, dislikeLayout));
         }
-        commentLayout.setOnClickListener(new onCommentClick());
+        commentLayout.setOnClickListener(new onCommentClick(thing));
         shareLayout.setOnClickListener(new OnShareClick(thing, shareCount));
+        //资源
         RecyclerView attachmentListView = holder.getView(R.id.attachment_view);
-        ThingFileAdapter adapter = new ThingFileAdapter(thing.getThingFiles(), mActivity);
-        attachmentListView.setLayoutManager(new GridLayoutManager(mActivity, 3));
-        attachmentListView.setAdapter(adapter);
-
-
+        List<ThingFile> files = thing.getThingFiles();
+        if (files != null && files.size() > 0) {
+            ThingFileAdapter adapter = new ThingFileAdapter(files, mActivity);
+            if (files.size() == 1) {
+                attachmentListView.setLayoutManager(new GridLayoutManager(mActivity, 1));
+            } else if (files.size() <= 4) {
+                attachmentListView.setLayoutManager(new GridLayoutManager(mActivity, 2));
+            } else {
+                attachmentListView.setLayoutManager(new GridLayoutManager(mActivity, 3));
+            }
+            attachmentListView.setAdapter(adapter);
+        } else {
+            attachmentListView.setAdapter(null);
+        }
     }
 
+    public class OnLinkClick implements View.OnClickListener {
+        String link;
+
+        public OnLinkClick(String link) {
+            this.link = link;
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(mActivity, WebActivity.class);
+            intent.putExtra("URI", link);
+            mActivity.startActivity(intent);
+        }
+    }
 
     public class OnPraiseClick implements View.OnClickListener {
         private Thing thing;
@@ -192,15 +220,23 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
     }
 
     public class onCommentClick implements View.OnClickListener {
+        Thing thing;
+
+        public onCommentClick(Thing thing) {
+            this.thing = thing;
+        }
 
         @Override
         public void onClick(View v) {
-            startActivity(ThingDetailsActivity.class);
+            Intent intent = new Intent(mActivity, ThingDetailsActivity.class);
+            intent.putExtra("thing", thing);
+            mActivity.startActivity(intent);
         }
     }
 
     public class OnShareClick implements View.OnClickListener, ShareDialog.OnShareListener {
-
+        Thing shareThing;
+        TextView shareTextCount;
 
         public OnShareClick(Thing thing, TextView textCount) {
             shareThing = thing;
@@ -216,10 +252,10 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
 
         @Override
         public void share(SHARE_MEDIA platform) {
+            mShareTextCount = shareTextCount;
+            mShareThing = shareThing;
             sharePlatform(platform);
         }
-
-
     }
 
     private void sharePlatform(SHARE_MEDIA platform) {
@@ -243,11 +279,11 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
 
                     @Override
                     public void onResponse(Response response, String body) {
-                        shareThing.setDislikeCount(shareThing.getDislikeCount() + 1);
-                        shareTextCount.setText(shareThing.getDislikeCount() + "");
+                        mShareThing.setShareCount(mShareThing.getShareCount() + 1);
+                        mShareTextCount.setText(mShareThing.getShareCount() + "");
                     }
                 }, OkHttpClientManager.Params.get("userId", UserInfoManager.get(mActivity).getId() + "")
-                , OkHttpClientManager.Params.get("thingId", shareThing.getId() + "")
+                , OkHttpClientManager.Params.get("thingId", mShareThing.getId() + "")
                 , OkHttpClientManager.Params.get("platform", share_media.name()));
     }
 

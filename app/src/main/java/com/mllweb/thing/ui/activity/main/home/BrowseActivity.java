@@ -39,7 +39,7 @@ public class BrowseActivity extends BaseActivity {
 
     @Override
     protected void initEvent() {
-        mBrowsePager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mBrowsePager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 

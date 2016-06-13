@@ -1,5 +1,6 @@
 package com.mllweb.thing.ui.fragment.main.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -54,11 +55,28 @@ public class HomeFragment extends BaseFragment {
         mHttp.requestPostDomain(API.SELECT_THING, new OkHttpClientManager.RequestCallback() {
             @Override
             public void onFailure(Request request, IOException e) {
-
+                try {
+                    JSONObject object = new JSONObject(mCache.getAsString("thing"));
+                    JSONObject responseObject = object.optJSONObject("response");
+                    if (responseObject.optString("state").equals(API.SUCC)) {
+                        JSONArray data = responseObject.optJSONArray("data");
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject o = data.getJSONObject(i);
+                            Thing thing = mGson.fromJson(o.toString(), Thing.class);
+                            mThingList.add(thing);
+                        }
+                        mThingAdapter.resetData(mThingList);
+                    } else {
+                        Utils.toast(mActivity, responseObject.optString("message"));
+                    }
+                } catch (JSONException e1) {
+                    e1.printStackTrace();
+                }
             }
 
             @Override
             public void onResponse(Response response, String body) {
+                mCache.put("thing", body);
                 try {
                     JSONObject object = new JSONObject(body);
                     JSONObject responseObject = object.optJSONObject("response");
@@ -86,7 +104,9 @@ public class HomeFragment extends BaseFragment {
         mThingAdapter.setOnItemClickListener(new BaseHolder.OnItemClickListener() {
             @Override
             public void itemClick(View rootView, int position) {
-                startActivity(ThingDetailsActivity.class);
+                Intent intent = new Intent(mActivity, ThingDetailsActivity.class);
+                intent.putExtra("thing", mThingList.get(position));
+                startActivity(intent);
             }
         });
     }

@@ -4,14 +4,16 @@ import android.app.Activity;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.mllweb.model.ThingFile;
 import com.mllweb.network.OkHttpClientManager;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import uk.co.senab.photoview.PhotoView;
 
 /**
  * Created by Android on 2016/5/24.
@@ -27,10 +29,9 @@ public class BrowseAdapter extends PagerAdapter {
         this.mData = data;
         ImageLoader loader = ImageLoader.getInstance();
         for (ThingFile f : mData) {
-            ImageView image = new ImageView(mActivity);
-            image.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            image.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            loader.displayImage(OkHttpClientManager.DOMAIN + f.getFilePath(), image);
+            PhotoView image = new PhotoView(mActivity);
+            image.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            loader.displayImage(OkHttpClientManager.DOMAIN + f.getFilePath(), image,new DisplayImageOptions.Builder().build());
             mViews.add(image);
         }
     }
@@ -47,7 +48,7 @@ public class BrowseAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup view, final int position) {
-        View view1=mViews.get(position);
+        View view1 = mViews.get(position);
         view.addView(view1);
         return view1;
     }

@@ -19,6 +19,7 @@
             android:orientation="horizontal">
 
             <com.mllweb.thing.ui.view.CircleImageView
+                android:id="@+id/iv_head_image"
                 android:layout_width="40dip"
                 android:layout_height="40dip"
                 android:layout_gravity="center_vertical"
@@ -35,17 +36,19 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/tv_nick_name"
                         android:layout_width="match_parent"
                         android:layout_height="32dip"
                         android:gravity="center_vertical"
-                        android:text="小哩"
+                        android:text=""
                         android:textColor="@color/link"
                         android:textSize="18sp" />
 
                     <TextView
+                        android:id="@+id/tv_date"
                         android:layout_width="match_parent"
                         android:layout_height="16dip"
-                        android:text="昨天"
+                        android:text=""
                         android:textColor="#999999"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -77,6 +80,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/commented_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/activity_margin"
@@ -87,16 +91,18 @@
             android:padding="8dip">
 
             <TextView
+                android:id="@+id/tv_commented_nick_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="小哩:"
+                android:text=""
                 android:textColor="#999999"
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/tv_commented_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="这是我见过最好的评论这是我见过最好的评论这是我见过最好的评论这是我见过最好的评论这是我见过最好的评论"
+                android:text=""
                 android:textColor="#999999"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -110,9 +116,10 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="这也是没谁了"
+                android:text=""
                 android:textColor="#666666"
                 android:textSize="@dimen/action_bar_title_text_size" />
         </LinearLayout>

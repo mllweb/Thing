@@ -52,6 +52,7 @@
         <activity android:name=".ui.activity.main.setting.about.AboutActivity" />
         <activity android:name=".ui.activity.main.post.PostActivity" />
         <activity android:name=".ui.activity.main.message.ChatActivity" />
+        <activity android:name=".ui.activity.WebActivity" />
         <activity android:name=".ui.activity.main.post.ChooseFileActivity" />
         <activity android:name=".ui.activity.start.AdvertActivity" />
         <activity android:name=".ui.activity.start.WelcomeActivity">
@@ -92,7 +93,7 @@
         <activity android:name=".ui.activity.main.home.ThingDetailsActivity" />
         <activity android:name=".ui.activity.main.post.ChooseTopicActivity" />
         <activity android:name=".ui.activity.main.post.CreateTopicActivity" />
-        <activity android:name=".ui.activity.main.center.EditInfoActivity"></activity>
+        <activity android:name=".ui.activity.main.center.EditInfoActivity" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -111,12 +112,14 @@
 
                 <data android:scheme="tencent100424468" />
             </intent-filter>
-        </activity><activity
-        android:name="com.tencent.connect.common.AssistActivity"
-        android:screenOrientation="behind"
-        android:theme="@android:style/Theme.Translucent.NoTitleBar"
-        android:configChanges="orientation|keyboardHidden">
-    </activity>
+        </activity>
+        <activity
+            android:name="com.tencent.connect.common.AssistActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="behind"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity android:name=".ui.activity.main.center.thing.AboutMeThingActivity" />
+        <activity android:name=".ui.activity.main.center.thing.MineCommentActivity"></activity>
     </application>
 
 </manifest>

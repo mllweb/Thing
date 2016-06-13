@@ -1,5 +1,6 @@
 package com.mllweb.thing.ui.fragment.main.mine;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -11,6 +12,8 @@ import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
 import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.activity.main.center.BaseInfoActivity;
+import com.mllweb.thing.ui.activity.main.center.thing.AboutMeThingActivity;
+import com.mllweb.thing.ui.activity.main.center.thing.MineCommentActivity;
 import com.mllweb.thing.ui.activity.main.login.LoginActivity;
 import com.mllweb.thing.ui.activity.main.setting.SettingActivity;
 import com.mllweb.thing.ui.fragment.BaseFragment;
@@ -61,7 +64,7 @@ public class MineFragment extends BaseFragment {
         } else {
             mUserSign.setText("简介：" + userinfo.getUserSign());
         }
-}
+    }
 
     @OnClick(R.id.tv_setting)
     public void clickSetting() {
@@ -81,7 +84,9 @@ public class MineFragment extends BaseFragment {
     @OnClick(R.id.my_post)
     public void clickPost() {
         if (mRealm.isLogged()) {
-
+            Intent intent = new Intent(mActivity, AboutMeThingActivity.class);
+            intent.putExtra("type", AboutMeThingActivity.ABOUT_ME_MINE);
+            startActivity(intent);
         } else {
             Utils.toast(mActivity, "请先登录");
         }
@@ -90,7 +95,7 @@ public class MineFragment extends BaseFragment {
     @OnClick(R.id.my_comment)
     public void clickComment() {
         if (mRealm.isLogged()) {
-
+            startActivity(MineCommentActivity.class);
         } else {
             Utils.toast(mActivity, "请先登录");
         }
@@ -99,7 +104,9 @@ public class MineFragment extends BaseFragment {
     @OnClick(R.id.my_collection)
     public void clickCollection() {
         if (mRealm.isLogged()) {
-
+            Intent intent = new Intent(mActivity, AboutMeThingActivity.class);
+            intent.putExtra("type", AboutMeThingActivity.ABOUT_ME_COLLECT);
+            startActivity(intent);
         } else {
             Utils.toast(mActivity, "请先登录");
         }
@@ -108,7 +115,9 @@ public class MineFragment extends BaseFragment {
     @OnClick(R.id.my_praise)
     public void clickPraise() {
         if (mRealm.isLogged()) {
-
+            Intent intent = new Intent(mActivity, AboutMeThingActivity.class);
+            intent.putExtra("type", AboutMeThingActivity.ABOUT_ME_PRAISE);
+            startActivity(intent);
         } else {
             Utils.toast(mActivity, "请先登录");
         }
