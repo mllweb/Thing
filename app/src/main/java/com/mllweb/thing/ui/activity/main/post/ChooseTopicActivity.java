@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.mllweb.model.Thing;
 import com.mllweb.model.ThingFile;
 import com.mllweb.model.Topic;
+import com.mllweb.model.UserInfo;
 import com.mllweb.network.API;
 import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
@@ -33,6 +34,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
@@ -108,7 +110,24 @@ public class ChooseTopicActivity extends BaseActivity {
                     @Override
                     public void onResponse(Response response, String body) {
                         hideLoading();
-                        startActivity(MainActivity.class);
+                        try {
+                            JSONObject object = new JSONObject(body);
+                            JSONObject responseObject = object.optJSONObject("response");
+                            int thingId = responseObject.optInt("result");
+                            Intent intent = new Intent(mActivity, MainActivity.class);
+                            UserInfo user = UserInfoManager.get(mActivity);
+                            thing.setUserId(user.getId());
+                            thing.setId(thingId);
+                            thing.setCreateDate(new Date().getTime());
+                            thing.setNickName(user.getNickName());
+                            thing.setHeadImage(user.getHeadImage());
+                            thing.setTopicId(topic.getId());
+                            thing.setTopicName(topic.getTopicName());
+                            intent.putExtra("thing", thing);
+                            startActivity(intent);
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
                     }
                 }, OkHttpClientManager.Params.get("userId", UserInfoManager.get(mActivity).getId() + "")
                 , OkHttpClientManager.Params.get("topicId", topic.getId() + "")
@@ -119,6 +138,7 @@ public class ChooseTopicActivity extends BaseActivity {
 
 
     private void uploadFile(List<ThingFile> list, Counter counter, Topic topic) {
+        mLoadingDialog.setProgress(counter.i*1f / list.size() * 100);
         ThingFile file = list.get(counter.i);
         String fileName = Utils.getFileName();
         mHttp.requestPostDomain(API.FILE_UPLOAD, new OkHttpClientManager.RequestCallback() {
@@ -183,7 +203,6 @@ public class ChooseTopicActivity extends BaseActivity {
                             mData.add(topic);
                         }
                         mTopicAdapter.resetData(mData);
-
                     } else {
                         Utils.toast(mActivity, responseObject.optString("message"));
                     }
@@ -198,6 +217,7 @@ public class ChooseTopicActivity extends BaseActivity {
     public void clickCreateTopic() {
         Intent intent = new Intent(mActivity, CreateTopicActivity.class);
         intent.putExtra("topicName", mEdit.getText().toString());
+        intent.putExtra("thing", thing);
         startActivity(intent);
     }
 

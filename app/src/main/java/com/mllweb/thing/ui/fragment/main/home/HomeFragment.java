@@ -10,6 +10,7 @@ import com.mllweb.model.Thing;
 import com.mllweb.network.API;
 import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
+import com.mllweb.thing.manager.ACacheManager;
 import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.activity.main.home.ThingDetailsActivity;
 import com.mllweb.thing.ui.adapter.BaseHolder;
@@ -45,58 +46,19 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initData(Bundle arguments) {
+        mThingList.addAll(ACacheManager.getInstatnce(mActivity).selectThing());
         mThingsView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mThingAdapter = new ThingAdapter(mThingList, mActivity);
         mThingsView.setAdapter(mThingAdapter);
-        int userId = 0;
-        if (mRealm.isLogged()) {
-            userId = UserInfoManager.get(mActivity).getId();
+    }
+
+    public void insert(Thing thing) {
+        ACacheManager.getInstatnce(mActivity).insertThing(thing);
+        mThingList.add(0, thing);
+        if(mThingAdapter==null){
+            mThingAdapter = new ThingAdapter(mThingList, mActivity);
         }
-        mHttp.requestPostDomain(API.SELECT_THING, new OkHttpClientManager.RequestCallback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                try {
-                    JSONObject object = new JSONObject(mCache.getAsString("thing"));
-                    JSONObject responseObject = object.optJSONObject("response");
-                    if (responseObject.optString("state").equals(API.SUCC)) {
-                        JSONArray data = responseObject.optJSONArray("data");
-                        for (int i = 0; i < data.length(); i++) {
-                            JSONObject o = data.getJSONObject(i);
-                            Thing thing = mGson.fromJson(o.toString(), Thing.class);
-                            mThingList.add(thing);
-                        }
-                        mThingAdapter.resetData(mThingList);
-                    } else {
-                        Utils.toast(mActivity, responseObject.optString("message"));
-                    }
-                } catch (JSONException e1) {
-                    e1.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onResponse(Response response, String body) {
-                mCache.put("thing", body);
-                try {
-                    JSONObject object = new JSONObject(body);
-                    JSONObject responseObject = object.optJSONObject("response");
-                    if (responseObject.optString("state").equals(API.SUCC)) {
-                        JSONArray data = responseObject.optJSONArray("data");
-                        for (int i = 0; i < data.length(); i++) {
-                            JSONObject o = data.getJSONObject(i);
-                            Thing thing = mGson.fromJson(o.toString(), Thing.class);
-                            mThingList.add(thing);
-                        }
-                        mThingAdapter.resetData(mThingList);
-                    } else {
-                        Utils.toast(mActivity, responseObject.optString("message"));
-                    }
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        }, OkHttpClientManager.Params.get("userId", userId + ""));
+        mThingAdapter.resetData(mThingList);
     }
 
     @Override
@@ -112,6 +74,45 @@ public class HomeFragment extends BaseFragment {
     }
 
     public void loadMore() {
-        Utils.toast(mActivity, "空啊早给你更多");
+        Utils.toast(mActivity, "加载数据");
+        initThing();
+    }
+
+    private void initThing() {
+        int userId = 0;
+        if (mRealm.isLogged()) {
+            userId = UserInfoManager.get(mActivity).getId();
+        }
+        mHttp.requestPostDomain(API.SELECT_THING, new OkHttpClientManager.RequestCallback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Response response, String body) {
+                try {
+                    JSONObject object = new JSONObject(body);
+                    JSONObject responseObject = object.optJSONObject("response");
+                    if (responseObject.optString("state").equals(API.SUCC)) {
+                        JSONArray data = responseObject.optJSONArray("data");
+                        Utils.log("添加数据");
+                        ACacheManager manager = ACacheManager.getInstatnce(mActivity);
+                        for (int i = 0; i < data.length(); i++) {
+                            JSONObject o = data.optJSONObject(i);
+                            Thing thing = mGson.fromJson(o.toString(), Thing.class);
+                            mThingList.add(0, thing);
+                            manager.insertThing(o);
+                        }
+                        mThingAdapter.resetData(mThingList);
+                    } else {
+                        Utils.toast(mActivity, responseObject.optString("message"));
+                    }
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, OkHttpClientManager.Params.get("userId", userId + ""));
     }
 }

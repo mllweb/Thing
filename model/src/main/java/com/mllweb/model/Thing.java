@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by Android on 2016/5/19.
  */
-public class Thing implements Serializable {
+public class Thing  implements Serializable {
     private int id;
     private int userId;
     private String content;
@@ -153,6 +153,6 @@ public class Thing implements Serializable {
     }
 
     public void setThingFiles(List<ThingFile> thingFiles) {
-        this.thingFiles = thingFiles;
+        this.thingFiles =thingFiles;
     }
 }

@@ -228,9 +228,13 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
 
         @Override
         public void onClick(View v) {
-            Intent intent = new Intent(mActivity, ThingDetailsActivity.class);
-            intent.putExtra("thing", thing);
-            mActivity.startActivity(intent);
+            if (ARealm.getInstance(mActivity).isLogged()) {
+                Intent intent = new Intent(mActivity, ThingDetailsActivity.class);
+                intent.putExtra("thing", thing);
+                mActivity.startActivity(intent);
+            } else {
+                Utils.toast(mActivity, "请先登录");
+            }
         }
     }
 

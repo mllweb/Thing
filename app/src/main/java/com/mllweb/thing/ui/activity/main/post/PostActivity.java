@@ -23,6 +23,7 @@ import com.mllweb.thing.utils.Utils;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,7 +98,7 @@ public class PostActivity extends BaseActivity implements LinkDialog.OnAddListen
         }
         thing.setThingFiles(list);
         Intent intent = new Intent(mActivity, ChooseTopicActivity.class);
-        intent.putExtra("thing", thing);
+        intent.putExtra("thing", (Serializable) thing);
         startActivity(intent);
     }
 

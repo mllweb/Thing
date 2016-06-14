@@ -14,6 +14,7 @@ import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.util.NetUtils;
+import com.mllweb.model.Thing;
 import com.mllweb.thing.R;
 import com.mllweb.thing.ui.activity.BaseActivity;
 import com.mllweb.thing.ui.activity.main.post.PostActivity;
@@ -59,6 +60,16 @@ public class MainActivity extends BaseActivity {
     @Override
     protected int initLayout() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        Thing thing = (Thing) intent.getSerializableExtra("thing");
+        if (thing != null && mFragmentData != null && mFragmentData.size() > 0) {
+            HomeFragment f = (HomeFragment) mFragmentData.get(0);
+            f.insert(thing);
+        }
     }
 
     @Override

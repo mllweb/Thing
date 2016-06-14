@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -33,6 +32,8 @@ public class ChatActivity extends BaseActivity {
     EditText mEditText;
     @InjectView(R.id.tv_send)
     TextView mSend;
+    @InjectView(R.id.tv_chat_nick_name)
+    TextView mChatNickName;
     private UserInfo mChatUser;
     private UserInfo mCurrentUser;
     private ChatAdapter mChatAdapter;
@@ -46,8 +47,8 @@ public class ChatActivity extends BaseActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         mCurrentUser = UserInfoManager.get(mActivity);
-        mChatUser = new UserInfo();
-        mChatUser.setUserName("admin");
+        mChatUser = (UserInfo) getIntent().getSerializableExtra("user");
+        mChatNickName.setText(mChatUser.getNickName());
         getMessageList();
     }
 
@@ -55,7 +56,7 @@ public class ChatActivity extends BaseActivity {
      * 获取聊天信息列表
      */
     private void getMessageList() {
-        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(mChatUser.getUserName());
+        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(mChatUser.getMobile());
         if (conversation != null) {
             //获取此会话的所有消息
             List<EMMessage> messages = conversation.getAllMessages();
@@ -80,13 +81,13 @@ public class ChatActivity extends BaseActivity {
     @OnClick(R.id.tv_send)
     public void clickSend() {
         //创建一条文本消息，content为消息文字内容，toChatUsername为对方用户或者群聊的id，后文皆是如此
-        EMMessage message = EMMessage.createTxtSendMessage(mEditText.getText().toString(), mChatUser.getUserName());
+        EMMessage message = EMMessage.createTxtSendMessage(mEditText.getText().toString(), mChatUser.getMobile());
         //如果是群聊，设置chattype，默认是单聊
         message.setChatType(EMMessage.ChatType.Chat);
         message.setMsgTime(new Date().getTime());
         //发送消息
         EMClient.getInstance().chatManager().sendMessage(message);
-        mChatAdapter.addData(new MessageLog(mCurrentUser.getUserName(), mChatUser.getUserName(), mChatUser.getHeadImage(), mEditText.getText().toString()));
+        mChatAdapter.addData(new MessageLog(mCurrentUser.getUserName(), mChatUser.getMobile(), mChatUser.getHeadImage(), mEditText.getText().toString()));
         mChatListView.smoothScrollToPosition(mData.size());
     }
 
@@ -104,26 +105,21 @@ public class ChatActivity extends BaseActivity {
         @Override
         public void onCmdMessageReceived(List<EMMessage> messages) {
             //收到透传消息  mChatAdapter.notifyDataSetChanged();
-            Log.d("ddddddddddddddddd", "收到透传消息");
         }
 
         @Override
         public void onMessageReadAckReceived(List<EMMessage> messages) {
             //收到已读回执
-            Log.d("ddddddddddddddddd", "收到已读回执");
         }
 
         @Override
         public void onMessageDeliveryAckReceived(List<EMMessage> message) {
             //收到已送达回执
-
-            Log.d("ddddddddddddddddd", "收到已送达回执");
         }
 
         @Override
         public void onMessageChanged(EMMessage message, Object change) {
             //消息状态变动
-            Log.d("ddddddddddddddddd", "消息状态变动");
         }
     };
 

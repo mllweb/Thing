@@ -13,9 +13,10 @@ public interface API {
     String SELECT_TOPIC = "/SelectTopic";
     String SELECT_COMMENT = "/SelectComment";
     String SELECT_THING = "/SelectThing";
+    String SELECT_MESSAGE = "/SelectMessage";
     String INSERT_THING = "/InsertThing";
     String INSERT_TOPIC = "/InsertTopic";
-    String INSERT_Comment = "/InsertComment";
+    String INSERT_COMMENT = "/InsertComment";
     String INSERT_THING_PRAISE = "/InsertThingPraise";
     String INSERT_THING_DISLIKE = "/InsertThingDislike";
     String INSERT_THING_SHARE = "/InsertThingShare";

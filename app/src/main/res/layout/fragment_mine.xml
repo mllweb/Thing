@@ -34,23 +34,24 @@
     <RelativeLayout
         android:id="@+id/un_login_layout"
         android:layout_width="match_parent"
-        android:layout_height="96dip"
+        android:layout_height="88dip"
         android:layout_marginTop="@dimen/activity_margin"
-        android:background="@color/white"
-        android:visibility="gone">
+
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/tv_login"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="登录" />
+            android:gravity="center"
+            android:text="登录"
+            android:textColor="@color/theme_color_green"
+            android:textSize="@dimen/action_bar_title_text_size" />
     </RelativeLayout>
 
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_margin"
         android:background="@color/white"
         android:orientation="vertical">
 
@@ -58,8 +59,10 @@
             android:id="@+id/login_layout"
             android:layout_width="match_parent"
             android:layout_height="88dip"
+            android:layout_marginTop="@dimen/activity_margin"
             android:background="@drawable/xml_click_bg"
-            android:clickable="true">
+            android:clickable="true"
+            android:visibility="gone">
 
             <com.mllweb.thing.ui.view.CircleImageView
                 android:id="@+id/head_image"

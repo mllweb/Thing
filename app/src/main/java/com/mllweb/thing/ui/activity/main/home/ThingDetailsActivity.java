@@ -4,20 +4,24 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
+import com.mllweb.cache.ARealm;
 import com.mllweb.model.Comment;
 import com.mllweb.model.Thing;
 import com.mllweb.model.ThingFile;
 import com.mllweb.network.API;
 import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
+import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.activity.BaseActivity;
 import com.mllweb.thing.ui.adapter.main.home.CommentAdapter;
 import com.mllweb.thing.ui.adapter.main.home.ThingFileAdapter;
 import com.mllweb.thing.utils.Utils;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
@@ -31,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.InjectView;
+import butterknife.OnClick;
 
 public class ThingDetailsActivity extends BaseActivity {
 
@@ -41,6 +46,11 @@ public class ThingDetailsActivity extends BaseActivity {
     TextView mNickName;
     TextView mDate;
     ImageView mHeadImage;
+    @InjectView(R.id.et_edit)
+    @NotEmpty(message = "评论不能为空")
+    EditText mEditComment;
+    @InjectView(R.id.tv_send)
+    TextView mSendComment;
     private RecyclerView mThingFileListView;
     private ThingFileAdapter mThingFileAdapter;
     private Thing thing;
@@ -122,4 +132,50 @@ public class ThingDetailsActivity extends BaseActivity {
         }, OkHttpClientManager.Params.get("thingId", thing.getId() + ""));
     }
 
+    @OnClick(R.id.tv_send)
+    public void clickSend() {
+        if (ARealm.getInstance(mActivity).isLogged()) {
+            mValidator.validate();
+        } else {
+            Utils.toast(mActivity, "请先登录");
+        }
+
+    }
+
+    @Override
+    public void onValidationSucceeded() {
+        String content = mEditComment.getText().toString();
+        mEditComment.setEnabled(false);
+        mHttp.requestPostDomain(API.INSERT_COMMENT, new OkHttpClientManager.RequestCallback() {
+                    @Override
+                    public void onFailure(Request request, IOException e) {
+                        mEditComment.setEnabled(true);
+                    }
+
+                    @Override
+                    public void onResponse(Response response, String body) {
+                        try {
+                            mEditComment.setEnabled(true);
+                            mEditComment.setText("");
+                            JSONObject responseObject = new JSONObject(body);
+                            int result = responseObject.optInt("result");
+                            Comment comment = new Comment();
+                            comment.setId(result);
+                            comment.setHeadImage(UserInfoManager.get(mActivity).getHeadImage());
+                            comment.setCommentContent(content);
+                            comment.setCommentDate(new Date().getTime());
+                            comment.setNickName(UserInfoManager.get(mActivity).getNickName());
+                            comment.setCommentUserId(UserInfoManager.get(mActivity).getId());
+                            mCommentData.add(0, comment);
+                            mCommmentAdapter.resetData(mCommentData);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, OkHttpClientManager.Params.get("content", content)
+                , OkHttpClientManager.Params.get("thingId", thing.getId() + "")
+                , OkHttpClientManager.Params.get("commentUserId", UserInfoManager.get(mActivity).getId() + "")
+                , OkHttpClientManager.Params.get("commentedUserId", "0")
+                , OkHttpClientManager.Params.get("commentedId", "0"));
+    }
 }

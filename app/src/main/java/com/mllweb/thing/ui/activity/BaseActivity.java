@@ -10,7 +10,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.mllweb.cache.ACache;
 import com.mllweb.cache.ARealm;
 import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.ui.view.dialog.LoadingDialog;
@@ -31,7 +30,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Validato
     protected Resources mResources;
     protected OkHttpClientManager mHttp;
     protected ImageLoader mImageLoader;
-    protected ACache mCache;
     protected Validator mValidator;
     protected ARealm mRealm;
     protected Gson mGson;
@@ -62,7 +60,6 @@ public abstract class BaseActivity extends AppCompatActivity implements Validato
         mActivity = this;
         mHttp = OkHttpClientManager.getInstance();
         mImageLoader = ImageLoader.getInstance();
-        mCache = ACache.get(mActivity);
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
         mRealm = ARealm.getInstance(mActivity);

@@ -13,6 +13,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_margin"
         android:paddingRight="@dimen/activity_margin"
@@ -30,10 +31,12 @@
 
         <TextView
             android:id="@+id/tv_topic"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dip"
             android:layout_marginTop="5dip"
+            android:background="@drawable/xml_click_bg"
+            android:clickable="true"
             android:lineSpacingExtra="5dip"
             android:text="#夫妻间那点事儿#"
             android:textColor="@color/link"
@@ -63,6 +66,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="40dip"
+            android:background="@drawable/xml_click_bg"
+            android:clickable="true"
             android:orientation="horizontal">
 
             <com.mllweb.thing.ui.view.CircleImageView

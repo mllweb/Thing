@@ -49,7 +49,9 @@
         android:id="@+id/comment_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_above="@+id/message_layout"
         android:layout_below="@id/action_bar" />
+
     <RelativeLayout
         android:id="@id/message_layout"
         android:layout_width="match_parent"
@@ -66,9 +68,9 @@
             android:src="@drawable/ic_record_normal" />
 
         <EditText
+            android:id="@+id/et_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/et_edit"
             android:layout_marginLeft="@dimen/activity_margin"
             android:layout_marginRight="@dimen/activity_margin"
             android:layout_toLeftOf="@+id/tv_send"

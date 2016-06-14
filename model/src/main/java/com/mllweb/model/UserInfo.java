@@ -1,9 +1,11 @@
 package com.mllweb.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Android on 2016/5/26.
  */
-public class UserInfo {
+public class UserInfo implements Serializable{
     private int id;
     private String userName;
     private String nickName;

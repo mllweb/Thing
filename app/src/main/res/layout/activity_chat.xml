@@ -32,6 +32,7 @@
             android:background="@color/action_bar_split" />
 
         <TextView
+            android:id="@+id/tv_chat_nick_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginLeft="8dip"
@@ -66,9 +67,9 @@
             android:src="@drawable/ic_record_normal" />
 
         <EditText
+            android:id="@+id/et_edit"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/et_edit"
             android:layout_marginLeft="@dimen/activity_margin"
             android:layout_marginRight="@dimen/activity_margin"
             android:layout_toLeftOf="@+id/tv_send"

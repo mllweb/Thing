@@ -2,7 +2,7 @@ package com.mllweb.model;
 
 import java.io.Serializable;
 
-public class ThingFile implements Serializable {
+public class ThingFile  implements Serializable {
 
     private int id;
     private int thingId;

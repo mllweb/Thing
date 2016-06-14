@@ -1,29 +1,41 @@
 package com.mllweb.model;
 
+import java.io.Serializable;
+
 /**
  * Created by Android on 2016/5/19.
  */
-public class Message {
-    private long createDate;
+public class Message implements Serializable {
+    private long lastSendDate;
     private String headImage;
-    private String content;
+    private String lastSendContent;
     private String nickName;
     private int unreadCount;
+    private int userId;
+    private String mobile;
 
-    public int getUnreadCount() {
-        return unreadCount;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setUnreadCount(int unreadCount) {
-        this.unreadCount = unreadCount;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
-    public long getCreateDate() {
-        return createDate;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setCreateDate(long createDate) {
-        this.createDate = createDate;
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public long getLastSendDate() {
+        return lastSendDate;
+    }
+
+    public void setLastSendDate(long lastSendDate) {
+        this.lastSendDate = lastSendDate;
     }
 
     public String getHeadImage() {
@@ -34,12 +46,12 @@ public class Message {
         this.headImage = headImage;
     }
 
-    public String getContent() {
-        return content;
+    public String getLastSendContent() {
+        return lastSendContent;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setLastSendContent(String lastSendContent) {
+        this.lastSendContent = lastSendContent;
     }
 
     public String getNickName() {
@@ -48,5 +60,13 @@ public class Message {
 
     public void setNickName(String nickName) {
         this.nickName = nickName;
+    }
+
+    public int getUnreadCount() {
+        return unreadCount;
+    }
+
+    public void setUnreadCount(int unreadCount) {
+        this.unreadCount = unreadCount;
     }
 }

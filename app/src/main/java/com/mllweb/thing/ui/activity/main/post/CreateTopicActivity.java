@@ -7,19 +7,28 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.mllweb.loader.ImageLoader;
+import com.mllweb.model.Thing;
+import com.mllweb.model.ThingFile;
+import com.mllweb.model.UserInfo;
 import com.mllweb.network.API;
 import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
 import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.activity.BaseActivity;
+import com.mllweb.thing.ui.activity.main.MainActivity;
 import com.mllweb.thing.utils.Utils;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.mobsandgeeks.saripaar.annotation.Order;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -39,6 +48,7 @@ public class CreateTopicActivity extends BaseActivity {
     EditText mTopicPartner;
     private String topicNmae;
     private String filePath;
+    private Thing thing;
 
     @Override
     protected int initLayout() {
@@ -48,6 +58,7 @@ public class CreateTopicActivity extends BaseActivity {
     @Override
     protected void initData(Bundle savedInstanceState) {
         topicNmae = getIntent().getStringExtra("topicName");
+        thing = (Thing) getIntent().getSerializableExtra("thing");
         mTopicName.setText(topicNmae);
     }
 
@@ -106,7 +117,20 @@ public class CreateTopicActivity extends BaseActivity {
 
                     @Override
                     public void onResponse(Response response, String body) {
-                        hideLoading();
+                        try {
+                            JSONObject object = new JSONObject(body);
+                            JSONObject responseObject = object.optJSONObject("response");
+                            int topicId = responseObject.optInt("result");
+                            List<ThingFile> list = thing.getThingFiles();
+                            if (list != null && list.size() > 0) {
+                                Counter counter = new Counter();
+                                uploadFile(list, counter, topicId);
+                            } else {
+                                createThing(topicId, "");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }, OkHttpClientManager.Params.get("userId", UserInfoManager.get(mActivity).getId() + "")
                 , OkHttpClientManager.Params.get("topicName", topicNmae)
@@ -115,4 +139,73 @@ public class CreateTopicActivity extends BaseActivity {
                 , OkHttpClientManager.Params.get("topicHeadImage", API.IMAGE + headImage));
     }
 
+    public class Counter {
+        int i;
+    }
+
+    private void uploadFile(List<ThingFile> list, Counter counter, int topicId) {
+        mLoadingDialog.setProgress(counter.i * 1f / list.size() * 100);
+        ThingFile file = list.get(counter.i);
+        String fileName = Utils.getFileName();
+        mHttp.requestPostDomain(API.FILE_UPLOAD, new OkHttpClientManager.RequestCallback() {
+            @Override
+            public void onFailure(Request request, IOException e) {
+                hideLoading();
+            }
+
+            @Override
+            public void onResponse(Response response, String body) {
+                file.setFilePath(API.IMAGE + fileName);
+                counter.i++;
+                if (counter.i >= list.size()) {
+                    String files = "[";
+                    for (int t = 0; t < list.size(); t++) {
+                        ThingFile f = list.get(t);
+                        files += String.format("{path:\"%s\",type:%d},", f.getFilePath(), f.getFileType());
+                    }
+                    files = files.substring(0, files.length() - 1);
+                    files += "]";
+                    createThing(topicId, files);
+                } else {
+                    uploadFile(list, counter, topicId);
+                }
+            }
+        }, new File(file.getFilePath()), fileName);
+    }
+
+    private void createThing(int topicId, String files) {
+        mHttp.requestPostDomain(API.INSERT_THING, new OkHttpClientManager.RequestCallback() {
+                    @Override
+                    public void onFailure(Request request, IOException e) {
+                        hideLoading();
+                    }
+
+                    @Override
+                    public void onResponse(Response response, String body) {
+                        hideLoading();
+                        try {
+                            JSONObject object = new JSONObject(body);
+                            JSONObject responseObject = object.optJSONObject("response");
+                            int thingId = responseObject.optInt("result");
+                            Intent intent = new Intent(mActivity, MainActivity.class);
+                            UserInfo user = UserInfoManager.get(mActivity);
+                            thing.setUserId(user.getId());
+                            thing.setId(thingId);
+                            thing.setNickName(user.getNickName());
+                            thing.setCreateDate(new Date().getTime());
+                            thing.setHeadImage(user.getHeadImage());
+                            thing.setTopicId(topicId);
+                            thing.setTopicName(topicNmae);
+                            intent.putExtra("thing", thing);
+                            startActivity(intent);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, OkHttpClientManager.Params.get("userId", UserInfoManager.get(mActivity).getId() + "")
+                , OkHttpClientManager.Params.get("topicId", topicId + "")
+                , OkHttpClientManager.Params.get("content", thing.getContent())
+                , OkHttpClientManager.Params.get("files", files)
+                , OkHttpClientManager.Params.get("link", thing.getLink()));
+    }
 }

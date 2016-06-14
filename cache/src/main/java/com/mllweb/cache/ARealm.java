@@ -103,4 +103,5 @@ public class ARealm {
         login.setUserJson(json);
         realm.commitTransaction();
     }
+
 }
