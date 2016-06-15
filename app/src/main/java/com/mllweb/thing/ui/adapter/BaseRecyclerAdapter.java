@@ -8,8 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.mllweb.model.Topic;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +24,13 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseHo
 
     public void setOnItemClickListener(BaseHolder.OnItemClickListener itemClickListener) {
         this.mItemClickListener = itemClickListener;
+    }
+
+    public void resetData(List<T> data) {
+        if (data != null) {
+            mData = data;
+            notifyDataSetChanged();
+        }
     }
 
     public BaseRecyclerAdapter(List<T> mData, Activity activity) {
@@ -68,9 +73,11 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseHo
     protected void setIntentExtras(String key, int value) {
         mBundle.putInt(key, value);
     }
+
     protected void setIntentExtras(String key, Serializable value) {
         mBundle.putSerializable(key, value);
     }
+
     protected void startActivity(Class cls) {
         Intent intent = new Intent(mActivity, cls);
         intent.putExtras(mBundle);

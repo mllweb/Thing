@@ -1,34 +1,21 @@
 package com.mllweb.model;
 
-import java.io.Serializable;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by Android on 2016/5/19.
  */
-public class Message implements Serializable {
+public class Message extends RealmObject {
     private long lastSendDate;
-    private String headImage;
+    private String fromHeadImage;
     private String lastSendContent;
-    private String nickName;
+    private String fromNickName;
     private int unreadCount;
-    private int userId;
-    private String mobile;
+    private String fromMobile;
+    @PrimaryKey
+    private int fromUserId;
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
 
     public long getLastSendDate() {
         return lastSendDate;
@@ -38,12 +25,12 @@ public class Message implements Serializable {
         this.lastSendDate = lastSendDate;
     }
 
-    public String getHeadImage() {
-        return headImage;
+    public String getFromHeadImage() {
+        return fromHeadImage;
     }
 
-    public void setHeadImage(String headImage) {
-        this.headImage = headImage;
+    public void setFromHeadImage(String fromHeadImage) {
+        this.fromHeadImage = fromHeadImage;
     }
 
     public String getLastSendContent() {
@@ -54,12 +41,12 @@ public class Message implements Serializable {
         this.lastSendContent = lastSendContent;
     }
 
-    public String getNickName() {
-        return nickName;
+    public String getFromNickName() {
+        return fromNickName;
     }
 
-    public void setNickName(String nickName) {
-        this.nickName = nickName;
+    public void setFromNickName(String fromNickName) {
+        this.fromNickName = fromNickName;
     }
 
     public int getUnreadCount() {
@@ -68,5 +55,21 @@ public class Message implements Serializable {
 
     public void setUnreadCount(int unreadCount) {
         this.unreadCount = unreadCount;
+    }
+
+    public String getFromMobile() {
+        return fromMobile;
+    }
+
+    public void setFromMobile(String fromMobile) {
+        this.fromMobile = fromMobile;
+    }
+
+    public int getFromUserId() {
+        return fromUserId;
+    }
+
+    public void setFromUserId(int fromUserId) {
+        this.fromUserId = fromUserId;
     }
 }

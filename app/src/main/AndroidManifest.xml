@@ -119,7 +119,8 @@
             android:screenOrientation="behind"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".ui.activity.main.center.thing.AboutMeThingActivity" />
-        <activity android:name=".ui.activity.main.center.thing.MineCommentActivity"></activity>
+        <activity android:name=".ui.activity.main.center.thing.MineCommentActivity" />
+        <activity android:name=".ui.activity.main.center.DetailsInfoActivity"></activity>
     </application>
 
 </manifest>

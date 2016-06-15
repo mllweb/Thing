@@ -7,17 +7,23 @@ import android.support.v7.widget.RecyclerView;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.chat.EMConversation;
 import com.hyphenate.chat.EMMessage;
+import com.mllweb.model.Message;
 import com.mllweb.model.MessageLog;
 import com.mllweb.model.UserInfo;
+import com.mllweb.network.API;
+import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
 import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.activity.BaseActivity;
 import com.mllweb.thing.ui.adapter.main.message.ChatAdapter;
+import com.mllweb.thing.utils.Utils;
+import com.mobsandgeeks.saripaar.annotation.NotEmpty;
+import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Response;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,6 +35,7 @@ public class ChatActivity extends BaseActivity {
     @InjectView(R.id.chat_list)
     RecyclerView mChatListView;
     @InjectView(R.id.et_edit)
+    @NotEmpty(message = "不能为空")
     EditText mEditText;
     @InjectView(R.id.tv_send)
     TextView mSend;
@@ -56,76 +63,81 @@ public class ChatActivity extends BaseActivity {
      * 获取聊天信息列表
      */
     private void getMessageList() {
-        EMConversation conversation = EMClient.getInstance().chatManager().getConversation(mChatUser.getMobile());
-        if (conversation != null) {
-            //获取此会话的所有消息
-            List<EMMessage> messages = conversation.getAllMessages();
-            // List<EMMessage> messages = conversation.loadMoreMsgFromDB(startMsgId, pagesize);
-            for (EMMessage m : messages) {
-                mData.add(new MessageLog(m.getFrom(), m.getTo(), mChatUser.getHeadImage(), m.getBody().toString()));
-            }
-        }
+        mData = mRealm.selectMessageLog(mChatUser.getMobile(), mCurrentUser.getMobile());
         mChatAdapter = new ChatAdapter(mData, mActivity);
         mChatListView.setLayoutManager(new LinearLayoutManager(mActivity));
         mChatListView.setItemAnimator(new DefaultItemAnimator());
         mChatListView.setAdapter(mChatAdapter);
         mChatListView.smoothScrollToPosition(mData.size());
-
     }
 
-    @Override
-    protected void initEvent() {
-        EMClient.getInstance().chatManager().addMessageListener(msgListener);
-    }
 
     @OnClick(R.id.tv_send)
     public void clickSend() {
-        //创建一条文本消息，content为消息文字内容，toChatUsername为对方用户或者群聊的id，后文皆是如此
-        EMMessage message = EMMessage.createTxtSendMessage(mEditText.getText().toString(), mChatUser.getMobile());
-        //如果是群聊，设置chattype，默认是单聊
-        message.setChatType(EMMessage.ChatType.Chat);
-        message.setMsgTime(new Date().getTime());
-        //发送消息
-        EMClient.getInstance().chatManager().sendMessage(message);
-        mChatAdapter.addData(new MessageLog(mCurrentUser.getUserName(), mChatUser.getMobile(), mChatUser.getHeadImage(), mEditText.getText().toString()));
-        mChatListView.smoothScrollToPosition(mData.size());
+        mValidator.validate();
     }
 
-    EMMessageListener msgListener = new EMMessageListener() {
-
-        @Override
-        public void onMessageReceived(List<EMMessage> messages) {
-            mChatListView.smoothScrollToPosition(mData.size());
-            for (EMMessage m : messages) {
-                mChatAdapter.addData(new MessageLog(m.getFrom(), m.getTo(), mChatUser.getHeadImage(), m.getBody().toString()));
-                mChatListView.smoothScrollToPosition(mData.size());
-            }
-        }
-
-        @Override
-        public void onCmdMessageReceived(List<EMMessage> messages) {
-            //收到透传消息  mChatAdapter.notifyDataSetChanged();
-        }
-
-        @Override
-        public void onMessageReadAckReceived(List<EMMessage> messages) {
-            //收到已读回执
-        }
-
-        @Override
-        public void onMessageDeliveryAckReceived(List<EMMessage> message) {
-            //收到已送达回执
-        }
-
-        @Override
-        public void onMessageChanged(EMMessage message, Object change) {
-            //消息状态变动
-        }
-    };
-
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EMClient.getInstance().chatManager().removeMessageListener(msgListener);
+    public void onValidationSucceeded() {
+        sendService(null, 1);
+        sendEaseIM();
+        insertLocal(null, 1);
+        mEditText.setText("");
+    }
+
+    private void sendService(String filePath, int type) {
+        mHttp.requestPostDomain(API.INSERT_MESSAGE_LOG, new OkHttpClientManager.RequestCallback() {
+                    @Override
+                    public void onFailure(Request request, IOException e) {
+
+                    }
+
+                    @Override
+                    public void onResponse(Response response, String body) {
+
+                    }
+                }, OkHttpClientManager.Params.get("content", mEditText.getText().toString())
+                , OkHttpClientManager.Params.get("filePath", filePath)
+                , OkHttpClientManager.Params.get("fromUserId", mCurrentUser.getId() + "")
+                , OkHttpClientManager.Params.get("toUserId", mChatUser.getId() + "")
+                , OkHttpClientManager.Params.get("type", type + ""));
+    }
+
+    private void sendEaseIM() {
+        EMMessage message = EMMessage.createTxtSendMessage(mEditText.getText().toString(), mChatUser.getMobile());
+        message.setChatType(EMMessage.ChatType.Chat);
+        message.setMsgTime(new Date().getTime());
+        message.setAttribute("nickName", mCurrentUser.getNickName());
+        message.setAttribute("userId", mCurrentUser.getId());
+        message.setAttribute("headImage", mCurrentUser.getHeadImage());
+        EMClient.getInstance().chatManager().sendMessage(message);
+    }
+
+    private void insertLocal(byte[] file, int type) {
+        MessageLog log = new MessageLog();
+        log.setToUserId(mChatUser.getId());
+        log.setContent(mEditText.getText().toString());
+        log.setFile(file);
+        log.setFilePath(null);
+        log.setFromMobile(mCurrentUser.getMobile());
+        log.setFromUserHeadImage(mCurrentUser.getHeadImage());
+        log.setFromNickName(mCurrentUser.getNickName());
+        log.setFromUserId(mCurrentUser.getId());
+        log.setSendDate(System.currentTimeMillis());
+        log.setToMobile(mChatUser.getMobile());
+        log.setToNickName(mChatUser.getNickName());
+        log.setType(type);
+        mRealm.insertMessageLog(log);
+        Message msg = new Message();
+        msg.setUnreadCount(0);
+        msg.setFromMobile(mChatUser.getMobile());
+        msg.setFromUserId(mChatUser.getId());
+        msg.setFromNickName(mChatUser.getNickName());
+        msg.setFromHeadImage(mChatUser.getHeadImage());
+        msg.setLastSendContent(mEditText.getText().toString());
+        msg.setLastSendDate(System.currentTimeMillis());
+        mRealm.insertMessage(msg);
+        mChatAdapter.addData(log);
+        mChatListView.smoothScrollToPosition(mData.size());
     }
 }

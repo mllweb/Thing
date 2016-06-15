@@ -18,6 +18,7 @@ import com.mllweb.thing.R;
 import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.activity.BaseActivity;
 import com.mllweb.thing.ui.activity.WebActivity;
+import com.mllweb.thing.ui.activity.main.center.DetailsInfoActivity;
 import com.mllweb.thing.ui.activity.main.home.ThingDetailsActivity;
 import com.mllweb.thing.ui.adapter.BaseHolder;
 import com.mllweb.thing.ui.adapter.BaseRecyclerAdapter;
@@ -75,6 +76,7 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
         RelativeLayout dislikeLayout = holder.getView(R.id.dislike_layout);
         RelativeLayout shareLayout = holder.getView(R.id.share_layout);
         RelativeLayout commentLayout = holder.getView(R.id.comment_layout);
+        RelativeLayout userLayout = holder.getView(R.id.user_layout);
 
         content.setText(thing.getContent());
         topic.setText("#" + thing.getTopicName() + "#");
@@ -86,7 +88,7 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
             link.setVisibility(View.GONE);
         }
         nickName.setText(thing.getNickName());
-        ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + thing.getHeadImage(), headImage,Utils.getListOptions());
+        ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + thing.getHeadImage(), headImage, Utils.getListOptions());
         praiseCount.setText(thing.getPraiseCount() + "");
         dislikeCount.setText(thing.getDislikeCount() + "");
         commentCount.setText(thing.getCommentCount() + "");
@@ -118,6 +120,11 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
         } else {
             attachmentListView.setAdapter(null);
         }
+        userLayout.setOnClickListener(v -> {
+            Intent intent = new Intent(mActivity, DetailsInfoActivity.class);
+            intent.putExtra("userId", thing.getUserId());
+            mActivity.startActivity(intent);
+        });
     }
 
     public class OnLinkClick implements View.OnClickListener {

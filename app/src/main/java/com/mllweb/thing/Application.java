@@ -1,10 +1,21 @@
 package com.mllweb.thing;
 
 import android.app.ActivityManager;
-import android.content.pm.PackageManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 
+import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMOptions;
+import com.hyphenate.exceptions.HyphenateException;
+import com.mllweb.cache.ARealm;
+import com.mllweb.model.Message;
+import com.mllweb.model.MessageLog;
+import com.mllweb.model.UserInfo;
+import com.mllweb.thing.manager.UserInfoManager;
+import com.mllweb.thing.ui.activity.main.message.ChatActivity;
+import com.mllweb.thing.utils.Utils;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -54,6 +65,7 @@ public class Application extends android.app.Application {
         EMClient.getInstance().init(getApplicationContext(), options);
         //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
         EMClient.getInstance().setDebugMode(true);
+        EMClient.getInstance().chatManager().addMessageListener(msgListener);
     }
 
     private void initImageLoader() {
@@ -85,7 +97,6 @@ public class Application extends android.app.Application {
         ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
         List l = am.getRunningAppProcesses();
         Iterator i = l.iterator();
-        PackageManager pm = this.getPackageManager();
         while (i.hasNext()) {
             ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
             try {
@@ -99,4 +110,77 @@ public class Application extends android.app.Application {
         }
         return processName;
     }
+
+    EMMessageListener msgListener = new EMMessageListener() {
+
+        @Override
+        public void onMessageReceived(List<EMMessage> messages) {
+           UserInfo mCurrentUser= UserInfoManager.get(getApplicationContext());
+            String title = "";
+            String content = "";
+            for (EMMessage m : messages) {
+                try {
+                    title = m.getStringAttribute("nickName");
+                    content = Utils.replace(m.getBody().toString());
+
+                    MessageLog log = new MessageLog();
+                    log.setToUserId(mCurrentUser.getId());
+                    log.setContent(content);
+                    log.setFile(null);
+                    log.setFilePath(null);
+                    log.setFromMobile(m.getUserName());
+                    log.setFromUserHeadImage(m.getStringAttribute("headImage"));
+                    log.setFromNickName(title);
+                    log.setFromUserId(m.getIntAttribute("userId"));
+                    log.setSendDate(System.currentTimeMillis());
+                    log.setToMobile(mCurrentUser.getMobile());
+                    log.setToNickName(mCurrentUser.getNickName());
+                    log.setType(1);
+                    ARealm.getInstance(getApplicationContext()).insertMessageLog(log);
+
+                    Message msg = new Message();
+                    msg.setUnreadCount(0);
+                    msg.setFromMobile(m.getUserName());
+                    msg.setFromUserId(m.getIntAttribute("userId"));
+                    msg.setFromNickName(title);
+                    msg.setFromHeadImage(m.getStringAttribute("headImage"));
+                    msg.setLastSendContent(content);
+                    msg.setLastSendDate(System.currentTimeMillis());
+                    ARealm.getInstance(getApplicationContext()).insertMessage(msg);
+
+                    Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+                    UserInfo user = new UserInfo();
+                    user.setNickName(title);
+                    user.setId(m.getIntAttribute("userId"));
+                    user.setHeadImage(m.getStringAttribute("headImage"));
+                    user.setMobile(m.getUserName());
+                    intent.putExtra("user", user);
+                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent,PendingIntent.FLAG_UPDATE_CURRENT);
+                    Utils.notify(getApplicationContext(), title, content, pendingIntent);
+                } catch (HyphenateException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        @Override
+        public void onCmdMessageReceived(List<EMMessage> messages) {
+            //收到透传消息  mChatAdapter.notifyDataSetChanged();
+        }
+
+        @Override
+        public void onMessageReadAckReceived(List<EMMessage> messages) {
+            //收到已读回执
+        }
+
+        @Override
+        public void onMessageDeliveryAckReceived(List<EMMessage> message) {
+            //收到已送达回执
+        }
+
+        @Override
+        public void onMessageChanged(EMMessage message, Object change) {
+            //消息状态变动
+        }
+    };
 }

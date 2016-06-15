@@ -1,32 +1,31 @@
 package com.mllweb.model;
 
+import io.realm.RealmObject;
+
 /**
  * Created by Android on 2016/5/25.
  */
-public class MessageLog {
-    private String fromUserName;
+public class MessageLog extends RealmObject {
+    private String fromMobile;
     private int fromUserId;
     private int toUserId;
-    private String toUserName;
+    private String toMobile;
     private String fromNickName;
     private String toNickName;
-    private long messageDate;
     private String fromUserHeadImage;
     private String content;
+    private String filePath;
+    private byte[] file;
+    private long sendDate;
+    private int type;
 
-    public MessageLog(String fromUserName, String toUserName, String fromUserHeadImage, String content) {
-        this.fromUserName = fromUserName;
-        this.toUserName = toUserName;
-        this.fromUserHeadImage = fromUserHeadImage;
-        this.content = content;
+
+    public String getFromMobile() {
+        return fromMobile;
     }
 
-    public String getFromUserName() {
-        return fromUserName;
-    }
-
-    public void setFromUserName(String fromUserName) {
-        this.fromUserName = fromUserName;
+    public void setFromMobile(String fromMobile) {
+        this.fromMobile = fromMobile;
     }
 
     public int getFromUserId() {
@@ -45,12 +44,12 @@ public class MessageLog {
         this.toUserId = toUserId;
     }
 
-    public String getToUserName() {
-        return toUserName;
+    public String getToMobile() {
+        return toMobile;
     }
 
-    public void setToUserName(String toUserName) {
-        this.toUserName = toUserName;
+    public void setToMobile(String toMobile) {
+        this.toMobile = toMobile;
     }
 
     public String getFromNickName() {
@@ -69,14 +68,6 @@ public class MessageLog {
         this.toNickName = toNickName;
     }
 
-    public long getMessageDate() {
-        return messageDate;
-    }
-
-    public void setMessageDate(long messageDate) {
-        this.messageDate = messageDate;
-    }
-
     public String getFromUserHeadImage() {
         return fromUserHeadImage;
     }
@@ -91,5 +82,37 @@ public class MessageLog {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public byte[] getFile() {
+        return file;
+    }
+
+    public void setFile(byte[] file) {
+        this.file = file;
+    }
+
+    public long getSendDate() {
+        return sendDate;
+    }
+
+    public void setSendDate(long sendDate) {
+        this.sendDate = sendDate;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

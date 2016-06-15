@@ -1,6 +1,7 @@
 package com.mllweb.thing.manager;
 
 import android.app.Activity;
+import android.content.Context;
 
 import com.google.gson.Gson;
 import com.mllweb.cache.ARealm;
@@ -31,6 +32,15 @@ public class UserInfoManager {
             return mUserInfo;
         } else {
             String json = ARealm.getInstance(activity).getUserJson();
+            mUserInfo = new Gson().fromJson(json, UserInfo.class);
+            return mUserInfo;
+        }
+    }
+    public static UserInfo get(Context context) {
+        if (mUserInfo != null) {
+            return mUserInfo;
+        } else {
+            String json = ARealm.getInstance(context).getUserJson();
             mUserInfo = new Gson().fromJson(json, UserInfo.class);
             return mUserInfo;
         }

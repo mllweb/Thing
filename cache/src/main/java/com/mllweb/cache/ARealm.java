@@ -1,21 +1,28 @@
 package com.mllweb.cache;
 
 import android.app.Activity;
+import android.content.Context;
 
 import com.mllweb.model.Login;
 import com.mllweb.model.LoginLog;
+import com.mllweb.model.Message;
+import com.mllweb.model.MessageLog;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
+import io.realm.Sort;
 
 /**
  * Created by Android on 2016/5/30.
  */
 public class ARealm {
     private RealmConfiguration mConfiguration;
-    private Activity mActivity;
+    private Context mActivity;
     private static ARealm mInstance;
 
     private ARealm(Activity activity) {
@@ -24,9 +31,21 @@ public class ARealm {
         mConfiguration = builder.build();
     }
 
+    private ARealm(Context context) {
+        mActivity = context;
+        RealmConfiguration.Builder builder = new RealmConfiguration.Builder(mActivity);
+        mConfiguration = builder.build();
+    }
+
     public synchronized static ARealm getInstance(Activity activity) {
         if (mInstance == null) {
             mInstance = new ARealm(activity);
+        }
+        return mInstance;
+    }
+    public synchronized static ARealm getInstance(Context context) {
+        if (mInstance == null) {
+            mInstance = new ARealm(context);
         }
         return mInstance;
     }
@@ -104,4 +123,35 @@ public class ARealm {
         realm.commitTransaction();
     }
 
+    public List<MessageLog> selectMessageLog(String mobile1, String mobile2) {
+        List<MessageLog> list = new ArrayList<>();
+        Realm realm = Realm.getInstance(mConfiguration);
+        RealmResults<MessageLog> logs = realm.where(MessageLog.class).beginGroup().equalTo("fromMobile", mobile1).equalTo("toMobile", mobile2).endGroup()
+                .or().beginGroup().equalTo("fromMobile", mobile2).equalTo("toMobile", mobile1).endGroup().findAll();
+        list.addAll(logs);
+        return list;
+    }
+
+    public List<Message> selectMessage() {
+        List<Message> list = new ArrayList<>();
+        Realm realm = Realm.getInstance(mConfiguration);
+        RealmResults<Message> msg = realm.where(Message.class).findAllSorted("lastSendDate", Sort.DESCENDING);
+        list.addAll(msg);
+        return list;
+    }
+
+
+    public void insertMessageLog(MessageLog log) {
+        Realm realm = Realm.getInstance(mConfiguration);
+        realm.beginTransaction();
+        realm.copyToRealm(log);
+        realm.commitTransaction();
+    }
+
+    public void insertMessage(Message msg) {
+        Realm realm = Realm.getInstance(mConfiguration);
+        realm.beginTransaction();
+        realm.copyToRealmOrUpdate(msg);
+        realm.commitTransaction();
+    }
 }

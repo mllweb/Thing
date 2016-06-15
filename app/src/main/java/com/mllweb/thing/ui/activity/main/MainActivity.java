@@ -1,5 +1,7 @@
 package com.mllweb.thing.ui.activity.main;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -70,6 +72,15 @@ public class MainActivity extends BaseActivity {
             HomeFragment f = (HomeFragment) mFragmentData.get(0);
             f.insert(thing);
         }
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancelAll();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.cancelAll();
     }
 
     @Override

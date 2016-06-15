@@ -1,13 +1,18 @@
 package com.mllweb.thing.utils;
 
 import android.app.Activity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.support.v7.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.mllweb.thing.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -22,6 +27,26 @@ import java.util.Date;
  * Created by Android on 2016/5/18.
  */
 public class Utils {
+    public static String replace(String str) {
+        return str.substring(5, str.length() - 1);
+    }
+
+    public static void notify(Context context, String title, String content, PendingIntent intent) {
+        NotificationManager mNotificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context);
+        mBuilder.setDefaults(Notification.DEFAULT_ALL);
+        mBuilder.setContentTitle(title);
+        mBuilder.setContentText(content);
+        mBuilder.setShowWhen(true);
+        mBuilder.setWhen(System.currentTimeMillis());
+        mBuilder.setAutoCancel(true);
+        mBuilder.setContentIntent(intent);
+        mBuilder.setSmallIcon(R.mipmap.ic_launcher);
+        mBuilder.setPriority(Notification.PRIORITY_HIGH);//优先级
+        Notification mNotification = mBuilder.build();
+        mNotificationManager.notify((int) (Math.random() * Integer.MAX_VALUE), mNotification);
+    }
+
     public static void scoreApp(Context context) {
         Uri uri = Uri.parse("market://details?id=" + context.getPackageName());
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
@@ -92,6 +117,7 @@ public class Utils {
 
         return hex.toString();
     }
+
     public static DisplayImageOptions getListOptions() {
         DisplayImageOptions options = new DisplayImageOptions.Builder()
                 // 设置图片在下载期间显示的图片

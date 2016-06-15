@@ -64,6 +64,7 @@
             android:textSize="16sp" />
 
         <RelativeLayout
+            android:id="@+id/user_layout"
             android:layout_width="match_parent"
             android:layout_height="40dip"
             android:background="@drawable/xml_click_bg"

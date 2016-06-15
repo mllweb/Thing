@@ -75,7 +75,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseHolder> {
                 break;
             case CHAT_TO_MINE:
                 ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + log.getFromUserHeadImage(), headImage);
-                nickName.setText(log.getFromUserName());
+                nickName.setText(log.getFromMobile());
                 content.setText(log.getContent());
 
                 break;
@@ -94,7 +94,7 @@ public class ChatAdapter extends RecyclerView.Adapter<BaseHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (mData.get(position).getFromUserName().equals(UserInfoManager.get(mActivity).getUserName())) {
+        if (mData.get(position).getFromMobile().equals(UserInfoManager.get(mActivity).getMobile())) {
             return CHAT_FROM_MINE;
         } else {
             return CHAT_TO_MINE;

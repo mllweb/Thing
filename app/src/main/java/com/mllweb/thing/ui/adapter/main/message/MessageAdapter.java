@@ -52,8 +52,8 @@ public class MessageAdapter extends BaseRecyclerAdapter<Message> {
             badge = (BadgeView) headImage.getTag();
         }
         badge.setBadgeCount(message.getUnreadCount());
-        ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + message.getHeadImage(), headImage);
-        nickName.setText(message.getNickName());
+        ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + message.getFromHeadImage(), headImage);
+        nickName.setText(message.getFromNickName());
         content.setText(message.getLastSendContent());
         date.setText(Utils.caleDate(message.getLastSendDate()));
     }
