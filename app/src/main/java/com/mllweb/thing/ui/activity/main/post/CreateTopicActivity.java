@@ -197,6 +197,8 @@ public class CreateTopicActivity extends BaseActivity {
                             thing.setTopicId(topicId);
                             thing.setTopicName(topicNmae);
                             intent.putExtra("thing", thing);
+                            user.setPostCount(user.getPraiseCount() + 1);
+                            UserInfoManager.put(user, mActivity);
                             startActivity(intent);
                         } catch (JSONException e) {
                             e.printStackTrace();

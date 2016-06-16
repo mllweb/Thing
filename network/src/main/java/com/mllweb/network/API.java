@@ -4,6 +4,8 @@ package com.mllweb.network;
  * Created by Android on 2016/5/27.
  */
 public interface API {
+    String DOMAIN = "http://192.168.1.191:8080/Thing";
+//    String DOMAIN = "http://www.mllweb.com/Thing";
     String IMAGE="/IMAGE/";
     String SUCC = "SUCC";
     String FAIL = "FAIL";
@@ -14,6 +16,8 @@ public interface API {
     String SELECT_COMMENT = "/SelectComment";
     String SELECT_THING = "/SelectThing";
     String SELECT_MESSAGE = "/SelectMessage";
+    String SELECT_MINE_THING = "/SelectMineThing";
+    String SELECT_MY_PRAISE_THING = "/SelectMyPraiseThing";
     String SELECT_USERINFO_BY_ID = "/SelectUserInfoById";
     String INSERT_THING = "/InsertThing";
     String INSERT_TOPIC = "/InsertTopic";

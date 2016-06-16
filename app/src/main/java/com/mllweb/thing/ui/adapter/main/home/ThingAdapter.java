@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.mllweb.cache.ARealm;
 import com.mllweb.model.Thing;
 import com.mllweb.model.ThingFile;
+import com.mllweb.model.UserInfo;
 import com.mllweb.network.API;
 import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
@@ -88,7 +89,7 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
             link.setVisibility(View.GONE);
         }
         nickName.setText(thing.getNickName());
-        ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + thing.getHeadImage(), headImage, Utils.getListOptions());
+        ImageLoader.getInstance().displayImage(API.DOMAIN + thing.getHeadImage(), headImage, Utils.getListOptions());
         praiseCount.setText(thing.getPraiseCount() + "");
         dislikeCount.setText(thing.getDislikeCount() + "");
         commentCount.setText(thing.getCommentCount() + "");
@@ -175,6 +176,9 @@ public class ThingAdapter extends BaseRecyclerAdapter<Thing> implements UMShareL
                                 thing.setPraiseCount(thing.getPraiseCount() + 1);
                                 count.setText(thing.getPraiseCount() + "");
                                 icon.setImageResource(R.drawable.praise_);
+                                UserInfo user = UserInfoManager.get(mActivity);
+                                user.setPraiseCount(user.getPraiseCount() + 1);
+                                UserInfoManager.put(user, mActivity);
                             }
                         }, OkHttpClientManager.Params.get("userId", UserInfoManager.get(mActivity).getId() + "")
                         , OkHttpClientManager.Params.get("thingId", thing.getId() + ""));

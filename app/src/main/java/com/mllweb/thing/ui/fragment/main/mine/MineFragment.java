@@ -8,7 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.mllweb.model.UserInfo;
-import com.mllweb.network.OkHttpClientManager;
+import com.mllweb.network.API;
 import com.mllweb.thing.R;
 import com.mllweb.thing.manager.UserInfoManager;
 import com.mllweb.thing.ui.activity.main.center.BaseInfoActivity;
@@ -36,6 +36,14 @@ public class MineFragment extends BaseFragment {
     TextView mNickName;
     @InjectView(R.id.tv_user_sign)
     TextView mUserSign;
+    @InjectView(R.id.tv_post_count)
+    TextView mPostCount;
+    @InjectView(R.id.tv_comment_count)
+    TextView mCommentCount;
+    @InjectView(R.id.tv_collect_count)
+    TextView mCollectCount;
+    @InjectView(R.id.tv_praise_count)
+    TextView mPraiseCount;
 
     @Override
     protected int initLayout() {
@@ -57,8 +65,12 @@ public class MineFragment extends BaseFragment {
 
     private void initUserInfo() {
         UserInfo userinfo = UserInfoManager.get(mActivity);
-        mImageLoader.displayImage(OkHttpClientManager.DOMAIN + userinfo.getHeadImage(), mHeadImage, Utils.getListOptions());
+        mImageLoader.displayImage(API.DOMAIN + userinfo.getHeadImage(), mHeadImage, Utils.getListOptions());
         mNickName.setText(userinfo.getNickName());
+        mPostCount.setText(userinfo.getPostCount() + "");
+        mCommentCount.setText(userinfo.getCommentCount() + "");
+        mCollectCount.setText(userinfo.getCollectCount() + "");
+        mPraiseCount.setText(userinfo.getPraiseCount() + "");
         if (userinfo.getUserSign() == null || userinfo.getUserSign().equals("")) {
             mUserSign.setText("这家伙很懒，什么都没有留下");
         } else {

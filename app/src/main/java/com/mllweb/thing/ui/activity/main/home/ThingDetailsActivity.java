@@ -13,6 +13,7 @@ import com.mllweb.cache.ARealm;
 import com.mllweb.model.Comment;
 import com.mllweb.model.Thing;
 import com.mllweb.model.ThingFile;
+import com.mllweb.model.UserInfo;
 import com.mllweb.network.API;
 import com.mllweb.network.OkHttpClientManager;
 import com.mllweb.thing.R;
@@ -81,7 +82,7 @@ public class ThingDetailsActivity extends BaseActivity {
         mContent.setText(thing.getContent());
         mTopic.setText("#" + thing.getTopicName() + "#");
         mNickName.setText(thing.getNickName());
-        mImageLoader.displayImage(OkHttpClientManager.DOMAIN + thing.getHeadImage(), mHeadImage);
+        mImageLoader.displayImage(API.DOMAIN + thing.getHeadImage(), mHeadImage);
         mDate.setText(Utils.caleDate(new Date(thing.getCreateDate())));
         List<ThingFile> files = thing.getThingFiles();
         if (files != null && files.size() > 0) {
@@ -168,6 +169,9 @@ public class ThingDetailsActivity extends BaseActivity {
                             comment.setCommentUserId(UserInfoManager.get(mActivity).getId());
                             mCommentData.add(0, comment);
                             mCommmentAdapter.resetData(mCommentData);
+                            UserInfo user = UserInfoManager.get(mActivity);
+                            user.setCommentCount(user.getCommentCount() + 1);
+                            UserInfoManager.put(user, mActivity);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }

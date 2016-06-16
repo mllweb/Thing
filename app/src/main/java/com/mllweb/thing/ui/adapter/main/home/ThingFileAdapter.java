@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.mllweb.model.ThingFile;
-import com.mllweb.network.OkHttpClientManager;
+import com.mllweb.network.API;
 import com.mllweb.thing.R;
 import com.mllweb.thing.ui.activity.main.home.BrowseActivity;
 import com.mllweb.thing.ui.adapter.BaseHolder;
@@ -44,7 +44,7 @@ public class ThingFileAdapter extends BaseRecyclerAdapter<ThingFile> {
             params.height= (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,100,mActivity.getResources().getDisplayMetrics());
         }
         image.setLayoutParams(params);
-        ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + thingFile.getFilePath(), image, Utils.getListOptions());
+        ImageLoader.getInstance().displayImage(API.DOMAIN + thingFile.getFilePath(), image, Utils.getListOptions());
         layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

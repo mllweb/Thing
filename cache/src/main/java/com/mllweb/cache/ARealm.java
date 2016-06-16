@@ -43,6 +43,7 @@ public class ARealm {
         }
         return mInstance;
     }
+
     public synchronized static ARealm getInstance(Context context) {
         if (mInstance == null) {
             mInstance = new ARealm(context);
@@ -140,6 +141,14 @@ public class ARealm {
         return list;
     }
 
+    public void clearMessageCount(int userId) {
+        Realm realm = Realm.getInstance(mConfiguration);
+        Message msg = realm.where(Message.class).equalTo("fromUserId", userId).findFirst();
+        realm.beginTransaction();
+        msg.setUnreadCount(0);
+        realm.copyToRealmOrUpdate(msg);
+        realm.commitTransaction();
+    }
 
     public void insertMessageLog(MessageLog log) {
         Realm realm = Realm.getInstance(mConfiguration);
@@ -150,8 +159,16 @@ public class ARealm {
 
     public void insertMessage(Message msg) {
         Realm realm = Realm.getInstance(mConfiguration);
+        Message m = realm.where(Message.class).equalTo("fromUserId", msg.getFromUserId()).findFirst();
         realm.beginTransaction();
-        realm.copyToRealmOrUpdate(msg);
+        if (m == null) {
+            realm.copyToRealm(msg);
+        }else{
+            m.setUnreadCount(m.getUnreadCount()+msg.getUnreadCount());
+            m.setLastSendDate(msg.getLastSendDate());
+            m.setLastSendContent(msg.getLastSendContent());
+            realm.copyToRealmOrUpdate(m);
+        }
         realm.commitTransaction();
     }
 }

@@ -32,7 +32,7 @@ public class BrowseActivity extends BaseActivity {
         mData = (List<ThingFile>) getIntent().getSerializableExtra("data");
         position = getIntent().getIntExtra("position", 0);
         mPager.setText((position + 1) + "/" + mData.size());
-        mBrowseAdapter = new BrowseAdapter(mData, mActivity);
+        mBrowseAdapter = new BrowseAdapter(getSupportFragmentManager(), mData);
         mBrowsePager.setAdapter(mBrowseAdapter);
         mBrowsePager.setCurrentItem(position);
     }

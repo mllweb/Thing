@@ -111,6 +111,8 @@ public class ChooseTopicActivity extends BaseActivity {
                     public void onResponse(Response response, String body) {
                         hideLoading();
                         try {
+
+
                             JSONObject object = new JSONObject(body);
                             JSONObject responseObject = object.optJSONObject("response");
                             int thingId = responseObject.optInt("result");
@@ -124,6 +126,8 @@ public class ChooseTopicActivity extends BaseActivity {
                             thing.setTopicId(topic.getId());
                             thing.setTopicName(topic.getTopicName());
                             intent.putExtra("thing", thing);
+                            user.setPostCount(user.getPraiseCount() + 1);
+                            UserInfoManager.put(user, mActivity);
                             startActivity(intent);
                         }catch (JSONException e){
                             e.printStackTrace();

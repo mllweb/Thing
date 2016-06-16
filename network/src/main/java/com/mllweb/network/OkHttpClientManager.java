@@ -22,7 +22,6 @@ import java.io.IOException;
  * Created by Android on 2016/5/23.
  */
 public class OkHttpClientManager {
-    public static final String DOMAIN = "http://192.168.1.191:8080/Thing";
     private static final int FAILURE = 1;
     private static final int SUCCESS = 0;
     private static OkHttpClientManager mInstance;
@@ -55,7 +54,7 @@ public class OkHttpClientManager {
     }
 
     public void requestGetDomain(String url, final RequestCallback callback) {
-        requestGet(DOMAIN + url, callback);
+        requestGet(API.DOMAIN + url, callback);
     }
 
     /**
@@ -85,11 +84,11 @@ public class OkHttpClientManager {
     }
 
     public void requestPostDomain(String url, final RequestCallback callback, Params... paramses) {
-        requestPost(DOMAIN + url, callback, paramses);
+        requestPost(API.DOMAIN + url, callback, paramses);
     }
 
     public void requestPostDomain(String url, final RequestCallback callback, File file, String fileName) {
-        requestPost(DOMAIN + url, callback, file, fileName);
+        requestPost(API.DOMAIN + url, callback, file, fileName);
     }
 
 

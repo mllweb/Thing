@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -16,6 +17,7 @@ import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.util.NetUtils;
+import com.jauker.widget.BadgeView;
 import com.mllweb.model.Thing;
 import com.mllweb.thing.R;
 import com.mllweb.thing.ui.activity.BaseActivity;
@@ -58,6 +60,7 @@ public class MainActivity extends BaseActivity {
     private MainPagerAdapter mMainPagerAdapter;
     private List<Fragment> mFragmentData = new ArrayList<>();
     private long exitTime = 0;
+    private BadgeView badge;
 
     @Override
     protected int initLayout() {
@@ -83,8 +86,15 @@ public class MainActivity extends BaseActivity {
         mNotificationManager.cancelAll();
     }
 
+    public void setUnReadCount(int count) {
+        badge.setBadgeCount(count);
+        badge.setBadgeGravity(Gravity.RIGHT | Gravity.TOP);
+        badge.setTargetView(mMessageIcon);
+    }
+
     @Override
     protected void initData(Bundle savedInstanceState) {
+        badge = new BadgeView(this);
         //注册一个监听连接状态的listener
         EMClient.getInstance().addConnectionListener(new MyConnectionListener());
         mFragmentData.add(new HomeFragment());

@@ -2,6 +2,7 @@ package com.mllweb.thing;
 
 import android.app.ActivityManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 
 import com.hyphenate.EMMessageListener;
@@ -14,6 +15,7 @@ import com.mllweb.model.Message;
 import com.mllweb.model.MessageLog;
 import com.mllweb.model.UserInfo;
 import com.mllweb.thing.manager.UserInfoManager;
+import com.mllweb.thing.receiver.ChatReceiver;
 import com.mllweb.thing.ui.activity.main.message.ChatActivity;
 import com.mllweb.thing.utils.Utils;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
@@ -115,50 +117,16 @@ public class Application extends android.app.Application {
 
         @Override
         public void onMessageReceived(List<EMMessage> messages) {
-           UserInfo mCurrentUser= UserInfoManager.get(getApplicationContext());
-            String title = "";
-            String content = "";
-            for (EMMessage m : messages) {
-                try {
-                    title = m.getStringAttribute("nickName");
-                    content = Utils.replace(m.getBody().toString());
-
-                    MessageLog log = new MessageLog();
-                    log.setToUserId(mCurrentUser.getId());
-                    log.setContent(content);
-                    log.setFile(null);
-                    log.setFilePath(null);
-                    log.setFromMobile(m.getUserName());
-                    log.setFromUserHeadImage(m.getStringAttribute("headImage"));
-                    log.setFromNickName(title);
-                    log.setFromUserId(m.getIntAttribute("userId"));
-                    log.setSendDate(System.currentTimeMillis());
-                    log.setToMobile(mCurrentUser.getMobile());
-                    log.setToNickName(mCurrentUser.getNickName());
-                    log.setType(1);
-                    ARealm.getInstance(getApplicationContext()).insertMessageLog(log);
-
-                    Message msg = new Message();
-                    msg.setUnreadCount(0);
-                    msg.setFromMobile(m.getUserName());
-                    msg.setFromUserId(m.getIntAttribute("userId"));
-                    msg.setFromNickName(title);
-                    msg.setFromHeadImage(m.getStringAttribute("headImage"));
-                    msg.setLastSendContent(content);
-                    msg.setLastSendDate(System.currentTimeMillis());
-                    ARealm.getInstance(getApplicationContext()).insertMessage(msg);
-
-                    Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-                    UserInfo user = new UserInfo();
-                    user.setNickName(title);
-                    user.setId(m.getIntAttribute("userId"));
-                    user.setHeadImage(m.getStringAttribute("headImage"));
-                    user.setMobile(m.getUserName());
-                    intent.putExtra("user", user);
-                    PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent,PendingIntent.FLAG_UPDATE_CURRENT);
-                    Utils.notify(getApplicationContext(), title, content, pendingIntent);
-                } catch (HyphenateException e) {
-                    e.printStackTrace();
+            for (int i = 0; i < messages.size(); i++) {
+                EMMessage m = messages.get(i);
+                saveMessage(m);
+                saveMessageLog(m);
+                ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+                String name = manager.getRunningTasks(1).get(0).topActivity.getClassName();
+                if ("com.mllweb.thing.ui.activity.main.message.ChatActivity".equals(name) || "com.mllweb.thing.ui.activity.main.MainActivity".equals(name)) {
+                    sendReceiver(m);
+                } else {
+                    sendNotifycation(m);
                 }
             }
         }
@@ -183,4 +151,93 @@ public class Application extends android.app.Application {
             //消息状态变动
         }
     };
+
+    /**
+     * 发送通知栏
+     *
+     * @param m
+     */
+    private void sendNotifycation(EMMessage m) {
+        try {
+            Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+            UserInfo user = new UserInfo();
+            user.setNickName(m.getStringAttribute("nickName"));
+            user.setId(m.getIntAttribute("userId"));
+            user.setHeadImage(m.getStringAttribute("headImage"));
+            user.setMobile(m.getUserName());
+            intent.putExtra("user", user);
+            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            Utils.notify(getApplicationContext(), m.getStringAttribute("nickName"), Utils.replace(m.getBody().toString()), pendingIntent);
+        } catch (HyphenateException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 发送广播
+     */
+    private void sendReceiver(EMMessage m) {
+        try {
+            Intent intent = new Intent();
+            UserInfo user = new UserInfo();
+            user.setNickName(m.getStringAttribute("nickName"));
+            user.setId(m.getIntAttribute("userId"));
+            user.setHeadImage(m.getStringAttribute("headImage"));
+            user.setMobile(m.getUserName());
+            intent.putExtra("user", user);
+            intent.putExtra("content", Utils.replace(m.getBody().toString()));
+            intent.setAction(ChatReceiver.ACTION);
+            sendBroadcast(intent);
+        } catch (HyphenateException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 更新消息列表
+     *
+     * @param m
+     */
+    private void saveMessage(EMMessage m) {
+        try {
+            Message msg = new Message();
+            msg.setUnreadCount(0);
+            msg.setFromMobile(m.getUserName());
+            msg.setFromUserId(m.getIntAttribute("userId"));
+            msg.setFromNickName(m.getStringAttribute("nickName"));
+            msg.setFromHeadImage(m.getStringAttribute("headImage"));
+            msg.setLastSendContent(Utils.replace(m.getBody().toString()));
+            msg.setLastSendDate(System.currentTimeMillis());
+            msg.setUnreadCount(1);
+            ARealm.getInstance(getApplicationContext()).insertMessage(msg);
+        } catch (HyphenateException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 本地保存消息记录
+     *
+     * @param m
+     */
+    private void saveMessageLog(EMMessage m) {
+        try {
+            UserInfo mCurrentUser = UserInfoManager.get(getApplicationContext());
+            MessageLog log = new MessageLog();
+            log.setToUserId(mCurrentUser.getId());
+            log.setContent(Utils.replace(m.getBody().toString()));
+            log.setFile(m.getBody().toString().getBytes());
+            log.setFromMobile(m.getUserName());
+            log.setFromUserHeadImage(m.getStringAttribute("headImage"));
+            log.setFromNickName(m.getStringAttribute("nickName"));
+            log.setFromUserId(m.getIntAttribute("userId"));
+            log.setSendDate(System.currentTimeMillis());
+            log.setToMobile(mCurrentUser.getMobile());
+            log.setToNickName(mCurrentUser.getNickName());
+            log.setType(1);
+            ARealm.getInstance(getApplicationContext()).insertMessageLog(log);
+        } catch (HyphenateException e) {
+            e.printStackTrace();
+        }
+    }
 }

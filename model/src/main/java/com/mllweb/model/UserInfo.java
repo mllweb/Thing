@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Android on 2016/5/26.
  */
-public class UserInfo implements Serializable{
+public class UserInfo implements Serializable {
     private int id;
     private String userName;
     private String nickName;
@@ -15,6 +15,42 @@ public class UserInfo implements Serializable{
     private String email;
     private int gender;
     private String userSign;
+    private int postCount;
+    private int praiseCount;
+    private int collectCount;
+    private int commentCount;
+
+    public int getPostCount() {
+        return postCount;
+    }
+
+    public void setPostCount(int postCount) {
+        this.postCount = postCount;
+    }
+
+    public int getPraiseCount() {
+        return praiseCount;
+    }
+
+    public void setPraiseCount(int praiseCount) {
+        this.praiseCount = praiseCount;
+    }
+
+    public int getCollectCount() {
+        return collectCount;
+    }
+
+    public void setCollectCount(int collectCount) {
+        this.collectCount = collectCount;
+    }
+
+    public int getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(int commentCount) {
+        this.commentCount = commentCount;
+    }
 
     public int getId() {
         return id;

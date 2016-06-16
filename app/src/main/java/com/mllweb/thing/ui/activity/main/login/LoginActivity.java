@@ -105,7 +105,6 @@ public class LoginActivity extends BaseActivity {
                                 callIMLogin(userInfo);
                             } else {
                                 hideLoading();
-
                                 Utils.toast(mActivity, responseObject.optString("message"));
                             }
                         } catch (JSONException e) {

@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mllweb.model.Comment;
-import com.mllweb.network.OkHttpClientManager;
+import com.mllweb.network.API;
 import com.mllweb.thing.R;
 import com.mllweb.thing.ui.adapter.BaseHolder;
 import com.mllweb.thing.ui.adapter.BaseRecyclerAdapter;
@@ -45,7 +45,7 @@ public class CommentAdapter extends BaseRecyclerAdapter<Comment> {
         TextView commentedContent = holder.getView(R.id.tv_commented_content);
         LinearLayout commentedLayout = holder.getView(R.id.commented_layout);
 
-        ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + comment.getHeadImage(), headImage);
+        ImageLoader.getInstance().displayImage(API.DOMAIN + comment.getHeadImage(), headImage);
         nickName.setText(comment.getNickName());
         date.setText(Utils.caleDate(new Date(comment.getCommentDate())));
         content.setText(comment.getCommentContent());

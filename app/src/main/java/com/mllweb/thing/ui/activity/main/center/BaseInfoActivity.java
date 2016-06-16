@@ -48,7 +48,7 @@ public class BaseInfoActivity extends BaseActivity {
         mUserName.setText("".equals(mUser.getUserName()) ? "未填写" : mUser.getUserName());
         mNickName.setText("".equals(mUser.getNickName()) ? "未填写" : mUser.getNickName());
         mUserSign.setText("".equals(mUser.getUserSign()) ? "未填写" : mUser.getUserSign());
-        mImageLoader.displayImage(OkHttpClientManager.DOMAIN + mUser.getHeadImage(), mHeadImage, Utils.getListOptions());
+        mImageLoader.displayImage(API.DOMAIN + mUser.getHeadImage(), mHeadImage, Utils.getListOptions());
         switch (mUser.getGender()) {
             case 0:
                 mGender.setText(R.string.female);

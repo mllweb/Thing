@@ -96,7 +96,6 @@ public class HomeFragment extends BaseFragment {
                     JSONObject responseObject = object.optJSONObject("response");
                     if (responseObject.optString("state").equals(API.SUCC)) {
                         JSONArray data = responseObject.optJSONArray("data");
-                        Utils.log("添加数据");
                         ACacheManager manager = ACacheManager.getInstatnce(mActivity);
                         for (int i = 0; i < data.length(); i++) {
                             JSONObject o = data.optJSONObject(i);

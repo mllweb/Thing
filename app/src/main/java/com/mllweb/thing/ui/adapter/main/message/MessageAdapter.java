@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.jauker.widget.BadgeView;
 import com.mllweb.model.Message;
-import com.mllweb.network.OkHttpClientManager;
+import com.mllweb.network.API;
 import com.mllweb.thing.R;
 import com.mllweb.thing.ui.adapter.BaseHolder;
 import com.mllweb.thing.ui.adapter.BaseRecyclerAdapter;
@@ -52,7 +52,7 @@ public class MessageAdapter extends BaseRecyclerAdapter<Message> {
             badge = (BadgeView) headImage.getTag();
         }
         badge.setBadgeCount(message.getUnreadCount());
-        ImageLoader.getInstance().displayImage(OkHttpClientManager.DOMAIN + message.getFromHeadImage(), headImage);
+        ImageLoader.getInstance().displayImage(API.DOMAIN + message.getFromHeadImage(), headImage);
         nickName.setText(message.getFromNickName());
         content.setText(message.getLastSendContent());
         date.setText(Utils.caleDate(message.getLastSendDate()));
