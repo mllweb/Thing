@@ -5,8 +5,8 @@ package com.mllweb.network;
  */
 public interface API {
     String DOMAIN = "http://192.168.1.191:8080/Thing";
-//    String DOMAIN = "http://www.mllweb.com/Thing";
-    String IMAGE="/IMAGE/";
+    //    String DOMAIN = "http://www.mllweb.com/Thing";
+    String IMAGE = "/IMAGE/";
     String SUCC = "SUCC";
     String FAIL = "FAIL";
     String FILE_UPLOAD = "/FileUpload";
@@ -20,6 +20,7 @@ public interface API {
     String SELECT_MY_PRAISE_THING = "/SelectMyPraiseThing";
     String SELECT_USERINFO_BY_ID = "/SelectUserInfoById";
     String INSERT_THING = "/InsertThing";
+    String INSERT_FEEDBACK = "/InsertFeedback";
     String INSERT_TOPIC = "/InsertTopic";
     String INSERT_COMMENT = "/InsertComment";
     String INSERT_MESSAGE_LOG = "/InsertMessageLog";

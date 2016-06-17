@@ -93,7 +93,7 @@ public class PostActivity extends BaseActivity implements LinkDialog.OnAddListen
         }
         if (mData != null && mData.size() > 0) {
             for (int i = 0; i < mData.size(); i++) {
-                list.add(new ThingFile(2, mData.get(i).getAbsolutePath()));
+                list.add(new ThingFile(1, mData.get(i).getAbsolutePath()));
             }
         }
         thing.setThingFiles(list);

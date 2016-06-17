@@ -9,7 +9,6 @@ import com.hyphenate.EMMessageListener;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.chat.EMOptions;
-import com.hyphenate.exceptions.HyphenateException;
 import com.mllweb.cache.ARealm;
 import com.mllweb.model.Message;
 import com.mllweb.model.MessageLog;
@@ -107,7 +106,6 @@ public class Application extends android.app.Application {
                     return processName;
                 }
             } catch (Exception e) {
-                // Log.d("Process", "Error>> :"+ e.toString());
             }
         }
         return processName;
@@ -158,39 +156,40 @@ public class Application extends android.app.Application {
      * @param m
      */
     private void sendNotifycation(EMMessage m) {
-        try {
-            Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
-            UserInfo user = new UserInfo();
-            user.setNickName(m.getStringAttribute("nickName"));
-            user.setId(m.getIntAttribute("userId"));
-            user.setHeadImage(m.getStringAttribute("headImage"));
+        String nickName = m.getStringAttribute("nickName", "官方客服");
+        Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+        UserInfo user = new UserInfo();
+        user.setNickName(nickName);
+        user.setId(m.getIntAttribute("userId", 0));
+        user.setHeadImage(m.getStringAttribute("headImage", "/IMAGE/000000000000000000000"));
+        if(m.getUserName().equals("officialservice")){
+            user.setMobile("OfficialService");
+        }else {
             user.setMobile(m.getUserName());
-            intent.putExtra("user", user);
-            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            Utils.notify(getApplicationContext(), m.getStringAttribute("nickName"), Utils.replace(m.getBody().toString()), pendingIntent);
-        } catch (HyphenateException e) {
-            e.printStackTrace();
         }
+        intent.putExtra("user", user);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Utils.notify(getApplicationContext(), nickName, Utils.replace(m.getBody().toString()), pendingIntent);
     }
 
     /**
      * 发送广播
      */
     private void sendReceiver(EMMessage m) {
-        try {
-            Intent intent = new Intent();
-            UserInfo user = new UserInfo();
-            user.setNickName(m.getStringAttribute("nickName"));
-            user.setId(m.getIntAttribute("userId"));
-            user.setHeadImage(m.getStringAttribute("headImage"));
+        Intent intent = new Intent();
+        UserInfo user = new UserInfo();
+        user.setNickName(m.getStringAttribute("nickName", "官方客服"));
+        user.setId(m.getIntAttribute("userId", 0));
+        user.setHeadImage(m.getStringAttribute("headImage", "/IMAGE/000000000000000000000"));
+        if(m.getUserName().equals("officialservice")){
+            user.setMobile("OfficialService");
+        }else {
             user.setMobile(m.getUserName());
-            intent.putExtra("user", user);
-            intent.putExtra("content", Utils.replace(m.getBody().toString()));
-            intent.setAction(ChatReceiver.ACTION);
-            sendBroadcast(intent);
-        } catch (HyphenateException e) {
-            e.printStackTrace();
         }
+        intent.putExtra("user", user);
+        intent.putExtra("content", Utils.replace(m.getBody().toString()));
+        intent.setAction(ChatReceiver.ACTION);
+        sendBroadcast(intent);
     }
 
     /**
@@ -199,20 +198,20 @@ public class Application extends android.app.Application {
      * @param m
      */
     private void saveMessage(EMMessage m) {
-        try {
-            Message msg = new Message();
-            msg.setUnreadCount(0);
+        Message msg = new Message();
+        msg.setUnreadCount(0);
+        if(m.getUserName().equals("officialservice")){
+            msg.setFromMobile("OfficialService");
+        }else {
             msg.setFromMobile(m.getUserName());
-            msg.setFromUserId(m.getIntAttribute("userId"));
-            msg.setFromNickName(m.getStringAttribute("nickName"));
-            msg.setFromHeadImage(m.getStringAttribute("headImage"));
-            msg.setLastSendContent(Utils.replace(m.getBody().toString()));
-            msg.setLastSendDate(System.currentTimeMillis());
-            msg.setUnreadCount(1);
-            ARealm.getInstance(getApplicationContext()).insertMessage(msg);
-        } catch (HyphenateException e) {
-            e.printStackTrace();
         }
+        msg.setFromUserId(m.getIntAttribute("userId", 0));
+        msg.setFromNickName(m.getStringAttribute("nickName", "官方客服"));
+        msg.setFromHeadImage(m.getStringAttribute("headImage", "/IMAGE/000000000000000000000"));
+        msg.setLastSendContent(Utils.replace(m.getBody().toString()));
+        msg.setLastSendDate(System.currentTimeMillis());
+        msg.setUnreadCount(1);
+        ARealm.getInstance(getApplicationContext()).insertMessage(msg);
     }
 
     /**
@@ -221,23 +220,23 @@ public class Application extends android.app.Application {
      * @param m
      */
     private void saveMessageLog(EMMessage m) {
-        try {
-            UserInfo mCurrentUser = UserInfoManager.get(getApplicationContext());
-            MessageLog log = new MessageLog();
-            log.setToUserId(mCurrentUser.getId());
-            log.setContent(Utils.replace(m.getBody().toString()));
-            log.setFile(m.getBody().toString().getBytes());
+        UserInfo mCurrentUser = UserInfoManager.get(getApplicationContext());
+        MessageLog log = new MessageLog();
+        log.setToUserId(mCurrentUser.getId());
+        log.setContent(Utils.replace(m.getBody().toString()));
+        log.setFile(m.getBody().toString().getBytes());
+        if(m.getUserName().equals("officialservice")){
+            log.setFromMobile("OfficialService");
+        }else {
             log.setFromMobile(m.getUserName());
-            log.setFromUserHeadImage(m.getStringAttribute("headImage"));
-            log.setFromNickName(m.getStringAttribute("nickName"));
-            log.setFromUserId(m.getIntAttribute("userId"));
-            log.setSendDate(System.currentTimeMillis());
-            log.setToMobile(mCurrentUser.getMobile());
-            log.setToNickName(mCurrentUser.getNickName());
-            log.setType(1);
-            ARealm.getInstance(getApplicationContext()).insertMessageLog(log);
-        } catch (HyphenateException e) {
-            e.printStackTrace();
         }
+        log.setFromUserHeadImage(m.getStringAttribute("headImage", "/IMAGE/000000000000000000000"));
+        log.setFromNickName(m.getStringAttribute("nickName", "官方客服"));
+        log.setFromUserId(m.getIntAttribute("userId", 0));
+        log.setSendDate(System.currentTimeMillis());
+        log.setToMobile(mCurrentUser.getMobile());
+        log.setToNickName(mCurrentUser.getNickName());
+        log.setType(1);
+        ARealm.getInstance(getApplicationContext()).insertMessageLog(log);
     }
 }

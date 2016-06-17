@@ -168,7 +168,7 @@ public class ChooseFileActivity extends BaseActivity {
                     Uri imageUri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
                     ContentResolver contentResolver = getContentResolver();
                     // 只查询jpeg和png的图片
-                    Cursor cursor = contentResolver.query(imageUri, null, MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=?", new String[]{"image/jpeg", "image/png"}, MediaStore.Images.Media.DATE_MODIFIED);
+                    Cursor cursor = contentResolver.query(imageUri, null, MediaStore.Images.Media.MIME_TYPE + "=? or " + MediaStore.Images.Media.MIME_TYPE + "=? ", new String[]{"image/jpeg", "image/png"}, MediaStore.Images.Media.DATE_MODIFIED);
                     while (cursor.moveToNext()) {
                         mPhotoCount++;
                         // 获取图片的路径

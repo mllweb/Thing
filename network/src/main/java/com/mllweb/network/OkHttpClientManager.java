@@ -53,6 +53,11 @@ public class OkHttpClientManager {
         return mInstance;
     }
 
+    public void requestGetFileDomain(String url, Callback callback) {
+        Request request = new Request.Builder().url(API.DOMAIN + url).build();
+        mOkHttpClient.newCall(request).enqueue(callback);
+    }
+
     public void requestGetDomain(String url, final RequestCallback callback) {
         requestGet(API.DOMAIN + url, callback);
     }

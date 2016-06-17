@@ -120,7 +120,8 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".ui.activity.main.center.thing.AboutMeThingActivity" />
         <activity android:name=".ui.activity.main.center.thing.MineCommentActivity" />
-        <activity android:name=".ui.activity.main.center.DetailsInfoActivity"></activity>
+        <activity android:name=".ui.activity.main.center.DetailsInfoActivity" />
+        <activity android:name=".ui.activity.main.setting.about.FeedbackActivity"></activity>
     </application>
 
 </manifest>

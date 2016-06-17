@@ -20,7 +20,7 @@ public class AboutActivity extends BaseActivity {
 
     @OnClick(R.id.tv_feedback)
     public void clickFeedback() {
-
+        startActivity(FeedbackActivity.class);
     }
 
     @OnClick(R.id.tv_version_update)

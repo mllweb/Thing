@@ -40,7 +40,7 @@
             android:layout_gravity="right"
             android:layout_marginTop="8dip"
             android:background="@drawable/chat_right_bg"
-            android:gravity="right"
+            android:gravity="left"
             android:lineSpacingExtra="4dip"
             android:text=""
             android:textColor="#333333"

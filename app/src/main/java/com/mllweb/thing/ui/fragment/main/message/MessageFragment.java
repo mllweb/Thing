@@ -61,6 +61,11 @@ public class MessageFragment extends BaseFragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mActivity.unregisterReceiver(receiver);
+    }
 
     @Override
     protected void initEvent() {
